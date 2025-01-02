@@ -1,5 +1,7 @@
 <?php
 include '../includes/db.php';
+include 'includes/auth.php';
+
 
 $stmt = $pdo->query("SELECT * FROM sacs_medicaux ORDER BY date_creation DESC");
 $sacs = $stmt->fetchAll();
