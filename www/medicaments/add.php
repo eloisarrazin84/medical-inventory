@@ -79,19 +79,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Charger la liste des médicaments
+        // Charger la liste des médicaments depuis list.txt
         $.get('list.txt', function (data) {
             // Transformer les lignes en tableau et traiter les données
             let medicaments = data.split('\n').map(line => {
-                // Supprimer les chiffres et extraire les informations nécessaires
-                let cleanedLine = line.replace(/^\d+\s*/, ''); // Supprime les chiffres au début de la ligne
-                let parts = cleanedLine.split(' '); // Séparer par espace
-                if (parts.length > 2) {
-                    // Conserver le nom, la posologie, et le fabricant
-                    return parts.slice(0, 3).join(' '); // Par exemple : "Morphine 500mg Lavoisier"
+                // Supprimer les chiffres au début de chaque ligne
+                let cleanedLine = line.replace(/^\d+\s*/, ''); // Supprime les chiffres initiaux
+
+                // Extraire uniquement le nom, la posologie et le fabricant
+                let match = cleanedLine.match(/^([\w\s\(\)]+?)\s(\d+.*?mg\/ml)?.*?,\s([\w\s]+)$/);
+                if (match) {
+                    let nom = match[1].trim(); // Nom du médicament
+                    let posologie = match[2] ? match[2].trim() : ''; // Posologie (optionnelle)
+                    let fabricant = match[3].trim(); // Fabricant
+                    return `${nom} ${posologie} ${fabricant}`.trim();
                 }
-                return cleanedLine.trim();
-            }).filter(line => line !== ''); // Filtrer les lignes vides
+
+                return ''; // Si le format ne correspond pas, ignorer la ligne
+            }).filter(line => line !== ''); // Supprimer les lignes vides ou invalides
 
             // Activer l'autocomplétion sur le champ "Nom"
             $("#nom").autocomplete({
@@ -100,6 +105,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     });
 </script>
-
 </body>
 </html>
