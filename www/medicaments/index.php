@@ -66,7 +66,7 @@ $medicaments = $stmt->fetchAll();
 <?php include '../menus/menu_medicaments.php'; ?>
 <div class="container mt-5">
     <h1>Gestion des Médicaments</h1>
-     <a href="choisir_sac.php?>" class="btn btn-primary mb-3">Choisir un autre sac</a>
+    <a href="choisir_sac.php" class="btn btn-primary mb-3">Choisir un autre sac</a>
     <a href="add.php?sac_id=<?= htmlspecialchars($sac_id) ?>" class="btn btn-primary mb-3">Ajouter un médicament</a>
     
     <!-- Table des médicaments -->
@@ -77,6 +77,8 @@ $medicaments = $stmt->fetchAll();
                 <th>Description</th>
                 <th>Quantité</th>
                 <th>Date d'expiration</th>
+                <th>Numéro de Lot</th>
+                <th>Type de Médicament</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -88,6 +90,8 @@ $medicaments = $stmt->fetchAll();
                         <td><?= htmlspecialchars($med['description'] ?? 'Aucune description') ?></td>
                         <td><?= htmlspecialchars($med['quantite'] ?? '0') ?></td>
                         <td><?= htmlspecialchars($med['date_expiration'] ?? 'Non spécifiée') ?></td>
+                        <td><?= htmlspecialchars($med['numero_lot'] ?? 'Non spécifié') ?></td>
+                        <td><?= htmlspecialchars($med['type_produit'] ?? 'Non spécifié') ?></td>
                         <td>
                             <a href="edit.php?id=<?= $med['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
                             <a href="delete.php?id=<?= $med['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce médicament ?')">Supprimer</a>
@@ -96,7 +100,7 @@ $medicaments = $stmt->fetchAll();
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="5" class="text-center">Aucun médicament trouvé pour ce sac.</td>
+                    <td colspan="7" class="text-center">Aucun médicament trouvé pour ce sac.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
