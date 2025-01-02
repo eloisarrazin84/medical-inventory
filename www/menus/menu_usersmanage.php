@@ -22,6 +22,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="btn btn-outline-secondary mx-2 nav-link" href="lieux/gestion_lieux.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les lieux de stockage">
+                        <i class="fas fa-archive"></i>Gestion des Lieux
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="btn btn-outline-warning mx-2 nav-link" href="../medicaments/choisir_sac.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les médicaments">
                         <i class="fas fa-pills"></i> Gestion des Médicaments
                     </a>
