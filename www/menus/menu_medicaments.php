@@ -17,7 +17,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-success mx-2 nav-link" href="sacs/index.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les sacs">
+                    <a class="btn btn-outline-success mx-2 nav-link" href="../sacs/index.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les sacs">
                         <i class="fas fa-briefcase-medical"></i> Gestion des Sacs
                     </a>
                 </li>
