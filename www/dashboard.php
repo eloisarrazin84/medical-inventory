@@ -204,11 +204,13 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
     <h2 class="mt-5">Médicaments Proches de l'Expiration</h2>
     <table class="table table-bordered">
         <thead>
-            <tr>
+           <tr>
                 <th>Nom</th>
                 <th>Description</th>
                 <th>Quantité</th>
                 <th>Date d'expiration</th>
+                <th>Numéro de Lot</th>
+                <th>Type de Médicament</th>
             </tr>
         </thead>
         <tbody>
@@ -222,6 +224,8 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
                         <td><?= htmlspecialchars($med['description'] ?? 'Aucune description') ?></td>
                         <td><?= htmlspecialchars($med['quantite']) ?></td>
                         <td><?= htmlspecialchars($med['date_expiration']) ?></td>
+                        <td><?= htmlspecialchars($med['numero_lot'] ?? 'Non spécifié') ?></td>
+                        <td><?= htmlspecialchars($med['type_produit'] ?? 'Non spécifié') ?></td>
                     </tr>
                 <?php endforeach;
             else: ?>
