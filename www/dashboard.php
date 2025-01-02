@@ -35,58 +35,72 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Animate.css -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
 <style>
-        .card:hover {
-            transform: scale(1.05); /* Agrandissement de la carte */
-            transition: transform 0.3s ease; /* Transition fluide */
-        }
-        .nav-link {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .nav-link::before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: #f8f9fa;
-        transform: scaleX(0);
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .nav-link:hover::before {
-        transform: scaleX(1);
-    }
-    .nav-link:hover {
-        color: #f8f9fa !important;
-        background-color: rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease-in-out;
-    }
-.navbar {
+    /* Style pour le menu */
+    .navbar {
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 1030;
+        background-color: rgba(0, 0, 0, 0.8); /* Transparence avec fond noir */
+    }
+
+    .navbar-brand img {
+        height: 50px;
     }
 
     .btn {
-        border-radius: 30px;
-        font-weight: bold;
-        transition: all 0.3s ease-in-out;
+        border-radius: 30px; /* Boutons arrondis */
+        font-weight: bold; /* Texte en gras */
+        transition: all 0.3s ease-in-out; /* Animation fluide */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
     }
 
     .btn:hover {
         transform: translateY(-3px); /* Effet de levée */
         box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
+        color: #fff !important; /* Texte blanc au survol */
     }
 
-    .navbar-brand img {
-        height: 50px;
+    /* Style pour le tableau de bord */
+    .card {
+        border-radius: 15px; /* Bords arrondis pour les cartes */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation des cartes */
     }
-    </style>
+
+    .card:hover {
+        transform: scale(1.05); /* Agrandissement au survol */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte au survol */
+    }
+
+    .card-icon {
+        font-size: 2rem; /* Taille des icônes dans les cartes */
+        margin-right: 10px;
+    }
+
+    /* Style pour les notifications */
+    .alert {
+        border-radius: 10px; /* Bords arrondis pour les alertes */
+        animation: fadeIn 0.5s ease-in-out; /* Animation au chargement */
+    }
+
+    /* Animation pour les notifications */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Marges pour compenser le menu fixe */
+    body {
+        padding-top: 80px; /* Espace sous le menu */
+    }
+</style>
 </head>
 <body>
 
