@@ -23,7 +23,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-outline-primary mx-2 nav-link" href="lieux/gestion_lieux.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les lieux de stockage">
-                        <i class=""fa fa-archive"></i>Gestion des Lieux
+                        <i class=""fas fa-archive"></i>Gestion des Lieux
                     </a>
                 </li>
                 <li class="nav-item">
