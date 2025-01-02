@@ -22,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Ajouter un Médicament</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Animate.css -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"> <!-- jQuery UI -->
 <style>
     /* Style pour le menu */
     .navbar {
@@ -76,18 +76,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="index.php?sac_id=<?= $sac_id ?>" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
+    // Charger la liste des médicaments depuis list.txt
+    $(document).ready(function () {
+        $.get('list.txt', function (data) {
+            // Diviser les lignes en tableau et supprimer les espaces inutiles
+            let medicaments = data.split('\n').map(line => line.trim()).filter(line => line !== '');
+
+            // Activer l'autocomplétion sur le champ Nom
+            $("#nom").autocomplete({
+                source: medicaments
+            });
+        });
+    });
+
     AOS.init({
         duration: 1000, // Durée de l'animation (en ms)
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-</script>
 </body>
 </html>
+
