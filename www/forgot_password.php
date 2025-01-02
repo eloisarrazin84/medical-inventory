@@ -1,5 +1,6 @@
 <?php
 include 'includes/db.php';
+include 'send_email.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
@@ -17,15 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO password_resets (email, token) VALUES (?, ?)");
         $stmt->execute([$email, $token]);
 
-        // Envoyer un e-mail avec le lien de réinitialisation
+              // Envoyer un e-mail avec le lien de réinitialisation
         $reset_link = "https://gestion.outdoorsecours.fr/reset_password.php?token=$token";
         $subject = "Réinitialisation de votre mot de passe";
-        $message = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe : $reset_link";
-        $headers = "From: no-reply@outdoorsecours.fr";
+        $message = "
+            <h1>Réinitialisation de votre mot de passe</h1>
+            <p>Cliquez sur le lien suivant pour réinitialiser votre mot de passe :</p>
+            <a href='$reset_link'>$reset_link</a>
+        ";
 
-        mail($email, $subject, $message, $headers);
+        $email_status = sendEmail($email, $subject, $message);
 
-        $success = "Un e-mail de réinitialisation a été envoyé.";
+        if ($email_status === true) {
+            $success = "Un e-mail de réinitialisation a été envoyé.";
+        } else {
+            $error = $email_status;
+        }
     } else {
         $error = "Aucun utilisateur trouvé avec cet e-mail.";
     }
