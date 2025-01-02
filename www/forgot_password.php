@@ -19,18 +19,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$email, $token]);
 
         // Envoyer un e-mail avec le lien de réinitialisation
-        $reset_link = "https://gestion.outdoorsecours.fr/reset_password.php?token=$token";
+       $reset_link = "https://gestion.outdoorsecours.fr/reset_password.php?token=$token";
 $subject = "Réinitialisation de votre mot de passe";
-$message = "
-    <html>
-    <body>
-        <h1>Réinitialisation de votre mot de passe</h1>
-        <p>Cliquez sur le lien suivant pour réinitialiser votre mot de passe :</p>
-        <a href='$reset_link'>$reset_link</a>
-    </body>
-    </html>
+$content = "
+    <h1 style='text-align: center;'>Réinitialisation de votre mot de passe</h1>
+    <p style='text-align: center;'>Cliquez sur le lien suivant pour réinitialiser votre mot de passe :</p>
+    <div style='text-align: center;'>
+        <a href='$reset_link' style='color: #ffffff; background-color: #007bff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Réinitialiser le mot de passe</a>
+    </div>
+    <p style='text-align: center; margin-top: 20px;'>Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer cet e-mail.</p>
 ";
-$email_status = sendEmail($email, $subject, $message);
+$email_status = sendEmail($email, $subject, $content);
 
         if ($email_status === true) {
             $success = "Un e-mail de réinitialisation a été envoyé.";
