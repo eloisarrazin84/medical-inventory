@@ -34,19 +34,6 @@ $medicaments = $stmt->fetchAll();
 <body>
 <div class="container mt-5">
     <h1>Gestion des Médicaments</h1>
-
-    <!-- Menu déroulant pour sélectionner un sac -->
-    <form method="GET" class="mb-3">
-        <label for="sac_id" class="form-label">Sélectionner un sac :</label>
-        <select name="sac_id" id="sac_id" class="form-select" onchange="this.form.submit()">
-            <?php foreach ($sacs as $option_sac): ?>
-                <option value="<?= htmlspecialchars($option_sac['id']) ?>" <?= $sac_id == $option_sac['id'] ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($option_sac['nom']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </form>
-
     <a href="../sacs/index.php" class="btn btn-secondary mb-3">Retour aux sacs</a>
     <a href="add.php?sac_id=<?= htmlspecialchars($sac_id) ?>" class="btn btn-primary mb-3">Ajouter un médicament</a>
     
