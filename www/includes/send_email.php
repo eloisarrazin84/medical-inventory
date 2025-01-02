@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 // Inclure Composer et PHPMailer
 require 'vendor/autoload.php';
 
-function sendEmail($to, $subject, $message) {
+function sendEmail($to, $subject, $content) {
     $mail = new PHPMailer(true);
 
     try {
