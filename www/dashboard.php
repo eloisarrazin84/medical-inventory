@@ -31,7 +31,15 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
 <head>
     <title>Tableau de Bord</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Ajout de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Animate.css -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
+<style>
+        .card:hover {
+            transform: scale(1.05); /* Agrandissement de la carte */
+            transition: transform 0.3s ease; /* Transition fluide */
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -55,18 +63,18 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
     <?php endif; ?>
 
     <!-- Médicaments proches de l'expiration -->
-    <?php if (count($details_medicaments_proches_expiration) > 0): ?>
-        <div class="alert alert-warning">
-            <h4>Médicaments Proches de l'Expiration</h4>
-            <ul>
-                <?php foreach ($details_medicaments_proches_expiration as $med): ?>
-                    <li>
-                        <?= htmlspecialchars($med['nom']) ?> - Expire le <?= htmlspecialchars($med['date_expiration']) ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
+   <?php if (count($details_medicaments_expires) > 0): ?>
+    <div class="alert alert-danger animate__animated animate__fadeInDown">
+        <h4>Médicaments Expirés</h4>
+        <ul>
+            <?php foreach ($details_medicaments_expires as $med): ?>
+                <li>
+                    <?= htmlspecialchars($med['nom']) ?> - Expiré le <?= htmlspecialchars($med['date_expiration']) ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
 
     <!-- Aucune notification -->
     <?php if (count($details_medicaments_expires) === 0 && count($details_medicaments_proches_expiration) === 0): ?>
@@ -77,56 +85,56 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
 
 
     <!-- Cartes de statistiques -->
-    <div class="row mt-5">
-        <!-- Total Sacs Médicaux -->
-        <div class="col-md-3">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-briefcase-medical card-icon"></i>
-                    <div>
-                        <h5 class="card-title">Total Sacs Médicaux</h5>
-                        <p class="card-text"><?= $total_sacs ?></p>
-                    </div>
+<div class="row mt-5">
+    <!-- Total Sacs Médicaux -->
+    <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body d-flex align-items-center">
+                <i class="fas fa-briefcase-medical card-icon"></i>
+                <div>
+                    <h5 class="card-title">Total Sacs Médicaux</h5>
+                    <p class="card-text"><?= $total_sacs ?></p>
                 </div>
             </div>
         </div>
-        <!-- Total Médicaments -->
-        <div class="col-md-3">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-pills card-icon"></i>
-                    <div>
-                        <h5 class="card-title">Total Médicaments</h5>
-                        <p class="card-text"><?= $total_medicaments ?></p>
-                    </div>
+    </div>
+    <!-- Total Médicaments -->
+    <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body d-flex align-items-center">
+                <i class="fas fa-pills card-icon"></i>
+                <div>
+                    <h5 class="card-title">Total Médicaments</h5>
+                    <p class="card-text"><?= $total_medicaments ?></p>
                 </div>
             </div>
         </div>
-        <!-- Médicaments Expirés -->
-        <div class="col-md-3">
-            <div class="card text-white bg-danger mb-3">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-exclamation-circle card-icon"></i>
-                    <div>
-                        <h5 class="card-title">Médicaments Expirés</h5>
-                        <p class="card-text"><?= $medicaments_expires ?></p>
-                    </div>
+    </div>
+    <!-- Médicaments Expirés -->
+    <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body d-flex align-items-center">
+                <i class="fas fa-exclamation-circle card-icon"></i>
+                <div>
+                    <h5 class="card-title">Médicaments Expirés</h5>
+                    <p class="card-text"><?= $medicaments_expires ?></p>
                 </div>
             </div>
         </div>
-        <!-- Médicaments Proches de l'Expiration -->
-        <div class="col-md-3">
-            <div class="card text-white bg-warning mb-3">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-clock card-icon"></i>
-                    <div>
-                        <h5 class="card-title">Expiration Proche</h5>
-                        <p class="card-text"><?= $medicaments_proches_expiration ?></p>
-                    </div>
+    </div>
+    <!-- Médicaments Proches de l'Expiration -->
+    <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body d-flex align-items-center">
+                <i class="fas fa-clock card-icon"></i>
+                <div>
+                    <h5 class="card-title">Expiration Proche</h5>
+                    <p class="card-text"><?= $medicaments_proches_expiration ?></p>
                 </div>
             </div>
         </div>
-
+    </div>
+</div>
     <!-- Tableau des médicaments proches de l'expiration -->
     <h2 class="mt-5">Médicaments Proches de l'Expiration</h2>
     <table class="table table-bordered">
@@ -159,6 +167,12 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
         </tbody>
     </table>
 </div>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000, // Durée de l'animation (en ms)
+    });
+</script>
 </body>
 </html>
 
