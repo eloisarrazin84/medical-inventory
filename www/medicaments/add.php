@@ -86,8 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Supprimer les chiffres au début de chaque ligne
                 let cleanedLine = line.replace(/^\d+\s*/, ''); // Supprime les chiffres initiaux
 
-                // Extraire uniquement le nom, la posologie et le fabricant
-                let match = cleanedLine.match(/^([\w\s\(\)]+?)\s(\d+.*?mg\/ml)?.*?,\s([\w\s]+)$/);
+                // Extraire le nom, la posologie et le fabricant
+                let match = cleanedLine.match(/^([\w\s\(\)]+?)\s(\d+\s?mg\/ml)?.*?,\s([\w\s]+)$/);
                 if (match) {
                     let nom = match[1].trim(); // Nom du médicament
                     let posologie = match[2] ? match[2].trim() : ''; // Posologie (optionnelle)
@@ -102,6 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $("#nom").autocomplete({
                 source: medicaments
             });
+        }).fail(function () {
+            console.error('Erreur lors du chargement de list.txt.');
         });
     });
 </script>
