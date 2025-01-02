@@ -39,6 +39,32 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
             transform: scale(1.05); /* Agrandissement de la carte */
             transition: transform 0.3s ease; /* Transition fluide */
         }
+        .nav-link {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .nav-link::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #f8f9fa;
+        transform: scaleX(0);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .nav-link:hover::before {
+        transform: scaleX(1);
+    }
+    <style>
+    .nav-link:hover {
+        color: #f8f9fa !important;
+        background-color: rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease-in-out;
+    }
     </style>
 </head>
 <body>
@@ -177,6 +203,12 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
         duration: 1000, // Durée de l'animation (en ms)
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
 </body>
 </html>
-
