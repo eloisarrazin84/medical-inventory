@@ -59,11 +59,38 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
     .nav-link:hover::before {
         transform: scaleX(1);
     }
-    <style>
     .nav-link:hover {
         color: #f8f9fa !important;
         background-color: rgba(255, 255, 255, 0.1);
         transition: all 0.3s ease-in-out;
+    }
+        .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1030;
+    }
+
+    .btn {
+        border-radius: 30px;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn:hover {
+        color: #fff !important;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-nav .nav-link {
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    .navbar-brand img {
+        height: 50px;
     }
     </style>
 </head>
