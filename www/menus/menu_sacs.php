@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-dark mx-2 nav-link" href="logout.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Se déconnecter">
+                    <a class="btn btn-outline-dark mx-2 nav-link" href="../logout.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Se déconnecter">
                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                     </a>
                 </li>
