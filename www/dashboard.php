@@ -31,18 +31,24 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
 <head>
     <title>Tableau de Bord</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Tableau de Bord</h1>
+    <h1 class="mb-4">Tableau de Bord</h1>
 
     <!-- Notifications -->
     <h2>Notifications</h2>
-
-    <!-- Médicaments expirés -->
     <?php if (count($details_medicaments_expires) > 0): ?>
         <div class="alert alert-danger">
-            <h4>Médicaments Expirés</h4>
+            <h4><i class="fas fa-exclamation-triangle"></i> Médicaments Expirés</h4>
             <ul>
                 <?php foreach ($details_medicaments_expires as $med): ?>
                     <li>
@@ -53,10 +59,9 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
         </div>
     <?php endif; ?>
 
-    <!-- Médicaments proches de l'expiration -->
     <?php if (count($details_medicaments_proches_expiration) > 0): ?>
         <div class="alert alert-warning">
-            <h4>Médicaments Proches de l'Expiration</h4>
+            <h4><i class="fas fa-clock"></i> Médicaments Proches de l'Expiration</h4>
             <ul>
                 <?php foreach ($details_medicaments_proches_expiration as $med): ?>
                     <li>
@@ -67,7 +72,6 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
         </div>
     <?php endif; ?>
 
-    <!-- Aucune notification -->
     <?php if (count($details_medicaments_expires) === 0 && count($details_medicaments_proches_expiration) === 0): ?>
         <div class="alert alert-success">
             Aucun médicament expiré ou proche de l'expiration.
@@ -78,69 +82,67 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
     <div class="row mt-5">
         <div class="col-md-3">
             <div class="card text-white bg-primary mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Total Sacs Médicaux</h5>
-                    <p class="card-text"><?= $total_sacs ?></p>
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-box-medical card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Total Sacs Médicaux</h5>
+                        <p class="card-text"><?= $total_sacs ?></p>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card text-white bg-success mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Total Médicaments</h5>
-                    <p class="card-text"><?= $total_medicaments ?></p>
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-pills card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Total Médicaments</h5>
+                        <p class="card-text"><?= $total_medicaments ?></p>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card text-white bg-danger mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Médicaments Expirés</h5>
-                    <p class="card-text"><?= $medicaments_expires ?></p>
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-exclamation-circle card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Médicaments Expirés</h5>
+                        <p class="card-text"><?= $medicaments_expires ?></p>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card text-white bg-warning mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Expiration Proche</h5>
-                    <p class="card-text"><?= $medicaments_proches_expiration ?></p>
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-clock card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Expiration Proche</h5>
+                        <p class="card-text"><?= $medicaments_proches_expiration ?></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Tableau des médicaments proches de l'expiration -->
-    <h2 class="mt-5">Médicaments Proches de l'Expiration</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Quantité</th>
-                <th>Date d'expiration</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $stmt = $pdo->query("SELECT * FROM medicaments WHERE date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY) ORDER BY date_expiration ASC");
-            $medicaments = $stmt->fetchAll();
-            if (count($medicaments) > 0):
-                foreach ($medicaments as $med): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($med['nom']) ?></td>
-                        <td><?= htmlspecialchars($med['description'] ?? 'Aucune description') ?></td>
-                        <td><?= htmlspecialchars($med['quantite']) ?></td>
-                        <td><?= htmlspecialchars($med['date_expiration']) ?></td>
-                    </tr>
-                <?php endforeach;
-            else: ?>
-                <tr>
-                    <td colspan="4" class="text-center">Aucun médicament proche de l'expiration.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+    <!-- Graphique -->
+    <h2 class="mt-5">Statistiques des Médicaments</h2>
+    <canvas id="medicamentChart" width="400" height="200"></canvas>
+    <script>
+        const ctx = document.getElementById('medicamentChart').getContext('2d');
+        const medicamentChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Total Médicaments', 'Médicaments Expirés', 'Expiration Proche'],
+                datasets: [{
+                    label: 'Statistiques des Médicaments',
+                    data: [<?= $total_medicaments ?>, <?= $medicaments_expires ?>, <?= $medicaments_proches_expiration ?>],
+                    backgroundColor: ['#28a745', '#dc3545', '#ffc107']
+                }]
+            }
+        });
+    </script>
 </div>
 </body>
 </html>
