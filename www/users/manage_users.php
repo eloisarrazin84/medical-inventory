@@ -1,5 +1,5 @@
 <?php
-include 'includes/db.php';
+include '../includes/db.php';
 
 $stmt = $pdo->query("SELECT * FROM users");
 $users = $stmt->fetchAll();
