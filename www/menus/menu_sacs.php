@@ -17,7 +17,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-warning mx-2 nav-link" href="../medicaments/index.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les médicaments">
+                    <a class="btn btn-outline-warning mx-2 nav-link" href="../medicaments/choisir_sac.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les médicaments">
                         <i class="fas fa-pills"></i> Gestion des Médicaments
                     </a>
                 </li>
