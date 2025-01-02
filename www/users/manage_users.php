@@ -42,7 +42,7 @@ $users = $stmt->fetchAll();
 </head>
 <body>
 <!-- Inclure le menu -->
-<?php include '../menus/menu_sacs.php'; ?>
+<?php include '../menus/menu_usersmanage.php'; ?>
 <div class="container mt-5">
     <h1>Gestion des Utilisateurs</h1>
     <a href="register.php" class="btn btn-primary mb-3">Ajouter un utilisateur</a>
