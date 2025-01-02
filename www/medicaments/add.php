@@ -86,16 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Supprimer les chiffres au début de chaque ligne
                 let cleanedLine = line.replace(/^\d+\s*/, ''); // Supprime les chiffres initiaux
 
-                // Extraire le nom, la posologie et le fabricant
-                let match = cleanedLine.match(/^([\w\s\(\)]+?)\s(\d+\s?mg\/ml)?.*?,\s([\w\s]+)$/);
-                if (match) {
-                    let nom = match[1].trim(); // Nom du médicament
-                    let posologie = match[2] ? match[2].trim() : ''; // Posologie (optionnelle)
-                    let fabricant = match[3].trim(); // Fabricant
-                    return `${nom} ${posologie} ${fabricant}`.trim();
-                }
-
-                return ''; // Si le format ne correspond pas, ignorer la ligne
+                // Extraire uniquement la partie avant la virgule
+                let match = cleanedLine.split(',')[0]; // Prendre tout avant la première virgule
+                return match.trim(); // Supprimer les espaces inutiles
             }).filter(line => line !== ''); // Supprimer les lignes vides ou invalides
 
             // Activer l'autocomplétion sur le champ "Nom"
