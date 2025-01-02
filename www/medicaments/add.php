@@ -8,9 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
     $quantite = $_POST['quantite'];
     $date_expiration = $_POST['date_expiration'];
+    $numero_lot = $_POST['numero_lot'];
+    $type_medicament = $_POST['type_medicament'];
 
-    $stmt = $pdo->prepare("INSERT INTO medicaments (nom, description, quantite, date_expiration, sac_id) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$nom, $description, $quantite, $date_expiration, $sac_id]);
+    $stmt = $pdo->prepare("INSERT INTO medicaments (nom, description, quantite, date_expiration, sac_id, numero_lot, type_produit) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$nom, $description, $quantite, $date_expiration, $sac_id, $numero_lot, $type_medicament]);
 
     header("Location: index.php?sac_id=$sac_id");
     exit;
@@ -21,55 +23,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <title>Ajouter un Médicament</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"> <!-- jQuery UI -->
-<style>
-    .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1030;
-        background-color: rgba(0, 0, 0, 0.8);
-    }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1030;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
 
-    .navbar-brand img {
-        height: 50px;
-    }
+        .navbar-brand img {
+            height: 50px;
+        }
 
-    .btn {
-        border-radius: 30px;
-        font-weight: bold;
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+        .btn {
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    .btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        color: #fff !important;
-    }
-</style>
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            color: #fff !important;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
     <h1>Ajouter un Médicament</h1>
     <form method="POST">
+        <!-- Nom du médicament -->
         <div class="mb-3">
             <label for="nom" class="form-label">Nom du médicament</label>
             <input type="text" class="form-control" id="nom" name="nom" required>
         </div>
+        <!-- Description -->
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control" id="description" name="description"></textarea>
         </div>
+        <!-- Quantité -->
         <div class="mb-3">
             <label for="quantite" class="form-label">Quantité</label>
             <input type="number" class="form-control" id="quantite" name="quantite" required>
         </div>
+        <!-- Date d'expiration -->
         <div class="mb-3">
             <label for="date_expiration" class="form-label">Date d'expiration</label>
             <input type="date" class="form-control" id="date_expiration" name="date_expiration">
         </div>
+        <!-- Numéro de Lot -->
+        <div class="mb-3">
+            <label for="numero_lot" class="form-label">Numéro de Lot</label>
+            <input type="text" class="form-control" id="numero_lot" name="numero_lot">
+        </div>
+        <!-- Type de Médicament -->
+        <div class="mb-3">
+            <label for="type_medicament" class="form-label">Type de Médicament</label>
+            <select class="form-control" id="type_medicament" name="type_medicament" required>
+                <option value="">-- Sélectionner --</option>
+                <option value="Injectable">Injectable</option>
+                <option value="PER OS">PER OS</option>
+                <option value="Inhalable">Inhalable</option>
+                <option value="Buvable">Buvable</option>
+            </select>
+        </div>
+        <!-- Boutons -->
         <button type="submit" class="btn btn-primary">Ajouter</button>
         <a href="index.php?sac_id=<?= $sac_id ?>" class="btn btn-secondary">Annuler</a>
     </form>
@@ -79,22 +102,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Charger la liste des médicaments depuis list.txt
+        // Charger la liste des médicaments pour l'autocomplétion
         $.get('list.txt', function (data) {
-            // Transformer les lignes en tableau et traiter les données
             let medicaments = data.split('\n').map(line => {
-                // Supprimer les chiffres au début de chaque ligne
-                let cleanedLine = line.replace(/^\d+\s*/, ''); // Supprime les chiffres initiaux
-
-                // Extraire uniquement la partie avant la virgule
-                let match = cleanedLine.split(',')[0]; // Prendre tout avant la première virgule
-                return match.trim(); // Supprimer les espaces inutiles
-            }).filter(line => line !== ''); // Supprimer les lignes vides ou invalides
-
-            // Activer l'autocomplétion sur le champ "Nom"
-            $("#nom").autocomplete({
-                source: medicaments
-            });
+                return line.split(',')[0].trim(); // Prendre tout avant la virgule
+            }).filter(line => line !== '');
+            $("#nom").autocomplete({ source: medicaments });
         }).fail(function () {
             console.error('Erreur lors du chargement de list.txt.');
         });
