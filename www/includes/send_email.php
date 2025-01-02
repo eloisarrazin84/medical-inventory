@@ -18,6 +18,9 @@ function sendEmail($to, $subject, $message) {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Encryption TLS
         $mail->Port       = 587; // Port SMTP
 
+        // Définir l'encodage UTF-8
+        $mail->CharSet = 'UTF-8';
+
         // Paramètres de l'expéditeur et du destinataire
         $mail->setFrom('no-reply@outdoorsecours.fr', 'Administrateur Outdoor Secours');
         $mail->addAddress($to); // Adresse e-mail du destinataire
