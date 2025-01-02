@@ -2,17 +2,14 @@
 include '../includes/db.php';
 include '../includes/auth.php';
 
-// Récupérer la liste des sacs médicaux
-$stmt = $pdo->query("SELECT * FROM sacs_medicaux");
-$sacs = $stmt->fetchAll();
-
-// Si aucun sac n'existe, afficher un message d'erreur
-if (count($sacs) === 0) {
-    die('Erreur : Aucun sac médical trouvé.');
+// Vérifier si `sac_id` est défini dans l'URL
+if (!isset($_GET['sac_id']) || empty($_GET['sac_id'])) {
+    // Rediriger vers la page de choix des sacs
+    header('Location: choisir_sac.php');
+    exit;
 }
 
-// Vérifier si un `sac_id` est défini dans l'URL ou sélectionner le premier sac par défaut
-$sac_id = isset($_GET['sac_id']) && !empty($_GET['sac_id']) ? $_GET['sac_id'] : $sacs[0]['id'];
+$sac_id = $_GET['sac_id'];
 
 // Récupérer les informations du sac sélectionné
 $stmt = $pdo->prepare("SELECT * FROM sacs_medicaux WHERE id = ?");
