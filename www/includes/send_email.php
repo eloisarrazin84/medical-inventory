@@ -25,10 +25,20 @@ function sendEmail($to, $subject, $message) {
         $mail->setFrom('no-reply@outdoorsecours.fr', 'Administrateur Outdoor Secours');
         $mail->addAddress($to); // Adresse e-mail du destinataire
 
-        // Contenu de l'e-mail
+          // Contenu HTML avec le logo
+        $header = "
+            <div style='text-align: center;'>
+                <img src='https://outdoorsecours.fr/wp-content/uploads/2023/07/thumbnail_image001-1.png' alt='Outdoor Secours' style='width: 200px; margin-bottom: 20px;'>
+            </div>
+        ";
+        $footer = "
+            <p style='text-align: center; margin-top: 20px; font-size: 12px; color: #666;'>
+                Outdoor Secours © 2025 - Tous droits réservés.
+            </p>
+        ";
         $mail->isHTML(true);
         $mail->Subject = $subject;
-        $mail->Body    = $message;
+        $mail->Body    = $header . $content . $footer;
 
         $mail->send();
         return true;
