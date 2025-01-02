@@ -1,5 +1,5 @@
 <?php
-include '../includes/db.php';
+include 'includes/db.php';
 
 $stmt = $pdo->query("SELECT * FROM users");
 $users = $stmt->fetchAll();
@@ -29,7 +29,7 @@ $users = $stmt->fetchAll();
                     <td><?= htmlspecialchars($user['role']) ?></td>
                     <td>
                         <a href="edit_user.php?id=<?= $user['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
-                        <a href="delete_user.php?id=<?= $user['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer cet utilisateur ?')">Supprimer</a>
+                        <a href="delete_user.php?id=<?= $user['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">Supprimer</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
