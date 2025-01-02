@@ -64,7 +64,7 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
         background-color: rgba(255, 255, 255, 0.1);
         transition: all 0.3s ease-in-out;
     }
-        .navbar {
+.navbar {
         position: fixed;
         top: 0;
         width: 100%;
@@ -75,18 +75,12 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
         border-radius: 30px;
         font-weight: bold;
         transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
     }
 
     .btn:hover {
-        color: #fff !important;
-        transform: translateY(-3px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .navbar-nav .nav-link {
-        color: #fff;
-        text-transform: uppercase;
-        font-size: 0.9rem;
+        transform: translateY(-3px); /* Effet de levée */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
     }
 
     .navbar-brand img {
