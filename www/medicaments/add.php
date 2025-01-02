@@ -22,16 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Ajouter un Médicament</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"> <!-- jQuery UI -->
 <style>
-    /* Style pour le menu */
     .navbar {
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 1030;
-        background-color: rgba(0, 0, 0, 0.8); /* Transparence avec fond noir */
+        background-color: rgba(0, 0, 0, 0.8);
     }
 
     .navbar-brand img {
@@ -39,16 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     .btn {
-        border-radius: 30px; /* Boutons arrondis */
-        font-weight: bold; /* Texte en gras */
-        transition: all 0.3s ease-in-out; /* Animation fluide */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+        border-radius: 30px;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .btn:hover {
-        transform: translateY(-3px); /* Effet de levée */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
-        color: #fff !important; /* Texte blanc au survol */
+        transform: translateY(-3px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        color: #fff !important;
     }
 </style>
 </head>
@@ -80,23 +78,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
-    // Charger la liste des médicaments depuis list.txt
     $(document).ready(function () {
+        // Charger la liste des médicaments
         $.get('list.txt', function (data) {
-            // Diviser les lignes en tableau et supprimer les espaces inutiles
-            let medicaments = data.split('\n').map(line => line.trim()).filter(line => line !== '');
+            // Transformer les lignes en tableau
+            let medicaments = data.split('\n').map(line => {
+                let parts = line.split(' '); // Séparer les informations par espace
+                if (parts.length > 2) {
+                    return parts.slice(0, 3).join(' '); // Conserver le nom, la posologie, et le fabricant
+                }
+                return line.trim();
+            }).filter(line => line !== '');
 
-            // Activer l'autocomplétion sur le champ Nom
+            // Activer l'autocomplétion sur le champ "Nom"
             $("#nom").autocomplete({
                 source: medicaments
             });
         });
     });
-
-    AOS.init({
-        duration: 1000, // Durée de l'animation (en ms)
-    });
 </script>
 </body>
 </html>
-
