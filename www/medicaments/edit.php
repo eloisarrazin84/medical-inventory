@@ -13,9 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
     $quantite = $_POST['quantite'];
     $date_expiration = $_POST['date_expiration'];
+    $numero_lot = $_POST['numero_lot'];
+    $type_produit = $_POST['type_produit'];
 
-    $stmt = $pdo->prepare("UPDATE medicaments SET nom = ?, description = ?, quantite = ?, date_expiration = ? WHERE id = ?");
-    $stmt->execute([$nom, $description, $quantite, $date_expiration, $id]);
+    $stmt = $pdo->prepare("UPDATE medicaments SET nom = ?, description = ?, quantite = ?, date_expiration = ?, numero_lot = ?, type_produit = ? WHERE id = ?");
+    $stmt->execute([$nom, $description, $quantite, $date_expiration, $numero_lot, $type_produit, $id]);
 
     header("Location: index.php?sac_id={$med['sac_id']}");
     exit;
@@ -77,6 +79,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="date_expiration" class="form-label">Date d'expiration</label>
             <input type="date" class="form-control" id="date_expiration" name="date_expiration" value="<?= $med['date_expiration'] ?>">
         </div>
+        <div class="mb-3">
+            <label for="numero_lot" class="form-label">Numéro de Lot</label>
+            <input type="text" class="form-control" id="numero_lot" name="numero_lot" value="<?= htmlspecialchars($med['numero_lot']) ?>">
+        </div>
+        <div class="mb-3">
+            <label for="type_produit" class="form-label">Type de Médicament</label>
+            <select class="form-select" id="type_produit" name="type_produit" required>
+                <option value="Injectable" <?= $med['type_produit'] === 'Injectable' ? 'selected' : '' ?>>Injectable</option>
+                <option value="PER OS" <?= $med['type_produit'] === 'PER OS' ? 'selected' : '' ?>>PER OS</option>
+                <option value="Inhalable" <?= $med['type_produit'] === 'Inhalable' ? 'selected' : '' ?>>Inhalable</option>
+                <option value="Buvable" <?= $med['type_produit'] === 'Buvable' ? 'selected' : '' ?>>Buvable</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Enregistrer</button>
         <a href="index.php?sac_id=<?= $med['sac_id'] ?>" class="btn btn-secondary">Annuler</a>
     </form>
@@ -96,3 +111,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </script>
 </body>
 </html>
+
