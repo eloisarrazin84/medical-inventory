@@ -12,7 +12,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="btn btn-outline-primary mx-2 nav-link" href="dashboard.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Accéder au tableau de bord">
+                    <a class="btn btn-outline-primary mx-2 nav-link" href="../dashboard.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Accéder au tableau de bord">
                         <i class="fas fa-home"></i> Tableau de Bord
                     </a>
                 </li>
