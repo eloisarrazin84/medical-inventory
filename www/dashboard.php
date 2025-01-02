@@ -75,12 +75,14 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
         </div>
     <?php endif; ?>
 
+
     <!-- Cartes de statistiques -->
     <div class="row mt-5">
+        <!-- Total Sacs Médicaux -->
         <div class="col-md-3">
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-briefcase-medical me-3" style="font-size: 2rem;"></i> <!-- Icône ajoutée -->
+                    <i class="fas fa-briefcase-medical card-icon"></i>
                     <div>
                         <h5 class="card-title">Total Sacs Médicaux</h5>
                         <p class="card-text"><?= $total_sacs ?></p>
@@ -88,31 +90,42 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
                 </div>
             </div>
         </div>
+        <!-- Total Médicaments -->
         <div class="col-md-3">
             <div class="card text-white bg-success mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Total Médicaments</h5>
-                    <p class="card-text"><?= $total_medicaments ?></p>
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-pills card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Total Médicaments</h5>
+                        <p class="card-text"><?= $total_medicaments ?></p>
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- Médicaments Expirés -->
         <div class="col-md-3">
             <div class="card text-white bg-danger mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Médicaments Expirés</h5>
-                    <p class="card-text"><?= $medicaments_expires ?></p>
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-exclamation-circle card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Médicaments Expirés</h5>
+                        <p class="card-text"><?= $medicaments_expires ?></p>
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- Médicaments Proches de l'Expiration -->
         <div class="col-md-3">
             <div class="card text-white bg-warning mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Expiration Proche</h5>
-                    <p class="card-text"><?= $medicaments_proches_expiration ?></p>
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-clock card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Expiration Proche</h5>
+                        <p class="card-text"><?= $medicaments_proches_expiration ?></p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Tableau des médicaments proches de l'expiration -->
     <h2 class="mt-5">Médicaments Proches de l'Expiration</h2>
