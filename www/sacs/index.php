@@ -2,6 +2,10 @@
 include '../includes/db.php';
 include '../includes/auth.php';
 
+require '../vendor/autoload.php'; // Inclure l'autoload de Composer
+use Endroid\QrCode\Builder\BuilderInterface;
+use Endroid\QrCode\Builder\Builder;
+
 // Récupérer les sacs médicaux avec les lieux associés
 $stmt = $pdo->query("
     SELECT sacs_medicaux.*, lieux_stockage.nom AS lieu_nom
@@ -73,6 +77,7 @@ $sacs = $stmt->fetchAll();
                         <a href="edit.php?id=<?= $sac['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
                         <a href="delete.php?id=<?= $sac['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce sac ?')">Supprimer</a>
                         <a href="../lieux/associer_lieu.php?sac_id=<?= $sac['id'] ?>" class="btn btn-info btn-sm">Associer un lieu</a>
+                        <a href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>" class="btn btn-info btn-sm">Générer QR Code</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
