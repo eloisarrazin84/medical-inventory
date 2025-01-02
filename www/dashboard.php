@@ -42,6 +42,10 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
     </style>
 </head>
 <body>
+
+<!-- Inclure le menu -->
+<?php include 'menu.php'; ?>
+
 <div class="container mt-5">
     <h1>Tableau de Bord</h1>
 
