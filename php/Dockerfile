@@ -1,14 +1,14 @@
 FROM php:8.1-apache
 
-# Installation des extensions PHP nécessaires
-RUN docker-php-ext-install mysqli
+# Installer les extensions nécessaires
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Activation du module rewrite pour Apache
+# Activer le module rewrite d'Apache
 RUN a2enmod rewrite
 
-# Copie des fichiers source dans le conteneur
+# Copier les fichiers source
 COPY . /var/www/html
 
-# Configuration des permissions
+# Configurer les permissions
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 755 /var/www/html
