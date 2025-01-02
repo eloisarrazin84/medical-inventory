@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: ./php
+    container_name: php-medical-inventory
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - "9494:80"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-medical-inventory
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Lipton2019!
+      MYSQL_DATABASE: medical_inventory
+      MYSQL_USER: medicaluser
+      MYSQL_PASSWORD: Lipton2019!
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql_data:
