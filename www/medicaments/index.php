@@ -2,14 +2,19 @@
 include '../includes/db.php';
 include '../includes/auth.php';
 
-// Vérifier si `sac_id` est défini et valide dans l'URL
-if (!isset($_GET['sac_id']) || empty($_GET['sac_id'])) {
-    die('Erreur : ID du sac non défini ou invalide.');
+// Récupérer la liste des sacs médicaux
+$stmt = $pdo->query("SELECT * FROM sacs_medicaux");
+$sacs = $stmt->fetchAll();
+
+// Si aucun sac n'existe, afficher un message d'erreur
+if (count($sacs) === 0) {
+    die('Erreur : Aucun sac médical trouvé.');
 }
 
-$sac_id = $_GET['sac_id'];
+// Vérifier si un `sac_id` est défini dans l'URL ou sélectionner le premier sac par défaut
+$sac_id = isset($_GET['sac_id']) && !empty($_GET['sac_id']) ? $_GET['sac_id'] : $sacs[0]['id'];
 
-// Récupérer les informations du sac
+// Récupérer les informations du sac sélectionné
 $stmt = $pdo->prepare("SELECT * FROM sacs_medicaux WHERE id = ?");
 $stmt->execute([$sac_id]);
 $sac = $stmt->fetch();
@@ -26,14 +31,29 @@ $medicaments = $stmt->fetchAll();
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Médicaments - <?= htmlspecialchars($sac['nom'] ?? 'Nom inconnu') ?></title>
+    <title>Médicaments - Gestion des Sacs</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Médicaments - <?= htmlspecialchars($sac['nom'] ?? 'Nom inconnu') ?></h1>
+    <h1>Gestion des Médicaments</h1>
+
+    <!-- Menu déroulant pour sélectionner un sac -->
+    <form method="GET" class="mb-3">
+        <label for="sac_id" class="form-label">Sélectionner un sac :</label>
+        <select name="sac_id" id="sac_id" class="form-select" onchange="this.form.submit()">
+            <?php foreach ($sacs as $option_sac): ?>
+                <option value="<?= htmlspecialchars($option_sac['id']) ?>" <?= $sac_id == $option_sac['id'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($option_sac['nom']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </form>
+
     <a href="../sacs/index.php" class="btn btn-secondary mb-3">Retour aux sacs</a>
     <a href="add.php?sac_id=<?= htmlspecialchars($sac_id) ?>" class="btn btn-primary mb-3">Ajouter un médicament</a>
+    
+    <!-- Table des médicaments -->
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -66,5 +86,6 @@ $medicaments = $stmt->fetchAll();
         </tbody>
     </table>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
