@@ -22,6 +22,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="btn btn-outline-secondary mx-2 nav-link" href="lieux/gestion_lieux.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les lieux de stockage">
+                        <i class="fas fa-archive"></i>Gestion des Lieux
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="btn btn-outline-danger mx-2 nav-link" href="../users/manage_users.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les utilisateurs">
                         <i class="fas fa-users"></i> Gestion des Utilisateurs
                     </a>
