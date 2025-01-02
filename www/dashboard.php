@@ -1,5 +1,6 @@
 <?php
 include 'includes/db.php';
+include 'includes/auth.php';
 
 // Nombre total de sacs médicaux
 $stmt = $pdo->query("SELECT COUNT(*) AS total_sacs FROM sacs_medicaux");
