@@ -1,5 +1,6 @@
 <?php
 include '../includes/db.php';
+include 'includes/auth.php';
 
 // Vérifier si `sac_id` est défini et valide dans l'URL
 if (!isset($_GET['sac_id']) || empty($_GET['sac_id'])) {
