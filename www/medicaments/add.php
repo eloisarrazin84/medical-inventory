@@ -81,14 +81,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $(document).ready(function () {
         // Charger la liste des médicaments
         $.get('list.txt', function (data) {
-            // Transformer les lignes en tableau
+            // Transformer les lignes en tableau et traiter les données
             let medicaments = data.split('\n').map(line => {
-                let parts = line.split(' '); // Séparer les informations par espace
+                // Supprimer les chiffres et extraire les informations nécessaires
+                let cleanedLine = line.replace(/^\d+\s*/, ''); // Supprime les chiffres au début de la ligne
+                let parts = cleanedLine.split(' '); // Séparer par espace
                 if (parts.length > 2) {
-                    return parts.slice(0, 3).join(' '); // Conserver le nom, la posologie, et le fabricant
+                    // Conserver le nom, la posologie, et le fabricant
+                    return parts.slice(0, 3).join(' '); // Par exemple : "Morphine 500mg Lavoisier"
                 }
-                return line.trim();
-            }).filter(line => line !== '');
+                return cleanedLine.trim();
+            }).filter(line => line !== ''); // Filtrer les lignes vides
 
             // Activer l'autocomplétion sur le champ "Nom"
             $("#nom").autocomplete({
@@ -97,5 +100,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     });
 </script>
+
 </body>
 </html>
