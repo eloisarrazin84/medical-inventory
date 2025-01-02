@@ -34,6 +34,7 @@ $medicaments = $stmt->fetchAll();
 <body>
 <div class="container mt-5">
     <h1>Gestion des Médicaments</h1>
+     <a href="choisir_sac.php>" class="btn btn-primary mb-3">Choisir un autre sac</a>
     <a href="add.php?sac_id=<?= htmlspecialchars($sac_id) ?>" class="btn btn-primary mb-3">Ajouter un médicament</a>
     
     <!-- Table des médicaments -->
