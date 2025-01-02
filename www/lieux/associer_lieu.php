@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare("UPDATE sacs_medicaux SET lieu_id = ? WHERE id = ?");
     $stmt->execute([$lieu_id, $sac_id]);
 
-    header("Location: gestion_sacs.php");
+    header("Location: ../sacs/index.php");
     exit;
 }
 
