@@ -17,12 +17,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-warning mx-2 nav-link" href="medicaments/index.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les médicaments">
+                    <a class="btn btn-outline-warning mx-2 nav-link" href="../medicaments/index.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les médicaments">
                         <i class="fas fa-pills"></i> Gestion des Médicaments
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-danger mx-2 nav-link" href="users/manage_users.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les utilisateurs">
+                    <a class="btn btn-outline-danger mx-2 nav-link" href="../users/manage_users.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les utilisateurs">
                         <i class="fas fa-users"></i> Gestion des Utilisateurs
                     </a>
                 </li>
