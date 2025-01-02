@@ -52,7 +52,7 @@ $lieux = $stmt->fetchAll();
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Associer</button>
-        <a href="gestion_sacs.php" class="btn btn-secondary">Annuler</a>
+        <a href="../sacs/index.php" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
