@@ -16,6 +16,14 @@ $medicaments_expires = $stmt->fetch()['medicaments_expires'];
 // Médicaments proches de l'expiration (dans les 30 jours)
 $stmt = $pdo->query("SELECT COUNT(*) AS medicaments_proches_expiration FROM medicaments WHERE date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)");
 $medicaments_proches_expiration = $stmt->fetch()['medicaments_proches_expiration'];
+
+// Détails des médicaments expirés
+$stmt = $pdo->query("SELECT nom, date_expiration FROM medicaments WHERE date_expiration < CURDATE()");
+$details_medicaments_expires = $stmt->fetchAll();
+
+// Détails des médicaments proches de l'expiration
+$stmt = $pdo->query("SELECT nom, date_expiration FROM medicaments WHERE date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)");
+$details_medicaments_proches_expiration = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -27,8 +35,46 @@ $medicaments_proches_expiration = $stmt->fetch()['medicaments_proches_expiration
 <div class="container mt-5">
     <h1>Tableau de Bord</h1>
 
+    <!-- Notifications -->
+    <h2>Notifications</h2>
+
+    <!-- Médicaments expirés -->
+    <?php if (count($details_medicaments_expires) > 0): ?>
+        <div class="alert alert-danger">
+            <h4>Médicaments Expirés</h4>
+            <ul>
+                <?php foreach ($details_medicaments_expires as $med): ?>
+                    <li>
+                        <?= htmlspecialchars($med['nom']) ?> - Expiré le <?= htmlspecialchars($med['date_expiration']) ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
+    <!-- Médicaments proches de l'expiration -->
+    <?php if (count($details_medicaments_proches_expiration) > 0): ?>
+        <div class="alert alert-warning">
+            <h4>Médicaments Proches de l'Expiration</h4>
+            <ul>
+                <?php foreach ($details_medicaments_proches_expiration as $med): ?>
+                    <li>
+                        <?= htmlspecialchars($med['nom']) ?> - Expire le <?= htmlspecialchars($med['date_expiration']) ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
+    <!-- Aucune notification -->
+    <?php if (count($details_medicaments_expires) === 0 && count($details_medicaments_proches_expiration) === 0): ?>
+        <div class="alert alert-success">
+            Aucun médicament expiré ou proche de l'expiration.
+        </div>
+    <?php endif; ?>
+
     <!-- Cartes de statistiques -->
-    <div class="row">
+    <div class="row mt-5">
         <div class="col-md-3">
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
@@ -64,7 +110,7 @@ $medicaments_proches_expiration = $stmt->fetch()['medicaments_proches_expiration
     </div>
 
     <!-- Tableau des médicaments proches de l'expiration -->
-    <h2>Médicaments Proches de l'Expiration</h2>
+    <h2 class="mt-5">Médicaments Proches de l'Expiration</h2>
     <table class="table table-bordered">
         <thead>
             <tr>
