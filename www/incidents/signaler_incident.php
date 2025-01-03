@@ -51,6 +51,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<style>
+    .btn {
+            border-radius: 30px; /* Boutons arrondis */
+            font-weight: bold; /* Texte en gras */
+            transition: all 0.3s ease-in-out; /* Animation fluide */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+        }
+
+        .btn:hover {
+            transform: translateY(-3px); /* Effet de levée */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
+            color: #fff !important; /* Texte blanc au survol */
+        }
+</style>
 </head>
 <body>
 <div class="container mt-5">
