@@ -1,6 +1,6 @@
 <?php
 include '../includes/db.php';
-include '../includes/send_email.php'; // Inclusion du fichier pour envoyer des e-mails
+include '../includes/send_email.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
