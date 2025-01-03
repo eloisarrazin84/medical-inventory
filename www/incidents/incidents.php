@@ -115,6 +115,8 @@ function getBadgeClass($statut) {
     </style>
 </head>
 <body>
+    <!-- Inclure le menu -->
+<?php include '../menus/menu_usersmanage.php'; ?>
 <div class="container mt-5">
     <h1 class="mb-4">Suivi des Incidents</h1>
 
