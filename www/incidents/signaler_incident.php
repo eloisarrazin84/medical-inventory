@@ -1,6 +1,5 @@
 <?php
 include '../includes/db.php';
-include '../includes/auth.php';
 
 // Récupérer l'ID du sac depuis l'URL ou un paramètre
 $sac_id = $_GET['sac_id'] ?? null;
