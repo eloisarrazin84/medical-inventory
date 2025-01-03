@@ -8,6 +8,17 @@ if (!$sac_id) {
     die('Erreur : Aucun sac sélectionné.');
 }
 
+// Récupérer les informations du sac (y compris son nom)
+$stmt = $pdo->prepare("SELECT nom FROM sacs_medicaux WHERE id = ?");
+$stmt->execute([$sac_id]);
+$sac = $stmt->fetch();
+
+if (!$sac) {
+    die('Erreur : Sac médical introuvable.');
+}
+
+$nom_sac = $sac['nom'];
+
 // Vérifier si un incident est soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type_incident = $_POST['type_incident'];
@@ -54,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="mb-3">
             <label for="reference_id" class="form-label">Référence</label>
-            <input type="text" class="form-control" id="reference_id" name="reference_id" value="<?= htmlspecialchars($sac_id) ?>" readonly>
+            <input type="text" class="form-control" id="reference_id" name="reference_id" value="<?= htmlspecialchars($nom_sac) ?>" readonly>
         </div>
         <div class="mb-3">
             <label for="nom_evenement" class="form-label">Nom de l'Événement</label>
@@ -69,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Soumettre</button>
-        <a href="../dashboard.php" class="btn btn-secondary">Annuler</a>
+        <a href="javascript:history.back()" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
