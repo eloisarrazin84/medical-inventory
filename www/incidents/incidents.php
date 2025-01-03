@@ -37,25 +37,27 @@ function getBadgeClass($statut) {
     <style>
         <style>
     .badge {
-        padding: 0.5em 0.75em;
-        font-size: 0.9em;
-        color: black !important; /* Texte en noir */
-    }
+    padding: 0.5em 0.75em;
+    font-size: 0.9em;
+    color: black !important; /* Texte noir */
+    border-radius: 0.25rem; /* Coins arrondis */
+    font-weight: bold; /* Texte en gras */
+}
 
-    .badge-danger {
-        background-color: #f8d7da;
-        border: 1px solid #f5c6cb;
-    }
+.badge-danger {
+    background-color: #dc3545 !important; /* Rouge */
+    color: #fff !important; /* Texte blanc pour contraste */
+}
 
-    .badge-warning {
-        background-color: #fff3cd;
-        border: 1px solid #ffeeba;
-    }
+.badge-warning {
+    background-color: #ffc107 !important; /* Jaune */
+    color: #212529 !important; /* Texte noir */
+}
 
-    .badge-success {
-        background-color: #d4edda;
-        border: 1px solid #c3e6cb;
-    }
+.badge-success {
+    background-color: #28a745 !important; /* Vert */
+    color: #fff !important; /* Texte blanc */
+}
 
     .btn {
         margin-right: 5px;
