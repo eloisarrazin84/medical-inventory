@@ -21,10 +21,14 @@ $details_medicaments_expires = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Médicaments proches de l'expiration avec le nom du sac
 $stmt = $pdo->query("
-    SELECT medicaments.nom AS med_nom, medicaments.date_expiration, sacs_medicaux.nom AS sac_nom
+    SELECT medicaments.nom AS med_nom, 
+           medicaments.date_expiration, 
+           sacs_medicaux.nom AS sac_nom
     FROM medicaments
-    LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id
-    WHERE medicaments.date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+    LEFT JOIN sacs_medicaux 
+    ON medicaments.sac_id = sacs_medicaux.id
+    WHERE medicaments.date_expiration 
+    BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
 ");
 $details_medicaments_proches_expiration = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
