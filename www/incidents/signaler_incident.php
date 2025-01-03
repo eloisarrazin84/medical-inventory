@@ -8,8 +8,8 @@ if (!$sac_id) {
     die('Erreur : Aucun sac sélectionné.');
 }
 
-// Récupérer les informations du sac (y compris son nom)
-$stmt = $pdo->prepare("SELECT nom FROM sacs_medicaux WHERE id = ?");
+// Vérifier si le sac existe
+$stmt = $pdo->prepare("SELECT * FROM sacs_medicaux WHERE id = ?");
 $stmt->execute([$sac_id]);
 $sac = $stmt->fetch();
 
@@ -17,17 +17,14 @@ if (!$sac) {
     die('Erreur : Sac médical introuvable.');
 }
 
-$nom_sac = $sac['nom'];
-
 // Vérifier si un incident est soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type_incident = $_POST['type_incident'];
-    $reference_id = $_POST['reference_id'];
+    $reference_id = $sac_id; // Utiliser l'ID du sac ici
     $nom_evenement = $_POST['nom_evenement'];
     $nom_personne = $_POST['nom_personne'];
     $description = $_POST['description'];
 
-    // Enregistrer l'incident dans la base de données
     try {
         $stmt = $pdo->prepare("
             INSERT INTO incidents (type_incident, reference_id, nom_evenement, nom_personne, description, statut) 
@@ -49,36 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Signaler un Incident</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            font-size: 16px; /* Texte lisible sur mobile */
-        }
-
-        .container-fluid {
-            margin-top: 20px;
-            padding: 15px;
-        }
-
-        .btn {
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 15px;
-            font-size: 18px;
-        }
-
-        textarea, input {
-            font-size: 16px;
-        }
-
-        label {
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container mt-5">
     <h1 class="text-center mb-4">Signaler un Incident</h1>
-    <form method="POST" class="needs-validation" novalidate>
+    <form method="POST">
         <div class="mb-3">
             <label for="type_incident" class="form-label">Type d'Incident</label>
             <select class="form-control" id="type_incident" name="type_incident" required>
@@ -88,8 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="mb-3">
             <label for="reference_id" class="form-label">Référence (Nom du Sac)</label>
-            <input type="text" class="form-control" id="reference_id" name="reference_id" value="<?= htmlspecialchars($nom_sac) ?>" readonly>
+            <input type="text" class="form-control" id="reference_id" value="<?= htmlspecialchars($sac['nom']) ?>" readonly>
         </div>
+        <input type="hidden" name="reference_id" value="<?= $sac_id ?>">
         <div class="mb-3">
             <label for="nom_evenement" class="form-label">Nom de l'Événement</label>
             <input type="text" class="form-control" id="nom_evenement" name="nom_evenement" placeholder="Ex: Marathon de Paris" required>
