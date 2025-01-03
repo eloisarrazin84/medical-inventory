@@ -35,9 +35,37 @@ function getBadgeClass($statut) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
     <style>
-        .badge { padding: 0.5em 0.75em; font-size: 0.9em; }
-        .btn { margin-right: 5px; }
-        .table-responsive { margin-top: 20px; }
+        <style>
+    .badge {
+        padding: 0.5em 0.75em;
+        font-size: 0.9em;
+        color: black !important; /* Texte en noir */
+    }
+
+    .badge-danger {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+    }
+
+    .badge-warning {
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+    }
+
+    .badge-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+    }
+
+    .btn {
+        margin-right: 5px;
+    }
+
+    .table-responsive {
+        margin-top: 20px;
+    }
+</style>
+
     </style>
 </head>
 <body>
