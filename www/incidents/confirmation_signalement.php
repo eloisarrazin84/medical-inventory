@@ -34,7 +34,7 @@
         <i class="fas fa-check-circle"></i>
         <h1>Signalement enregistré</h1>
         <p>Votre signalement a été soumis avec succès. Merci pour votre contribution.</p>
-        <a href="../index.php" class="btn btn-primary">Retour à l'accueil</a>
+        <a href="../login.php" class="btn btn-primary">Retour à l'accueil</a>
     </div>
 </body>
 </html>
