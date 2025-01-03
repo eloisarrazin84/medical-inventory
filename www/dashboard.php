@@ -68,10 +68,6 @@ $resolus = $incidents['Résolu'] ?? 0;
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
             color: #fff !important; /* Texte blanc au survol */
         }
-        .navbar { position: fixed; top: 0; width: 100%; z-index: 1030; background-color: rgba(0, 0, 0, 0.8); }
-        .navbar-brand img { height: 50px; }
-        .btn { border-radius: 30px; font-weight: bold; transition: all 0.3s ease-in-out; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); color: #fff !important; }
         .card { border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; margin-bottom: 20px; }
         .card:hover { transform: scale(1.05); box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); }
         .card-icon { font-size: 2rem; margin-right: 10px; }
