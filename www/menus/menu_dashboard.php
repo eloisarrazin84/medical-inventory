@@ -24,6 +24,7 @@
                         <li><a class="dropdown-item" href="sacs/index.php">Gestion des Sacs</a></li>
                         <li><a class="dropdown-item" href="lieux/gestion_lieux.php">Gestion des Lieux</a></li>
                         <li><a class="dropdown-item" href="medicaments/choisir_sac.php">Gestion des Médicaments</a></li>
+                        <li><a class="dropdown-item" href="incidents/incidents.php">Gestion des Incidents</a></li>
                         <li><a class="dropdown-item" href="users/manage_users.php">Gestion des Utilisateurs</a></li>
                     </ul>
                 </li>
