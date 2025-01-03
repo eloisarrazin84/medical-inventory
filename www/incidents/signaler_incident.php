@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="mb-3">
             <label for="reference_id" class="form-label">Référence</label>
-            <input type="text" class="form-control" id="reference_id" name="reference_id" value="<?= htmlspecialchars($reference_id) ?>" readonly>
+            <input type="text" class="form-control" id="reference_id" name="reference_id" value="<?= htmlspecialchars($reference_id ?? '') ?>" required>
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description du problème</label>
