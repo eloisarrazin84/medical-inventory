@@ -26,7 +26,7 @@ $medicaments = $stmt->fetchAll();
 <body>
 <div class="container mt-5">
     <h1>Inventaire : <?= htmlspecialchars($sac['nom']) ?></h1>
-    <a href="index.php" class="btn btn-secondary mb-3">Retour</a>
+    <a href="../index.php" class="btn btn-secondary mb-3">Retour</a>
     <table class="table table-bordered">
         <thead>
             <tr>
