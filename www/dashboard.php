@@ -209,26 +209,35 @@ $resolus = $incidents['Résolu'] ?? 0;
 
     <!-- Notifications -->
     <h2 class="mt-4">Notifications</h2>
-    <?php if (!empty($details_medicaments_expires)): ?>
-        <div class="alert alert-danger">
-            <h4>Médicaments Expirés</h4>
-            <ul>
-                <?php foreach ($details_medicaments_expires as $med): ?>
-                    <li><?= htmlspecialchars($med['nom']) ?> - Expiré le <?= htmlspecialchars($med['date_expiration']) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
-    <?php if (!empty($details_medicaments_proches_expiration)): ?>
-        <div class="alert alert-warning">
-            <h4>Médicaments Proches de l'Expiration</h4>
-            <ul>
-                <?php foreach ($details_medicaments_proches_expiration as $med): ?>
-                    <li><?= htmlspecialchars($med['nom']) ?> - Expire le <?= htmlspecialchars($med['date_expiration']) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
+   <!-- Médicaments Expirés -->
+<?php if (!empty($details_medicaments_expires)): ?>
+    <div class="alert alert-danger">
+        <h4>Médicaments Expirés</h4>
+        <ul>
+            <?php foreach ($details_medicaments_expires as $med): ?>
+                <li>
+                    <?= htmlspecialchars($med['med_nom']) ?> - Expiré le <?= htmlspecialchars($med['date_expiration']) ?>
+                    <strong>(Sac : <?= htmlspecialchars($med['sac_nom'] ?? 'Non spécifié') ?>)</strong>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
+<!-- Médicaments Proches de l'Expiration -->
+<?php if (!empty($details_medicaments_proches_expiration)): ?>
+    <div class="alert alert-warning">
+        <h4>Médicaments Proches de l'Expiration</h4>
+        <ul>
+            <?php foreach ($details_medicaments_proches_expiration as $med): ?>
+                <li>
+                    <?= htmlspecialchars($med['med_nom']) ?> - Expire le <?= htmlspecialchars($med['date_expiration']) ?>
+                    <strong>(Sac : <?= htmlspecialchars($med['sac_nom'] ?? 'Non spécifié') ?>)</strong>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
 </div>
 </div>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
