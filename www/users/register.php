@@ -1,16 +1,46 @@
 <?php
 include '../includes/db.php';
+include '../includes/send_email.php'; // Inclusion du fichier pour envoyer des e-mails
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $password = $_POST['password'];
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     $role = $_POST['role'];
 
-    $stmt = $pdo->prepare("INSERT INTO users (email, password, role) VALUES (?, ?, ?)");
-    $stmt->execute([$email, $password, $role]);
+    try {
+        // Insertion de l'utilisateur dans la base de données
+        $stmt = $pdo->prepare("INSERT INTO users (email, password, role) VALUES (?, ?, ?)");
+        $stmt->execute([$email, $hashedPassword, $role]);
 
-    header('Location: manage_users.php');
-    exit;
+        // Préparation de l'e-mail
+        $sujet = "Bienvenue sur notre plateforme";
+        $message = "
+            Bonjour,
+
+            Un compte a été créé pour vous sur notre plateforme.
+
+            Vos informations de connexion sont les suivantes :
+            Email : $email
+            Mot de passe : $password
+
+            Veuillez vous connecter et changer votre mot de passe dès que possible.
+
+            Cordialement,
+            L'équipe.
+        ";
+
+        // Appel de la fonction d'envoi d'e-mail
+        if (sendEmail($email, $sujet, $message)) {
+            // Redirection avec message de succès
+            header('Location: manage_users.php?message=Utilisateur ajouté avec succès et email envoyé');
+        } else {
+            header('Location: manage_users.php?message=Utilisateur ajouté mais échec de l\'envoi de l\'email');
+        }
+        exit;
+    } catch (PDOException $e) {
+        die('Erreur lors de la création de l\'utilisateur : ' . $e->getMessage());
+    }
 }
 ?>
 <!DOCTYPE html>
