@@ -59,6 +59,9 @@ $resolus = $incidents['Résolu'] ?? 0;
 .navbar .btn i {
     margin-right: 8px; /* Espace entre l'icône et le texte */
 }
+        .dropdown-item i {
+    margin-right: 8px; /* Espace entre l'icône et le texte */
+}
         .dropdown-toggle {
     border: none; /* Supprime la bordure */
     box-shadow: none; /* Supprime l'ombre */
