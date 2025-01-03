@@ -2,14 +2,37 @@
 include '../includes/db.php';
 include '../includes/auth.php';
 
-// Récupérer les incidents avec le nom des sacs associés
-$stmt = $pdo->query("
+// Récupérer les valeurs des filtres
+$search = $_GET['search'] ?? '';
+$statut = $_GET['statut'] ?? '';
+$type_incident = $_GET['type_incident'] ?? '';
+
+// Construire la requête avec les filtres
+$query = "
     SELECT incidents.*, sacs_medicaux.nom AS sac_nom 
     FROM incidents 
-    LEFT JOIN sacs_medicaux 
-    ON incidents.reference_id = sacs_medicaux.id 
-    ORDER BY incidents.date_signalement DESC
-");
+    LEFT JOIN sacs_medicaux ON incidents.reference_id = sacs_medicaux.id 
+    WHERE 1=1
+";
+
+$params = [];
+if ($search) {
+    $query .= " AND (description LIKE ? OR sacs_medicaux.nom LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+}
+if ($statut) {
+    $query .= " AND statut = ?";
+    $params[] = $statut;
+}
+if ($type_incident) {
+    $query .= " AND type_incident = ?";
+    $params[] = $type_incident;
+}
+
+$query .= " ORDER BY incidents.date_signalement DESC";
+$stmt = $pdo->prepare($query);
+$stmt->execute($params);
 $incidents = $stmt->fetchAll();
 
 // Fonction pour le style des badges
@@ -125,19 +148,26 @@ function getBadgeClass($statut) {
 
     <!-- Barre de recherche -->
     <form method="GET" class="mb-4">
-        <div class="row">
-            <div class="col-md-4">
-                <input type="text" name="search" class="form-control" placeholder="Rechercher par description ou nom du sac">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <input type="text" name="search" class="form-control" placeholder="Rechercher par description ou nom du sac" value="<?= htmlspecialchars($search) ?>">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <select name="statut" class="form-control">
                     <option value="">Tous les statuts</option>
-                    <option value="Non Résolu">Non Résolu</option>
-                    <option value="En Cours">En Cours</option>
-                    <option value="Résolu">Résolu</option>
+                    <option value="Non Résolu" <?= $statut === 'Non Résolu' ? 'selected' : '' ?>>Non Résolu</option>
+                    <option value="En Cours" <?= $statut === 'En Cours' ? 'selected' : '' ?>>En Cours</option>
+                    <option value="Résolu" <?= $statut === 'Résolu' ? 'selected' : '' ?>>Résolu</option>
                 </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <select name="type_incident" class="form-control">
+                    <option value="">Tous les types</option>
+                    <option value="Sac" <?= $type_incident === 'Sac' ? 'selected' : '' ?>>Sac</option>
+                    <option value="Médicament" <?= $type_incident === 'Médicament' ? 'selected' : '' ?>>Médicament</option>
+                </select>
+            </div>
+            <div class="col-md-3">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </div>
         </div>
@@ -154,6 +184,7 @@ function getBadgeClass($statut) {
                     <th>Statut</th>
                     <th>Date</th>
                     <th>Actions</th>
+                    <th>Supprimer</th>
                 </tr>
             </thead>
             <tbody>
@@ -170,22 +201,17 @@ function getBadgeClass($statut) {
                             </td>
                             <td><?= htmlspecialchars($incident['date_signalement']) ?></td>
                             <td>
-                                <a href="changer_statut.php?id=<?= $incident['id'] ?>&statut=En Cours" 
-                                   class="btn btn-warning btn-sm" 
-                                   onclick="return confirm('Êtes-vous sûr de vouloir marquer cet incident comme "En Cours" ?');">
-                                    En Cours
-                                </a>
-                                <a href="changer_statut.php?id=<?= $incident['id'] ?>&statut=Résolu" 
-                                   class="btn btn-success btn-sm" 
-                                   onclick="return confirm('Êtes-vous sûr de vouloir marquer cet incident comme "Résolu" ?');">
-                                    Résolu
-                                </a>
+                                <a href="changer_statut.php?id=<?= $incident['id'] ?>&statut=En Cours" class="btn btn-warning btn-sm">En Cours</a>
+                                <a href="changer_statut.php?id=<?= $incident['id'] ?>&statut=Résolu" class="btn btn-success btn-sm">Résolu</a>
+                            </td>
+                            <td>
+                                <a href="supprimer_incident.php?id=<?= $incident['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet incident ?');">Supprimer</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6" class="text-center">Aucun incident trouvé.</td>
+                        <td colspan="7" class="text-center">Aucun incident trouvé.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
