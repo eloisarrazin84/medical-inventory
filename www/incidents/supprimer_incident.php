@@ -14,7 +14,7 @@ try {
     $stmt->execute([$incident_id]);
 
     // Redirection après suppression
-    header('Location: gestion_incidents.php?message=Incident supprimé avec succès');
+   header("Location: /incidents/gestion_incidents.php?message=Incident supprimé avec succès");
     exit;
 } catch (PDOException $e) {
     die('Erreur lors de la suppression : ' . $e->getMessage());
