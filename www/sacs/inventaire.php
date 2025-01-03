@@ -1,6 +1,5 @@
 <?php
 include '../includes/db.php';
-include '../includes/auth.php';
 
 $sac_id = $_GET['sac_id'] ?? null;
 
