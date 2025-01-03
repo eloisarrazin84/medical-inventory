@@ -11,6 +11,7 @@
         <!-- Liens -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                <!-- Tableau de Bord -->
                 <li class="nav-item">
                     <a class="btn btn-outline-primary mx-2 nav-link" href="dashboard.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Accéder au tableau de bord">
                         <i class="fas fa-home"></i> Tableau de Bord
@@ -55,12 +56,18 @@
     </div>
 </nav>
 
-<!-- Ajouter Bootstrap JS -->
+<!-- Ajout des scripts nécessaires -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Initialiser les tooltips de Bootstrap
+    // Initialisation des tooltips Bootstrap
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // Forcer le fonctionnement des menus déroulants si nécessaire
+    var dropdownTriggerList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+    var dropdownList = dropdownTriggerList.map(function (dropdownTriggerEl) {
+        return new bootstrap.Dropdown(dropdownTriggerEl);
     });
 </script>
