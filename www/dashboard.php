@@ -10,13 +10,23 @@ $total_sacs = $stmt->fetch()['total_sacs'];
 $stmt = $pdo->query("SELECT COUNT(*) AS total_medicaments FROM medicaments");
 $total_medicaments = $stmt->fetch()['total_medicaments'];
 
-// Médicaments expirés
-$stmt = $pdo->query("SELECT COUNT(*) AS medicaments_expires FROM medicaments WHERE date_expiration < CURDATE()");
-$medicaments_expires = $stmt->fetch()['medicaments_expires'];
+// Médicaments expirés avec le nom du sac
+$stmt = $pdo->query("
+    SELECT medicaments.nom AS med_nom, medicaments.date_expiration, sacs_medicaux.nom AS sac_nom
+    FROM medicaments
+    LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id
+    WHERE medicaments.date_expiration < CURDATE()
+");
+$details_medicaments_expires = $stmt->fetchAll();
 
-// Médicaments proches de l'expiration (dans les 30 jours)
-$stmt = $pdo->query("SELECT COUNT(*) AS medicaments_proches_expiration FROM medicaments WHERE date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)");
-$medicaments_proches_expiration = $stmt->fetch()['medicaments_proches_expiration'];
+// Médicaments proches de l'expiration avec le nom du sac
+$stmt = $pdo->query("
+    SELECT medicaments.nom AS med_nom, medicaments.date_expiration, sacs_medicaux.nom AS sac_nom
+    FROM medicaments
+    LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id
+    WHERE medicaments.date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+");
+$details_medicaments_proches_expiration = $stmt->fetchAll();
 
 // Détails des médicaments expirés
 $stmt = $pdo->query("SELECT nom, date_expiration FROM medicaments WHERE date_expiration < CURDATE()");
