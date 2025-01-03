@@ -231,10 +231,13 @@ $resolus = $incidents['Résolu'] ?? 0;
         <ul>
             <?php foreach ($details_medicaments_proches_expiration as $med): ?>
                 <li>
-                    <?= htmlspecialchars($med['med_nom'] ?? 'Non spécifié') ?> - Expire le <?= htmlspecialchars($med['date_expiration'] ?? 'Non spécifiée') ?>
+                    <?= htmlspecialchars($med['med_nom'] ?? 'Nom non spécifié') ?> - Expire le <?= htmlspecialchars($med['date_expiration'] ?? 'Date non spécifiée') ?>
                     <strong>(Sac : <?= htmlspecialchars($med['sac_nom'] ?? 'Non spécifié') ?>)</strong>
                 </li>
             <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
         </ul>
     </div>
 <?php endif; ?>
