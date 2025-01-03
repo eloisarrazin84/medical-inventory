@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Soumettre</button>
-        <a href="index.php" class="btn btn-secondary">Annuler</a>
+        <a href="../dashboard.php" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
