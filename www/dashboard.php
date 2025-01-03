@@ -27,6 +27,7 @@ $stmt = $pdo->query("
     WHERE medicaments.date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
 ");
 $details_medicaments_proches_expiration = $stmt->fetchAll(PDO::FETCH_ASSOC);
+var_dump($details_medicaments_proches_expiration); // Ajoutez cette ligne pour vérifier les données
 
 // Détails des médicaments expirés
 $stmt = $pdo->query("SELECT nom, date_expiration FROM medicaments WHERE date_expiration < CURDATE()");
