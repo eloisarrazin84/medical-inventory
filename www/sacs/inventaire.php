@@ -1,22 +1,28 @@
 <?php
 include '../includes/db.php';
 
+// Vérifier si l'ID du sac est fourni
 $sac_id = $_GET['sac_id'] ?? null;
 
-// Vérifier si le sac existe
+if (!$sac_id) {
+    die('Erreur : Aucun sac sélectionné.');
+}
+
+// Vérifier si le sac existe dans la base de données
 $stmt = $pdo->prepare("SELECT * FROM sacs_medicaux WHERE id = ?");
 $stmt->execute([$sac_id]);
 $sac = $stmt->fetch();
 
 if (!$sac) {
-    die('Sac médical introuvable.');
+    die('Erreur : Sac médical introuvable.');
 }
 
-// Récupérer les médicaments du sac
+// Récupérer les médicaments associés au sac
 $stmt = $pdo->prepare("SELECT * FROM medicaments WHERE sac_id = ?");
 $stmt->execute([$sac_id]);
 $medicaments = $stmt->fetchAll();
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,7 +33,7 @@ $medicaments = $stmt->fetchAll();
 <div class="container mt-5">
     <h1>Inventaire : <?= htmlspecialchars($sac['nom']) ?></h1>
     <a href="../dashboard.php" class="btn btn-secondary mb-3">Retour</a>
-    <a href="../incidents/signaler_incident.php?type=Sac&id=<?= $sac['id'] ?>" class="btn btn-danger">Signaler un Incident</a>
+    <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" class="btn btn-danger">Signaler un Incident</a>
     <table class="table table-bordered">
         <thead>
             <tr>
