@@ -27,7 +27,6 @@ $stmt = $pdo->query("
     WHERE medicaments.date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
 ");
 $details_medicaments_proches_expiration = $stmt->fetchAll(PDO::FETCH_ASSOC);
-var_dump($details_medicaments_proches_expiration); // Ajoutez cette ligne pour vérifier les données
 
 // Détails des médicaments expirés
 $stmt = $pdo->query("SELECT nom, date_expiration FROM medicaments WHERE date_expiration < CURDATE()");
@@ -208,16 +207,17 @@ $resolus = $incidents['Résolu'] ?? 0;
         </div>
     </div>
 
-    <!-- Notifications -->
-    <h2 class="mt-4">Notifications</h2>
-  <!-- Médicaments Expirés -->
+  <!-- Notifications -->
+<h2 class="mt-4">Notifications</h2>
+
 <?php if (!empty($details_medicaments_expires)): ?>
     <div class="alert alert-danger">
         <h4>Médicaments Expirés</h4>
         <ul>
             <?php foreach ($details_medicaments_expires as $med): ?>
                 <li>
-                    <?= htmlspecialchars($med['med_nom'] ?? 'Non spécifié') ?> - Expiré le <?= htmlspecialchars($med['date_expiration'] ?? 'Non spécifiée') ?>
+                    <?= htmlspecialchars($med['med_nom'] ?? 'Nom non spécifié') ?> -
+                    Expiré le <?= htmlspecialchars($med['date_expiration'] ?? 'Date non spécifiée') ?> -
                     <strong>(Sac : <?= htmlspecialchars($med['sac_nom'] ?? 'Non spécifié') ?>)</strong>
                 </li>
             <?php endforeach; ?>
@@ -225,19 +225,23 @@ $resolus = $incidents['Résolu'] ?? 0;
     </div>
 <?php endif; ?>
 
-<!-- Médicaments Proches de l'Expiration -->
 <?php if (!empty($details_medicaments_proches_expiration)): ?>
     <div class="alert alert-warning">
         <h4>Médicaments Proches de l'Expiration</h4>
         <ul>
             <?php foreach ($details_medicaments_proches_expiration as $med): ?>
                 <li>
-                    <?= htmlspecialchars($med['med_nom'] ?? 'Nom non spécifié') ?> - 
-                    Expire le <?= htmlspecialchars($med['date_expiration'] ?? 'Date non spécifiée') ?>
+                    <?= htmlspecialchars($med['med_nom'] ?? 'Nom non spécifié') ?> -
+                    Expire le <?= htmlspecialchars($med['date_expiration'] ?? 'Date non spécifiée') ?> -
                     <strong>(Sac : <?= htmlspecialchars($med['sac_nom'] ?? 'Non spécifié') ?>)</strong>
                 </li>
             <?php endforeach; ?>
         </ul>
+    </div>
+<?php endif; ?>
+<?php if (empty($details_medicaments_expires) && empty($details_medicaments_proches_expiration)): ?>
+    <div class="alert alert-success">
+        Aucun médicament expiré ou proche de l'expiration.
     </div>
 <?php endif; ?>
     </div>
