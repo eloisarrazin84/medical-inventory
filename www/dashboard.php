@@ -220,41 +220,6 @@ $resolus = $incidents['Résolu'] ?? 0;
         </div>
     <?php endif; ?>
 </div>
-    <!-- Tableau des médicaments proches de l'expiration -->
-    <h2 class="mt-5">Médicaments Proches de l'Expiration</h2>
-    <table class="table table-bordered">
-        <thead>
-           <tr>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Quantité</th>
-                <th>Date d'expiration</th>
-                <th>Numéro de Lot</th>
-                <th>Type de Médicament</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $stmt = $pdo->query("SELECT * FROM medicaments WHERE date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY) ORDER BY date_expiration ASC");
-            $medicaments = $stmt->fetchAll();
-            if (count($medicaments) > 0):
-                foreach ($medicaments as $med): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($med['nom']) ?></td>
-                        <td><?= htmlspecialchars($med['description'] ?? 'Aucune description') ?></td>
-                        <td><?= htmlspecialchars($med['quantite']) ?></td>
-                        <td><?= htmlspecialchars($med['date_expiration']) ?></td>
-                        <td><?= htmlspecialchars($med['numero_lot'] ?? 'Non spécifié') ?></td>
-                        <td><?= htmlspecialchars($med['type_produit'] ?? 'Non spécifié') ?></td>
-                    </tr>
-                <?php endforeach;
-            else: ?>
-                <tr>
-                    <td colspan="4" class="text-center">Aucun médicament proche de l'expiration.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
 </div>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
