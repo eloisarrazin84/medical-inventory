@@ -44,6 +44,16 @@ $resolus = $incidents['Résolu'] ?? 0;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
     <style>
+
+        .navbar .btn {
+    width: 150px; /* Largeur fixe pour tous les boutons */
+    text-align: center; /* Aligne le texte au centre */
+    display: inline-block; /* Assure un comportement uniforme */
+}
+
+.navbar .btn i {
+    margin-right: 8px; /* Espace entre l'icône et le texte */
+}
         .dropdown-toggle {
     border: none; /* Supprime la bordure */
     box-shadow: none; /* Supprime l'ombre */
