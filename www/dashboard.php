@@ -21,24 +21,12 @@ $details_medicaments_expires = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Médicaments proches de l'expiration avec le nom du sac
 $stmt = $pdo->query("
-    SELECT medicaments.nom AS med_nom, 
-           medicaments.date_expiration, 
-           sacs_medicaux.nom AS sac_nom
+    SELECT medicaments.nom AS med_nom, medicaments.date_expiration, sacs_medicaux.nom AS sac_nom
     FROM medicaments
-    LEFT JOIN sacs_medicaux 
-    ON medicaments.sac_id = sacs_medicaux.id
-    WHERE medicaments.date_expiration 
-    BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+    LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id
+    WHERE medicaments.date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
 ");
 $details_medicaments_proches_expiration = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Détails des médicaments expirés
-$stmt = $pdo->query("SELECT nom, date_expiration FROM medicaments WHERE date_expiration < CURDATE()");
-$details_medicaments_expires = $stmt->fetchAll();
-
-// Détails des médicaments proches de l'expiration
-$stmt = $pdo->query("SELECT nom, date_expiration FROM medicaments WHERE date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)");
-$details_medicaments_proches_expiration = $stmt->fetchAll();
 
 // Détails des incidents
 $stmt = $pdo->query("SELECT statut, COUNT(*) AS total FROM incidents GROUP BY statut");
@@ -53,96 +41,20 @@ $resolus = $incidents['Résolu'] ?? 0;
 <head>
     <title>Tableau de Bord</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Animate.css -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
-<style>
-    /* Style pour le menu */
-    .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1030;
-        background-color: rgba(0, 0, 0, 0.8); /* Transparence avec fond noir */
-    }
-
-    .navbar-brand img {
-        height: 50px;
-    }
-
-    .btn {
-        border-radius: 30px; /* Boutons arrondis */
-        font-weight: bold; /* Texte en gras */
-        transition: all 0.3s ease-in-out; /* Animation fluide */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
-    }
-
-    .btn:hover {
-        transform: translateY(-3px); /* Effet de levée */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
-        color: #fff !important; /* Texte blanc au survol */
-    }
-
-    /* Style pour le tableau de bord */
-    .card {
-        border-radius: 15px; /* Bords arrondis pour les cartes */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation des cartes */
-    }
-
-    .card:hover {
-        transform: scale(1.05); /* Agrandissement au survol */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte au survol */
-    }
-
-    .card-icon {
-        font-size: 2rem; /* Taille des icônes dans les cartes */
-        margin-right: 10px;
-    }
-
-    /* Style pour les notifications */
-    .alert {
-        border-radius: 10px; /* Bords arrondis pour les alertes */
-        animation: fadeIn 0.5s ease-in-out; /* Animation au chargement */
-    }
-
-    /* Animation pour les notifications */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Marges pour compenser le menu fixe */
-    body {
-        padding-top: 80px; /* Espace sous le menu */
-    }
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 20px;
-        }
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
-        .card-icon {
-            font-size: 2rem;
-            margin-right: 10px;
-        }
-        .alert {
-            margin-bottom: 20px;
-        }
-        .row {
-            margin-top: 20px;
-        }
-</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    <style>
+        .navbar { position: fixed; top: 0; width: 100%; z-index: 1030; background-color: rgba(0, 0, 0, 0.8); }
+        .navbar-brand img { height: 50px; }
+        .btn { border-radius: 30px; font-weight: bold; transition: all 0.3s ease-in-out; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); color: #fff !important; }
+        .card { border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; margin-bottom: 20px; }
+        .card:hover { transform: scale(1.05); box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); }
+        .card-icon { font-size: 2rem; margin-right: 10px; }
+        .alert { margin-bottom: 20px; }
+        .row { margin-top: 20px; }
+    </style>
 </head>
 <body>
 
@@ -211,58 +123,67 @@ $resolus = $incidents['Résolu'] ?? 0;
         </div>
     </div>
 
-  <!-- Notifications -->
-<h2 class="mt-4">Notifications</h2>
+    <!-- Médicaments proches de l'expiration sous forme de tableau -->
+    <h2 class="mt-4">Médicaments Proches de l'Expiration</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nom du Médicament</th>
+                <th>Date d'Expiration</th>
+                <th>Nom du Sac</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($details_medicaments_proches_expiration)): ?>
+                <?php foreach ($details_medicaments_proches_expiration as $med): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($med['med_nom'] ?? 'Nom non spécifié') ?></td>
+                        <td><?= htmlspecialchars($med['date_expiration'] ?? 'Date non spécifiée') ?></td>
+                        <td><?= htmlspecialchars($med['sac_nom'] ?? 'Non spécifié') ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3" class="text-center">Aucun médicament proche de l'expiration.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
 
-<?php if (!empty($details_medicaments_expires)): ?>
-    <div class="alert alert-danger">
-        <h4>Médicaments Expirés</h4>
-        <ul>
-            <?php foreach ($details_medicaments_expires as $med): ?>
-                <li>
-                    <?= htmlspecialchars($med['med_nom'] ?? 'Nom non spécifié') ?> -
-                    Expiré le <?= htmlspecialchars($med['date_expiration'] ?? 'Date non spécifiée') ?> -
-                    <strong>(Sac : <?= htmlspecialchars($med['sac_nom'] ?? 'Non spécifié') ?>)</strong>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-<?php endif; ?>
+    <!-- Médicaments expirés sous forme de tableau -->
+    <h2 class="mt-4">Médicaments Expirés</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nom du Médicament</th>
+                <th>Date d'Expiration</th>
+                <th>Nom du Sac</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($details_medicaments_expires)): ?>
+                <?php foreach ($details_medicaments_expires as $med): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($med['med_nom'] ?? 'Nom non spécifié') ?></td>
+                        <td><?= htmlspecialchars($med['date_expiration'] ?? 'Date non spécifiée') ?></td>
+                        <td><?= htmlspecialchars($med['sac_nom'] ?? 'Non spécifié') ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3" class="text-center">Aucun médicament expiré.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 
-<?php if (!empty($details_medicaments_proches_expiration)): ?>
-    <div class="alert alert-warning">
-        <h4>Médicaments Proches de l'Expiration</h4>
-        <ul>
-            <?php foreach ($details_medicaments_proches_expiration as $med): ?>
-                <li>
-                    <?= htmlspecialchars($med['med_nom'] ?? 'Nom non spécifié') ?> -
-                    Expire le <?= htmlspecialchars($med['date_expiration'] ?? 'Date non spécifiée') ?> -
-                    <strong>(Sac : <?= htmlspecialchars($med['sac_nom'] ?? 'Non spécifié') ?>)</strong>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-<?php endif; ?>
-<?php if (empty($details_medicaments_expires) && empty($details_medicaments_proches_expiration)): ?>
-    <div class="alert alert-success">
-        Aucun médicament expiré ou proche de l'expiration.
-    </div>
-<?php endif; ?>
-    </div>
-</div>
-</div>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init({
-        duration: 1000, // Durée de l'animation (en ms)
+        duration: 1000,
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-</script>
 </body>
 </html>
