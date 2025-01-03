@@ -240,7 +240,6 @@ $resolus = $incidents['Résolu'] ?? 0;
 <?php endif; ?>
         </ul>
     </div>
-<?php endif; ?>
 </div>
 </div>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
