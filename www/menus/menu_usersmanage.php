@@ -12,27 +12,24 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="btn btn-outline-primary mx-2 nav-link" href="../dashboard.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Accéder au tableau de bord">
+                    <a class="btn btn-outline-primary mx-2 nav-link" href="../dashboard.php">
                         <i class="fas fa-home"></i> Tableau de Bord
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-success mx-2 nav-link" href="../sacs/index.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les sacs">
-                        <i class="fas fa-briefcase-medical"></i> Gestion des Sacs
-                    </a>
+                <li class="nav-item dropdown">
+                    <button class="btn btn-outline-secondary mx-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-cogs"></i> Gestion
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="../sacs/index.php"><i class="fas fa-briefcase-medical"></i> Gestion des Sacs</a></li>
+                        <li><a class="dropdown-item" href="../lieux/gestion_lieux.php"><i class="fas fa-map-marker-alt"></i> Gestion des Lieux</a></li>
+                        <li><a class="dropdown-item" href="../medicaments/choisir_sac.php"><i class="fas fa-pills"></i> Gestion des Médicaments</a></li>
+                        <li><a class="dropdown-item" href="../incidents/incidents.php"><i class="fas fa-exclamation-triangle"></i> Gestion des Incidents</a></li>
+                        <li><a class="dropdown-item" href="../users/manage_users.php"><i class="fas fa-users"></i> Gestion des Utilisateurs</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-secondary mx-2 nav-link" href="lieux/gestion_lieux.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les lieux de stockage">
-                        <i class="fas fa-archive"></i>Gestion des Lieux
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-warning mx-2 nav-link" href="../medicaments/choisir_sac.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les médicaments">
-                        <i class="fas fa-pills"></i> Gestion des Médicaments
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-dark mx-2 nav-link" href="../logout.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Se déconnecter">
+                    <a class="btn btn-outline-dark mx-2 nav-link" href="../logout.php">
                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                     </a>
                 </li>
