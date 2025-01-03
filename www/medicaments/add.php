@@ -1,7 +1,7 @@
 <?php
 include '../includes/db.php';
 
-$sac_id = $_GET['sac_id'];
+$sac_id = $_GET['sac_id'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = $_POST['nom'];
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <title>Ajouter un Médicament</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -33,18 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             z-index: 1030;
             background-color: rgba(0, 0, 0, 0.8);
         }
-
         .navbar-brand img {
             height: 50px;
         }
-
         .btn {
             border-radius: 30px;
             font-weight: bold;
             transition: all 0.3s ease-in-out;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
@@ -104,10 +101,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $(document).ready(function () {
         // Charger la liste des médicaments pour l'autocomplétion
         $.get('list.txt', function (data) {
-            let medicaments = data.split('\n').map(line => {
-                return line.split(',')[0].trim(); // Prendre tout avant la virgule
-            }).filter(line => line !== '');
-            $("#nom").autocomplete({ source: medicaments });
+            let medicaments = data.split('\n')
+                .map(line => line.split(',')[0].trim()) // Extraire uniquement le nom
+                .filter(line => line !== ''); // Filtrer les lignes vides
+
+            $("#nom").autocomplete({
+                source: function (request, response) {
+                    const filtered = medicaments.filter(item => item.toLowerCase().includes(request.term.toLowerCase()));
+                    response(filtered.slice(0, 10)); // Limiter à 10 résultats
+                },
+                minLength: 2 // Déclencher après 2 caractères
+            });
         }).fail(function () {
             console.error('Erreur lors du chargement de list.txt.');
         });
