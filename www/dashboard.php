@@ -45,12 +45,17 @@ $resolus = $incidents['Résolu'] ?? 0;
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
     <style>
 
-        .navbar .btn {
-    width: 150px; /* Largeur fixe pour uniformité */
-    text-align: center; /* Centrer le texte */
+   .navbar .btn {
+    min-width: 150px; /* Largeur minimale pour uniformité */
+    max-width: auto; /* Laisse la largeur s'ajuster dynamiquement */
+    text-align: center; /* Centre le texte */
     white-space: nowrap; /* Empêche le retour à la ligne */
-    display: inline-block;
+    display: inline-flex; /* Permet une meilleure gestion des espaces */
+    align-items: center; /* Aligne le texte et l'icône verticalement */
+    justify-content: center; /* Centre le contenu horizontalement */
+    padding: 10px 15px; /* Ajuste l'espacement interne */
 }
+
 .navbar .btn i {
     margin-right: 8px; /* Espace entre l'icône et le texte */
 }
