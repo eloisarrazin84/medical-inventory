@@ -2,7 +2,14 @@
 include '../includes/db.php';
 include '../includes/auth.php';
 
-$stmt = $pdo->query("SELECT * FROM incidents ORDER BY date_signalement DESC");
+// Requête pour récupérer les incidents avec le nom du sac
+$stmt = $pdo->query("
+    SELECT incidents.*, 
+           sacs_medicaux.nom AS sac_nom 
+    FROM incidents
+    LEFT JOIN sacs_medicaux ON incidents.reference_id = sacs_medicaux.id
+    ORDER BY incidents.date_signalement DESC
+");
 $incidents = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
@@ -10,36 +17,35 @@ $incidents = $stmt->fetchAll();
 <head>
     <title>Gestion des Incidents</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Animate.css -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
-<style>
-    /* Style pour le menu */
-    .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1030;
-        background-color: rgba(0, 0, 0, 0.8); /* Transparence avec fond noir */
-    }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    <style>
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1030;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
 
-    .navbar-brand img {
-        height: 50px;
-    }
+        .navbar-brand img {
+            height: 50px;
+        }
 
-    .btn {
-        border-radius: 30px; /* Boutons arrondis */
-        font-weight: bold; /* Texte en gras */
-        transition: all 0.3s ease-in-out; /* Animation fluide */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
-    }
+        .btn {
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    .btn:hover {
-        transform: translateY(-3px); /* Effet de levée */
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
-        color: #fff !important; /* Texte blanc au survol */
-    }
-</style>
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            color: #fff !important;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -59,7 +65,7 @@ $incidents = $stmt->fetchAll();
             <?php foreach ($incidents as $incident): ?>
                 <tr>
                     <td><?= htmlspecialchars($incident['type_incident']) ?></td>
-                    <td><?= htmlspecialchars($incident['reference_id']) ?></td>
+                    <td><?= htmlspecialchars($incident['sac_nom'] ?? 'Non spécifié') ?></td>
                     <td><?= htmlspecialchars($incident['description']) ?></td>
                     <td><?= htmlspecialchars($incident['statut']) ?></td>
                     <td><?= htmlspecialchars($incident['date_signalement']) ?></td>
@@ -76,7 +82,7 @@ $incidents = $stmt->fetchAll();
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init({
-        duration: 1000, // Durée de l'animation (en ms)
+        duration: 1000,
     });
 </script>
 <script>
