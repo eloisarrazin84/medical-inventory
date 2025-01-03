@@ -25,6 +25,14 @@ $details_medicaments_expires = $stmt->fetchAll();
 // Détails des médicaments proches de l'expiration
 $stmt = $pdo->query("SELECT nom, date_expiration FROM medicaments WHERE date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)");
 $details_medicaments_proches_expiration = $stmt->fetchAll();
+
+// Détails des incidents
+$stmt = $pdo->query("SELECT statut, COUNT(*) AS total FROM incidents GROUP BY statut");
+$incidents = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+$non_resolus = $incidents['Non Résolu'] ?? 0;
+$en_cours = $incidents['En Cours'] ?? 0;
+$resolus = $incidents['Résolu'] ?? 0;
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -199,7 +207,44 @@ $details_medicaments_proches_expiration = $stmt->fetchAll();
             </div>
         </div>
     </div>
-</div>
+           <!-- Incidents Non Résolus -->
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-times-circle card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Incidents Non Résolus</h5>
+                        <p class="card-text"><?= $non_resolus ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Incidents En Cours -->
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-hourglass-half card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Incidents En Cours</h5>
+                        <p class="card-text"><?= $en_cours ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Incidents Résolus -->
+        <div class="col-md-3" data-aos="fade-up" data-aos-delay="500">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-check-circle card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Incidents Résolus</h5>
+                        <p class="card-text"><?= $resolus ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
     <!-- Tableau des médicaments proches de l'expiration -->
     <h2 class="mt-5">Médicaments Proches de l'Expiration</h2>
     <table class="table table-bordered">
