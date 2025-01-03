@@ -108,6 +108,26 @@ $resolus = $incidents['Résolu'] ?? 0;
     body {
         padding-top: 80px; /* Espace sous le menu */
     }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        .alert {
+            margin-bottom: 20px;
+        }
+        .row {
+            margin-top: 20px;
+        }
 </style>
 </head>
 <body>
@@ -116,100 +136,34 @@ $resolus = $incidents['Résolu'] ?? 0;
 <?php include 'menus/menu_dashboard.php'; ?>
 
 <div class="container mt-5">
-    <h1>Tableau de Bord</h1>
+    <h1 class="mb-4">Tableau de Bord</h1>
 
-    <!-- Notifications -->
-    <h2>Notifications</h2>
-
-    <!-- Médicaments expirés -->
-    <?php if (count($details_medicaments_expires) > 0): ?>
-        <div class="alert alert-danger">
-            <h4>Médicaments Expirés</h4>
-            <ul>
-                <?php foreach ($details_medicaments_expires as $med): ?>
-                    <li>
-                        <?= htmlspecialchars($med['nom']) ?> - Expiré le <?= htmlspecialchars($med['date_expiration']) ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
-
-    <!-- Médicaments proches de l'expiration -->
-   <?php if (count($details_medicaments_expires) > 0): ?>
-    <div class="alert alert-danger animate__animated animate__fadeInDown">
-        <h4>Médicaments Expirés</h4>
-        <ul>
-            <?php foreach ($details_medicaments_expires as $med): ?>
-                <li>
-                    <?= htmlspecialchars($med['nom']) ?> - Expiré le <?= htmlspecialchars($med['date_expiration']) ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-<?php endif; ?>
-
-    <!-- Aucune notification -->
-    <?php if (count($details_medicaments_expires) === 0 && count($details_medicaments_proches_expiration) === 0): ?>
-        <div class="alert alert-success">
-            Aucun médicament expiré ou proche de l'expiration.
-        </div>
-    <?php endif; ?>
-
-
-    <!-- Cartes de statistiques -->
-<div class="row mt-5">
-    <!-- Total Sacs Médicaux -->
-    <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
-        <div class="card text-white bg-primary mb-3">
-            <div class="card-body d-flex align-items-center">
-                <i class="fas fa-briefcase-medical card-icon"></i>
-                <div>
-                    <h5 class="card-title">Total Sacs Médicaux</h5>
-                    <p class="card-text"><?= $total_sacs ?></p>
+    <!-- Cartes de Statistiques -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-briefcase-medical card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Total Sacs Médicaux</h5>
+                        <p class="card-text"><?= $total_sacs ?></p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Total Médicaments -->
-    <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
-        <div class="card text-white bg-success mb-3">
-            <div class="card-body d-flex align-items-center">
-                <i class="fas fa-pills card-icon"></i>
-                <div>
-                    <h5 class="card-title">Total Médicaments</h5>
-                    <p class="card-text"><?= $total_medicaments ?></p>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-pills card-icon"></i>
+                    <div>
+                        <h5 class="card-title">Total Médicaments</h5>
+                        <p class="card-text"><?= $total_medicaments ?></p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Médicaments Expirés -->
-    <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
-        <div class="card text-white bg-danger mb-3">
-            <div class="card-body d-flex align-items-center">
-                <i class="fas fa-exclamation-circle card-icon"></i>
-                <div>
-                    <h5 class="card-title">Médicaments Expirés</h5>
-                    <p class="card-text"><?= $medicaments_expires ?></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Médicaments Proches de l'Expiration -->
-    <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
-        <div class="card text-white bg-warning mb-3">
-            <div class="card-body d-flex align-items-center">
-                <i class="fas fa-clock card-icon"></i>
-                <div>
-                    <h5 class="card-title">Expiration Proche</h5>
-                    <p class="card-text"><?= $medicaments_proches_expiration ?></p>
-                </div>
-            </div>
-        </div>
-    </div>
-           <!-- Incidents Non Résolus -->
-        <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
-            <div class="card text-white bg-danger mb-3">
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
                 <div class="card-body d-flex align-items-center">
                     <i class="fas fa-times-circle card-icon"></i>
                     <div>
@@ -219,9 +173,8 @@ $resolus = $incidents['Résolu'] ?? 0;
                 </div>
             </div>
         </div>
-        <!-- Incidents En Cours -->
-        <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
-            <div class="card text-white bg-warning mb-3">
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
                 <div class="card-body d-flex align-items-center">
                     <i class="fas fa-hourglass-half card-icon"></i>
                     <div>
@@ -231,9 +184,8 @@ $resolus = $incidents['Résolu'] ?? 0;
                 </div>
             </div>
         </div>
-        <!-- Incidents Résolus -->
-        <div class="col-md-3" data-aos="fade-up" data-aos-delay="500">
-            <div class="card text-white bg-info mb-3">
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
                 <div class="card-body d-flex align-items-center">
                     <i class="fas fa-check-circle card-icon"></i>
                     <div>
@@ -244,7 +196,30 @@ $resolus = $incidents['Résolu'] ?? 0;
             </div>
         </div>
     </div>
-</div> 
+
+    <!-- Notifications -->
+    <h2 class="mt-4">Notifications</h2>
+    <?php if (!empty($details_medicaments_expires)): ?>
+        <div class="alert alert-danger">
+            <h4>Médicaments Expirés</h4>
+            <ul>
+                <?php foreach ($details_medicaments_expires as $med): ?>
+                    <li><?= htmlspecialchars($med['nom']) ?> - Expiré le <?= htmlspecialchars($med['date_expiration']) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+    <?php if (!empty($details_medicaments_proches_expiration)): ?>
+        <div class="alert alert-warning">
+            <h4>Médicaments Proches de l'Expiration</h4>
+            <ul>
+                <?php foreach ($details_medicaments_proches_expiration as $med): ?>
+                    <li><?= htmlspecialchars($med['nom']) ?> - Expire le <?= htmlspecialchars($med['date_expiration']) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+</div>
     <!-- Tableau des médicaments proches de l'expiration -->
     <h2 class="mt-5">Médicaments Proches de l'Expiration</h2>
     <table class="table table-bordered">
