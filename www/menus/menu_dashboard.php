@@ -16,26 +16,35 @@
                         <i class="fas fa-home"></i> Tableau de Bord
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-success mx-2 nav-link" href="sacs/index.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les sacs">
-                        <i class="fas fa-briefcase-medical"></i> Gestion des Sacs
+                <!-- Bouton Gestion avec menu déroulant -->
+                <li class="nav-item dropdown">
+                    <a class="btn btn-outline-secondary mx-2 nav-link dropdown-toggle" href="#" id="gestionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-cogs"></i> Gestion
                     </a>
+                    <ul class="dropdown-menu" aria-labelledby="gestionDropdown">
+                        <li>
+                            <a class="dropdown-item" href="sacs/index.php">
+                                <i class="fas fa-briefcase-medical"></i> Gestion des Sacs
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="lieux/gestion_lieux.php">
+                                <i class="fas fa-archive"></i> Gestion des Lieux
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="medicaments/choisir_sac.php">
+                                <i class="fas fa-pills"></i> Gestion des Médicaments
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="users/manage_users.php">
+                                <i class="fas fa-users"></i> Gestion des Utilisateurs
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-secondary mx-2 nav-link" href="lieux/gestion_lieux.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les lieux de stockage">
-                        <i class="fas fa-archive"></i>Gestion des Lieux
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-warning mx-2 nav-link" href="medicaments/choisir_sac.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les médicaments">
-                        <i class="fas fa-pills"></i> Gestion des Médicaments
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-danger mx-2 nav-link" href="users/manage_users.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gérer les utilisateurs">
-                        <i class="fas fa-users"></i> Gestion des Utilisateurs
-                    </a>
-                </li>
+                <!-- Déconnexion -->
                 <li class="nav-item">
                     <a class="btn btn-outline-dark mx-2 nav-link" href="logout.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Se déconnecter">
                         <i class="fas fa-sign-out-alt"></i> Déconnexion
@@ -45,3 +54,12 @@
         </div>
     </div>
 </nav>
+
+<!-- Scripts nécessaires -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
