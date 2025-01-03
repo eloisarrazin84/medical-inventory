@@ -11,27 +11,24 @@
         <!-- Liens -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <!-- Tableau de Bord -->
                 <li class="nav-item">
-                    <a class="btn btn-outline-primary mx-2 nav-link" href="dashboard.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Accéder au tableau de bord">
+                    <a class="btn btn-outline-primary mx-2 nav-link" href="dashboard.php">
                         <i class="fas fa-home"></i> Tableau de Bord
                     </a>
                 </li>
-                <!-- Bouton Gestion avec menu déroulant -->
                 <li class="nav-item dropdown">
-                    <a class="btn btn-outline-secondary mx-2 nav-link dropdown-toggle" href="#" id="gestionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-outline-secondary mx-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-cogs"></i> Gestion
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="gestionDropdown">
-                        <li><a class="dropdown-item" href="sacs/index.php"><i class="fas fa-briefcase-medical"></i> Gestion des Sacs</a></li>
-                        <li><a class="dropdown-item" href="lieux/gestion_lieux.php"><i class="fas fa-archive"></i> Gestion des Lieux</a></li>
-                        <li><a class="dropdown-item" href="medicaments/choisir_sac.php"><i class="fas fa-pills"></i> Gestion des Médicaments</a></li>
-                        <li><a class="dropdown-item" href="users/manage_users.php"><i class="fas fa-users"></i> Gestion des Utilisateurs</a></li>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="sacs/index.php">Gestion des Sacs</a></li>
+                        <li><a class="dropdown-item" href="lieux/gestion_lieux.php">Gestion des Lieux</a></li>
+                        <li><a class="dropdown-item" href="medicaments/choisir_sac.php">Gestion des Médicaments</a></li>
+                        <li><a class="dropdown-item" href="users/manage_users.php">Gestion des Utilisateurs</a></li>
                     </ul>
                 </li>
-                <!-- Déconnexion -->
                 <li class="nav-item">
-                    <a class="btn btn-outline-dark mx-2 nav-link" href="logout.php" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Se déconnecter">
+                    <a class="btn btn-outline-dark mx-2 nav-link" href="logout.php">
                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                     </a>
                 </li>
@@ -39,7 +36,6 @@
         </div>
     </div>
 </nav>
-
 <!-- Ajout des scripts nécessaires -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
