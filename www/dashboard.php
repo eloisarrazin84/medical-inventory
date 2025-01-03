@@ -46,11 +46,11 @@ $resolus = $incidents['Résolu'] ?? 0;
     <style>
 
         .navbar .btn {
-    width: 150px; /* Largeur fixe pour tous les boutons */
-    text-align: center; /* Aligne le texte au centre */
-    display: inline-block; /* Assure un comportement uniforme */
+    width: 150px; /* Largeur fixe pour uniformité */
+    text-align: center; /* Centrer le texte */
+    white-space: nowrap; /* Empêche le retour à la ligne */
+    display: inline-block;
 }
-
 .navbar .btn i {
     margin-right: 8px; /* Espace entre l'icône et le texte */
 }
