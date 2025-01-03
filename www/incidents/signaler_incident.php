@@ -47,29 +47,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
     <title>Signaler un Incident</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
-<style>
-    .btn {
-            border-radius: 30px; /* Boutons arrondis */
-            font-weight: bold; /* Texte en gras */
-            transition: all 0.3s ease-in-out; /* Animation fluide */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    <style>
+        body {
+            font-size: 16px; /* Texte lisible sur mobile */
         }
 
-        .btn:hover {
-            transform: translateY(-3px); /* Effet de levée */
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
-            color: #fff !important; /* Texte blanc au survol */
+        .container-fluid {
+            margin-top: 20px;
+            padding: 15px;
         }
-</style>
+
+        .btn {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        textarea, input {
+            font-size: 16px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h1>Signaler un Incident</h1>
-    <form method="POST">
+<div class="container-fluid">
+    <h1 class="text-center mb-4">Signaler un Incident</h1>
+    <form method="POST" class="needs-validation" novalidate>
         <div class="mb-3">
             <label for="type_incident" class="form-label">Type d'Incident</label>
             <select class="form-control" id="type_incident" name="type_incident" required>
@@ -78,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </select>
         </div>
         <div class="mb-3">
-            <label for="reference_id" class="form-label">Référence</label>
+            <label for="reference_id" class="form-label">Référence (Nom du Sac)</label>
             <input type="text" class="form-control" id="reference_id" name="reference_id" value="<?= htmlspecialchars($nom_sac) ?>" readonly>
         </div>
         <div class="mb-3">
@@ -91,18 +100,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description du problème</label>
-            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Décrivez le problème rencontré..." required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Soumettre</button>
         <a href="javascript:history.back()" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>
-    AOS.init({
-        duration: 1000,
-    });
-</script>
 </body>
 </html>
