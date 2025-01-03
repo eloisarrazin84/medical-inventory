@@ -44,6 +44,14 @@ $resolus = $incidents['Résolu'] ?? 0;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
     <style>
+        .dropdown-toggle {
+    border: none; /* Supprime la bordure */
+    box-shadow: none; /* Supprime l'ombre */
+}
+.dropdown-toggle:focus {
+    outline: none; /* Supprime l'effet de focus */
+    box-shadow: none; /* Supprime l'ombre au focus */
+}
           .navbar {
             position: fixed;
             top: 0;
