@@ -1,7 +1,10 @@
 <?php
 include '../includes/db.php';
 include '../includes/auth.php';
+include 'session_manager.php';
 
+// Vérifiez si l'utilisateur est connecté
+check_auth();
 // Récupérer les valeurs des filtres
 $search = $_GET['search'] ?? '';
 $statut = $_GET['statut'] ?? '';
