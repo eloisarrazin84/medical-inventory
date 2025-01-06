@@ -13,12 +13,25 @@ $rapports = $stmt->fetchAll();
 // Archiver un rapport si demandé
 if (isset($_GET['action']) && $_GET['action'] === 'archiver' && isset($_GET['id'])) {
     $rapport_id = $_GET['id'];
-    $stmt = $pdo->prepare("UPDATE rapports_utilisation SET statut = 'Archivé' WHERE id = ?");
-$stmt->execute([$rapport_id]);
-    
-    // Rediriger pour éviter une double soumission
-    header('Location: rapports_utilisation.php?message=Rapport archivé avec succès');
-    exit;
+
+    // Valider l'ID avant l'exécution
+    $stmt = $pdo->prepare("SELECT id FROM rapports_utilisation WHERE id = ?");
+    $stmt->execute([$rapport_id]);
+    $rapport_exist = $stmt->fetch();
+
+    if ($rapport_exist) {
+        // Mettre à jour le statut
+        $stmt = $pdo->prepare("UPDATE rapports_utilisation SET statut = 'Archivé' WHERE id = ?");
+        $stmt->execute([$rapport_id]);
+
+        // Rediriger avec un message de succès
+        header('Location: rapports_utilisation.php?message=Rapport archivé avec succès');
+        exit;
+    } else {
+        // Rediriger avec un message d'erreur si l'ID n'existe pas
+        header('Location: rapports_utilisation.php?message=Rapport introuvable');
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
