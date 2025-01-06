@@ -8,10 +8,10 @@ $stmt = $pdo->query("
            medicaments.numero_lot, 
            medicaments.date_expiration, 
            sacs_medicaux.nom AS sac_nom, 
-           lieux.nom AS lieu_nom
+           lieux_stockage.nom AS lieu_nom
     FROM medicaments
     LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id
-    LEFT JOIN lieux ON sacs_medicaux.lieu_id = lieux.id
+    LEFT JOIN lieux_stockage ON sacs_medicaux.lieu_id = lieux_stockage.id
     WHERE medicaments.date_expiration <= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
     ORDER BY medicaments.date_expiration ASC
 ");
