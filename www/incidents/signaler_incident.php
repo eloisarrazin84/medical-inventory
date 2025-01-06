@@ -51,6 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p><strong>Signalé par :</strong> $nom_personne</p>
                 <p><strong>Description :</strong> $description</p>
             </div>
+            <div style='text-align: center; margin-top: 20px;'>
+                <a href='$incident_url' style='display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;'>Voir l'incident</a>
+            </div>
             <p style='text-align: center; margin-top: 20px; font-size: 12px; color: #999;'>Outdoor Secours © " . date('Y') . " - Tous droits réservés.</p>
         </div>
         ";
