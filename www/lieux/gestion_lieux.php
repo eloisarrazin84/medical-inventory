@@ -1,7 +1,10 @@
 <?php
 include '../includes/db.php';
 include '../includes/auth.php';
+include 'session_manager.php';
 
+// Vérifiez si l'utilisateur est connecté
+check_auth();
 // Ajouter un lieu
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajouter_lieu'])) {
     $nom = $_POST['nom'];
