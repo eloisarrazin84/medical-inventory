@@ -138,7 +138,7 @@ $lieux = $stmt->fetchAll();
                             <td>
     <div class="btn-group">
         <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
-            Actions
+            Générer Documents
         </button>
         <ul class="dropdown-menu">
             <li>
