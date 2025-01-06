@@ -92,7 +92,6 @@ $medicaments = $stmt->fetchAll();
 <header class="d-flex justify-content-between align-items-center">
     <h1 class="h5 mb-0">Inventaire : <?= htmlspecialchars($sac['nom']) ?></h1>
     <div>
-        <a href="../dashboard.php" class="btn btn-secondary btn-sm">Retour</a>
         <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" class="btn btn-danger btn-sm">Signaler un Incident</a>
     </div>
 </header>
