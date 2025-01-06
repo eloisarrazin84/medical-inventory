@@ -1,8 +1,7 @@
 <?php
-require '../vendor/autoload.php'; // Charger Composer si nécessaire
-
+require '../vendor/autoload.php'; // Assurez-vous que le chemin est correct
 include '../includes/db.php';
-include '../includes/send_email.php'; // Inclure la fonction d'envoi d'e-mail
+include '../includes/send_email.php'; // Assurez-vous que ce fichier contient la logique pour envoyer des e-mails
 
 // Récupérer l'ID du sac depuis l'URL ou un paramètre
 $sac_id = $_GET['sac_id'] ?? null;
@@ -29,31 +28,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
 
     try {
-        // Insertion de l'incident dans la base de données
+        // Enregistrer l'incident dans la base de données
         $stmt = $pdo->prepare("
             INSERT INTO incidents (type_incident, reference_id, nom_evenement, nom_personne, description, statut) 
             VALUES (?, ?, ?, ?, ?, 'Non Résolu')
         ");
         $stmt->execute([$type_incident, $reference_id, $nom_evenement, $nom_personne, $description]);
 
-        // Préparer les détails de l'incident pour l'e-mail
-        $sujet = "Nouvel incident signalé : $type_incident";
-        $message = "
-            <h1>Un nouvel incident a été signalé</h1>
-            <p><strong>Type d'incident :</strong> $type_incident</p>
-            <p><strong>Nom du sac :</strong> {$sac['nom']}</p>
-            <p><strong>Nom de l'événement :</strong> $nom_evenement</p>
-            <p><strong>Signalé par :</strong> $nom_personne</p>
-            <p><strong>Description :</strong> $description</p>
+        // Envoyer un e-mail de notification
+        $to = "contact@outdoorsecours.fr";
+        $subject = "Nouvel incident signalé : $type_incident";
+        $body = "
+        <div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>
+            <div style='text-align: center; padding: 10px 0;'>
+                <img src='https://outdoorsecours.fr/wp-content/uploads/2023/07/thumbnail_image001-1.png' alt='Outdoor Secours' style='height: 100px;'>
+            </div>
+            <h2 style='color: #0056b3; text-align: center;'>Un nouvel incident a été signalé</h2>
+            <div style='border: 1px solid #ddd; border-radius: 10px; padding: 20px;'>
+                <p><strong>Type d'incident :</strong> $type_incident</p>
+                <p><strong>Nom du sac :</strong> {$sac['nom']}</p>
+                <p><strong>Nom de l'événement :</strong> $nom_evenement</p>
+                <p><strong>Signalé par :</strong> $nom_personne</p>
+                <p><strong>Description :</strong> $description</p>
+            </div>
+            <p style='text-align: center; margin-top: 20px; font-size: 12px; color: #999;'>Outdoor Secours © " . date('Y') . " - Tous droits réservés.</p>
+        </div>
         ";
 
-        // Envoyer l'e-mail
-        if (sendEmail('contact@outdoorsecours.fr', $sujet, $message)) {
-            // Redirection après soumission
-            header("Location: confirmation_signalement.php?message=Incident signalé et e-mail envoyé");
-        } else {
-            header("Location: confirmation_signalement.php?message=Incident signalé mais échec de l'envoi de l'e-mail");
-        }
+        send_email($to, $subject, $body);
+
+        // Redirection après soumission
+        header("Location: confirmation_signalement.php");
         exit;
     } catch (PDOException $e) {
         die('Erreur lors de l\'enregistrement : ' . $e->getMessage());
