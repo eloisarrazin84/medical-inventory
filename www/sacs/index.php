@@ -3,17 +3,39 @@ include '../includes/db.php';
 include '../includes/auth.php';
 
 require '../vendor/autoload.php'; // Inclure l'autoload de Composer
-use Endroid\QrCode\Builder\BuilderInterface;
-use Endroid\QrCode\Builder\Builder;
 
-// Récupérer les sacs médicaux avec les lieux associés
-$stmt = $pdo->query("
+// Récupérer les filtres
+$search = $_GET['search'] ?? '';
+$lieu_id = $_GET['lieu_id'] ?? '';
+
+// Construire la requête avec les filtres
+$query = "
     SELECT sacs_medicaux.*, lieux_stockage.nom AS lieu_nom
     FROM sacs_medicaux
     LEFT JOIN lieux_stockage ON sacs_medicaux.lieu_id = lieux_stockage.id
-    ORDER BY date_creation DESC
-");
+    WHERE 1=1
+";
+$params = [];
+
+if (!empty($search)) {
+    $query .= " AND (sacs_medicaux.nom LIKE ? OR sacs_medicaux.description LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+}
+
+if (!empty($lieu_id)) {
+    $query .= " AND lieux_stockage.id = ?";
+    $params[] = $lieu_id;
+}
+
+$query .= " ORDER BY date_creation DESC";
+$stmt = $pdo->prepare($query);
+$stmt->execute($params);
 $sacs = $stmt->fetchAll();
+
+// Récupérer la liste des lieux de stockage pour le filtre
+$stmt = $pdo->query("SELECT id, nom FROM lieux_stockage ORDER BY nom ASC");
+$lieux = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,41 +70,79 @@ $sacs = $stmt->fetchAll();
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
             color: #fff !important; /* Texte blanc au survol */
         }
+
+        .form-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 <!-- Inclure le menu -->
 <?php include '../menus/menu_sacs.php'; ?>
 <div class="container mt-5">
-    <h1>Liste des Sacs Médicaux</h1>
-    <a href="add.php" class="btn btn-primary mb-3">Ajouter un sac</a>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Date de création</th>
-                <th>Lieu de Stockage</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($sacs as $sac): ?>
-                <tr>
-                    <td><?= htmlspecialchars($sac['nom']) ?></td>
-                    <td><?= htmlspecialchars($sac['description']) ?></td>
-                    <td><?= htmlspecialchars($sac['date_creation']) ?></td>
-                    <td><?= htmlspecialchars($sac['lieu_nom'] ?? 'Non associé') ?></td>
-                    <td>
-                        <a href="edit.php?id=<?= $sac['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
-                        <a href="delete.php?id=<?= $sac['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce sac ?')">Supprimer</a>
-                        <a href="../lieux/associer_lieu.php?sac_id=<?= $sac['id'] ?>" class="btn btn-secondary btn-sm">Associer un lieu</a>
-                        <a href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>" class="btn btn-info btn-sm">Générer QR Code</a>
-                    </td>
-                </tr>
+    <h1 class="mb-4">Liste des Sacs Médicaux</h1>
+
+    <!-- Formulaire de recherche et de filtre -->
+    <form method="GET" class="form-inline">
+        <input type="text" name="search" class="form-control" placeholder="Rechercher par nom ou description" value="<?= htmlspecialchars($search) ?>">
+        <select name="lieu_id" class="form-control">
+            <option value="">Tous les lieux</option>
+            <?php foreach ($lieux as $lieu): ?>
+                <option value="<?= $lieu['id'] ?>" <?= $lieu_id == $lieu['id'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($lieu['nom']) ?>
+                </option>
             <?php endforeach; ?>
-        </tbody>
-    </table>
+        </select>
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+        <a href="?" class="btn btn-secondary">Réinitialiser</a>
+    </form>
+
+    <!-- Bouton Ajouter un sac -->
+    <a href="add.php" class="btn btn-success mb-3">Ajouter un sac</a>
+
+    <!-- Tableau des sacs -->
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Date de création</th>
+                    <th>Lieu de Stockage</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($sacs)): ?>
+                    <?php foreach ($sacs as $sac): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($sac['nom']) ?></td>
+                            <td><?= htmlspecialchars($sac['description']) ?></td>
+                            <td><?= htmlspecialchars($sac['date_creation']) ?></td>
+                            <td><?= htmlspecialchars($sac['lieu_nom'] ?? 'Non associé') ?></td>
+                            <td>
+                                <a href="edit.php?id=<?= $sac['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
+                                <a href="delete.php?id=<?= $sac['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce sac ?')">Supprimer</a>
+                                <a href="../lieux/associer_lieu.php?sac_id=<?= $sac['id'] ?>" class="btn btn-secondary btn-sm">Associer un lieu</a>
+                                <a href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>" class="btn btn-info btn-sm">Générer QR Code</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" class="text-center">Aucun sac trouvé.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
@@ -99,4 +159,3 @@ $sacs = $stmt->fetchAll();
 </script>
 </body>
 </html>
-
