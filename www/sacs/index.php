@@ -141,7 +141,7 @@ $lieux = $stmt->fetchAll();
         <ul class="dropdown-menu">
             <li>
                 <a class="dropdown-item" href="generate_pdf.php?sac_id=<?= $sac['id'] ?>">
-                    <i class="fas fa-file-pdf"></i> Télécharger PDF
+                    <i class="fas fa-file-pdf"></i> Télécharger inventaire PDF
                 </a>
             </li>
             <li>
