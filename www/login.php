@@ -1,6 +1,7 @@
-error_reporting(E_ALL);
+</php
+</php>error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
+?php>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
