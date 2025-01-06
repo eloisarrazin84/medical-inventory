@@ -109,9 +109,13 @@ $medicaments = $stmt->fetchAll();
                             </p>
                             <p><strong>Numéro de lot :</strong> <?= htmlspecialchars($med['numero_lot']) ?: 'Non spécifié' ?></p>
                             <p><strong>Date d'expiration :</strong> 
-                                <span class="badge <?= strtotime($med['date_expiration']) < time() ? 'badge-danger' : 'badge-success' ?>">
-                                    <?= htmlspecialchars($med['date_expiration']) ?: 'Non spécifiée' ?>
-                                </span>
+                                <?php if (!empty($med['date_expiration']) && $med['date_expiration'] !== '0000-00-00'): ?>
+                                    <span class="badge <?= strtotime($med['date_expiration']) < time() ? 'badge-danger' : 'badge-success' ?>">
+                                        <?= htmlspecialchars($med['date_expiration']) ?>
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge badge-warning">Non spécifiée</span>
+                                <?php endif; ?>
                             </p>
                         </div>
                     </div>
