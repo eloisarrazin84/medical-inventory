@@ -134,10 +134,31 @@ $lieux = $stmt->fetchAll();
                                 <a href="edit.php?id=<?= $sac['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
                                 <a href="delete.php?id=<?= $sac['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce sac ?')">Supprimer</a>
                                 <a href="../lieux/associer_lieu.php?sac_id=<?= $sac['id'] ?>" class="btn btn-secondary btn-sm">Associer un lieu</a>
-                                <a href="generate_pdf.php?sac_id=<?= $sac['id'] ?>" class="btn btn-info btn-sm">Télécharger PDF</a>
-                                <a href="generate_order.php?sac_id=<?= $sac['id'] ?>" class="btn btn-info btn-sm">Générer Fiche de Commande</a>
-                                <a href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>" class="btn btn-info btn-sm">Générer QR Code</a>
                             </td>
+                            <td>
+    <div class="btn-group">
+        <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+            Actions
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item" href="generate_pdf.php?sac_id=<?= $sac['id'] ?>">
+                    <i class="fas fa-file-pdf"></i> Télécharger PDF
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="generate_order.php?sac_id=<?= $sac['id'] ?>">
+                    <i class="fas fa-shopping-cart"></i> Générer Fiche de Commande
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>">
+                    <i class="fas fa-qrcode"></i> Générer QR Code
+                </a>
+            </li>
+        </ul>
+    </div>
+</td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
