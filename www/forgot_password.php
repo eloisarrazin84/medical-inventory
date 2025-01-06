@@ -1,6 +1,7 @@
 <?php
 include 'includes/db.php';
 include 'includes/send_email.php';
+require_once '../vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
