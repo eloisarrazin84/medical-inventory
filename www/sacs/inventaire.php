@@ -64,12 +64,17 @@ $medicaments = $stmt->fetchAll();
 
         .badge-warning {
             background-color: #ffc107;
-            color: black;
+            color: black !important; /* Texte noir pour contraste */
         }
 
         .badge-danger {
             background-color: #dc3545;
-            color: white;
+            color: white; /* Texte blanc sur rouge */
+        }
+
+        .badge-success {
+            background-color: #28a745;
+            color: white; /* Texte blanc sur vert */
         }
 
         @media (max-width: 768px) {
