@@ -160,63 +160,65 @@ $total_rapports = $stmt->fetch()['total_rapports'];
         </div>
     </div>
 
-    <!-- Médicaments proches de l'expiration -->
-    <h2 class="mt-4">Médicaments Proches de l'Expiration</h2>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nom du Médicament</th>
-                    <th>Date d'Expiration</th>
-                    <th>Nom du Sac</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($details_medicaments_proches_expiration)): ?>
-                    <?php foreach ($details_medicaments_proches_expiration as $med): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($med['med_nom']) ?></td>
-                            <td><?= htmlspecialchars($med['date_expiration']) ?></td>
-                            <td><?= htmlspecialchars($med['sac_nom']) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="3" class="text-center">Aucun médicament proche de l'expiration.</td>
+<!-- Médicaments proches de l'expiration -->
+<h2 class="mt-4 text-warning">Médicaments Proches de l'Expiration</h2>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="table-warning">
+                <th>Nom du Médicament</th>
+                <th>Date d'Expiration</th>
+                <th>Nom du Sac</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($details_medicaments_proches_expiration)): ?>
+                <?php foreach ($details_medicaments_proches_expiration as $med): ?>
+                    <tr class="table-warning">
+                        <td><?= htmlspecialchars($med['med_nom']) ?></td>
+                        <td><span class="badge bg-warning"><?= htmlspecialchars($med['date_expiration']) ?></span></td>
+                        <td><?= htmlspecialchars($med['sac_nom']) ?></td>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3" class="text-center">Aucun médicament proche de l'expiration.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 
-    <!-- Médicaments expirés -->
-    <h2 class="mt-4">Médicaments Expirés</h2>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nom du Médicament</th>
-                    <th>Date d'Expiration</th>
-                    <th>Nom du Sac</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($details_medicaments_expires)): ?>
-                    <?php foreach ($details_medicaments_expires as $med): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($med['med_nom']) ?></td>
-                            <td><?= htmlspecialchars($med['date_expiration']) ?></td>
-                            <td><?= htmlspecialchars($med['sac_nom']) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="3" class="text-center">Aucun médicament expiré.</td>
+
+<!-- Médicaments expirés -->
+<h2 class="mt-4 text-danger">Médicaments Expirés</h2>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="table-danger">
+                <th>Nom du Médicament</th>
+                <th>Date d'Expiration</th>
+                <th>Nom du Sac</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($details_medicaments_expires)): ?>
+                <?php foreach ($details_medicaments_expires as $med): ?>
+                    <tr class="table-danger">
+                        <td><?= htmlspecialchars($med['med_nom']) ?></td>
+                        <td><span class="badge bg-danger"><?= htmlspecialchars($med['date_expiration']) ?></span></td>
+                        <td><?= htmlspecialchars($med['sac_nom']) ?></td>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3" class="text-center">Aucun médicament expiré.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
