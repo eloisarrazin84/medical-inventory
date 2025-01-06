@@ -24,20 +24,22 @@ $rapports = $stmt->fetchAll();
         <thead>
             <tr>
                 <th>Sac</th>
+                <th>Nom de l'Événement</th>
                 <th>Utilisateur</th>
                 <th>Matériel Utilisé</th>
                 <th>Observations</th>
-                <th>Date</th>
+                <th>Date de Saisie</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($rapports as $rapport): ?>
                 <tr>
                     <td><?= htmlspecialchars($rapport['nom_sac']) ?></td>
+                    <td><?= htmlspecialchars($rapport['nom_evenement']) ?></td>
                     <td><?= htmlspecialchars($rapport['utilisateur']) ?></td>
                     <td><?= nl2br(htmlspecialchars($rapport['materiels_utilises'])) ?></td>
                     <td><?= nl2br(htmlspecialchars($rapport['observations'])) ?></td>
-                    <td><?= htmlspecialchars($rapport['date_rapport']) ?></td>
+                    <td><?= htmlspecialchars($rapport['date_saisie']) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
