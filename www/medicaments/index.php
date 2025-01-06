@@ -1,7 +1,10 @@
 <?php
 include '../includes/db.php';
 include '../includes/auth.php';
+include 'session_manager.php';
 
+// Vérifiez si l'utilisateur est connecté
+check_auth();
 // Vérifier si `sac_id` est défini dans l'URL
 if (!isset($_GET['sac_id']) || empty($_GET['sac_id'])) {
     // Rediriger vers la page de choix des sacs
