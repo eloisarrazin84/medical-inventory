@@ -32,6 +32,20 @@ $medicaments = $stmt->fetchAll();
     <style>
         body {
             padding-top: 20px;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            z-index: 1030;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 15px;
+        }
+
+        .btn-group {
+            margin: 10px 0;
         }
 
         .card {
@@ -42,54 +56,70 @@ $medicaments = $stmt->fetchAll();
 
         .card-header {
             font-weight: bold;
+            font-size: 1.2em;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
         }
 
-        .btn {
-            border-radius: 20px;
+        .badge-warning {
+            background-color: #ffc107;
+            color: black;
         }
 
-        .btn-group {
-            margin-top: 10px;
+        .badge-danger {
+            background-color: #dc3545;
+            color: white;
         }
 
         @media (max-width: 768px) {
             .btn {
-                width: 100%; /* Les boutons prennent toute la largeur sur mobile */
+                width: 100%; /* Boutons plein écran pour mobile */
+            }
+
+            .card-header {
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1 class="text-center mb-4">Inventaire : <?= htmlspecialchars($sac['nom']) ?></h1>
-    
-    <!-- Boutons d'actions -->
-    <div class="btn-group d-flex justify-content-between">
-        <a href="../dashboard.php" class="btn btn-secondary">Retour</a>
-        <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" class="btn btn-danger">Signaler un Incident</a>
+<header class="d-flex justify-content-between align-items-center">
+    <h1 class="h5 mb-0">Inventaire : <?= htmlspecialchars($sac['nom']) ?></h1>
+    <div>
+        <a href="../dashboard.php" class="btn btn-secondary btn-sm">Retour</a>
+        <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" class="btn btn-danger btn-sm">Signaler un Incident</a>
     </div>
-
-    <!-- Liste des médicaments -->
+</header>
+<div class="container mt-3">
     <?php if (!empty($medicaments)): ?>
-        <div class="row mt-4">
+        <div class="row">
             <?php foreach ($medicaments as $med): ?>
-                <div class="col-md-6">
+                <div class="col-md-6 col-lg-4">
                     <div class="card">
-                        <div class="card-header bg-primary text-white">
+                        <div class="card-header">
                             <?= htmlspecialchars($med['nom']) ?>
                         </div>
                         <div class="card-body">
                             <p><strong>Description :</strong> <?= htmlspecialchars($med['description']) ?: 'Non spécifiée' ?></p>
-                            <p><strong>Quantité :</strong> <?= htmlspecialchars($med['quantite']) ?></p>
-                            <p><strong>Numéro de lot :</strong> <?= htmlspecialchars($med['numero_lot']) ?></p>
-                            <p><strong>Date d'expiration :</strong> <?= htmlspecialchars($med['date_expiration']) ?: 'Non spécifiée' ?></p>
+                            <p><strong>Quantité :</strong> 
+                                <span class="badge <?= $med['quantite'] < 5 ? 'badge-warning' : 'badge-success' ?>">
+                                    <?= htmlspecialchars($med['quantite']) ?>
+                                </span>
+                            </p>
+                            <p><strong>Numéro de lot :</strong> <?= htmlspecialchars($med['numero_lot']) ?: 'Non spécifié' ?></p>
+                            <p><strong>Date d'expiration :</strong> 
+                                <span class="badge <?= strtotime($med['date_expiration']) < time() ? 'badge-danger' : 'badge-success' ?>">
+                                    <?= htmlspecialchars($med['date_expiration']) ?: 'Non spécifiée' ?>
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     <?php else: ?>
-        <p class="alert alert-warning text-center mt-4">Aucun médicament trouvé pour ce sac.</p>
+        <p class="alert alert-warning text-center">Aucun médicament trouvé pour ce sac.</p>
     <?php endif; ?>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
