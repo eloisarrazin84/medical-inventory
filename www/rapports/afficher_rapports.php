@@ -6,9 +6,20 @@ $stmt = $pdo->query("
     SELECT rapports_utilisation.*, sacs_medicaux.nom AS nom_sac 
     FROM rapports_utilisation 
     JOIN sacs_medicaux ON rapports_utilisation.sac_id = sacs_medicaux.id
-    ORDER BY date_rapport DESC
+    ORDER BY date_saisie DESC
 ");
 $rapports = $stmt->fetchAll();
+
+// Archiver un rapport si demandé
+if (isset($_GET['action']) && $_GET['action'] === 'archiver' && isset($_GET['id'])) {
+    $rapport_id = $_GET['id'];
+    $stmt = $pdo->prepare("UPDATE rapports_utilisation SET statut = 'Archivé' WHERE id = ?");
+    $stmt->execute([$rapport_id]);
+
+    // Rediriger pour éviter une double soumission
+    header('Location: rapports_utilisation.php?message=Rapport archivé avec succès');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -70,6 +81,19 @@ $rapports = $stmt->fetchAll();
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
             color: #fff !important; /* Texte blanc au survol */
         }
+     /* Style pour le tableau */
+        .btn-archive {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-archive:hover {
+            background-color: #218838;
+            color: white;
+        }
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
 </style>
 </head>
 <body>
@@ -77,6 +101,11 @@ $rapports = $stmt->fetchAll();
 <?php include '../menus/menu_usersmanage.php'; ?>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Rapports d'Utilisation</h1>
+    <?php if (isset($_GET['message'])): ?>
+        <div class="alert alert-success">
+            <?= htmlspecialchars($_GET['message']) ?>
+        </div>
+    <?php endif; ?>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -86,6 +115,8 @@ $rapports = $stmt->fetchAll();
                 <th>Matériel Utilisé</th>
                 <th>Observations</th>
                 <th>Date de Saisie</th>
+                <th>Statut</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -97,6 +128,21 @@ $rapports = $stmt->fetchAll();
                     <td><?= nl2br(htmlspecialchars($rapport['materiels_utilises'])) ?></td>
                     <td><?= nl2br(htmlspecialchars($rapport['observations'])) ?></td>
                     <td><?= htmlspecialchars($rapport['date_saisie']) ?></td>
+                    <td>
+                        <span class="badge <?= $rapport['statut'] === 'Archivé' ? 'bg-success' : 'bg-warning' ?>">
+                            <?= htmlspecialchars($rapport['statut']) ?>
+                        </span>
+                    </td>
+                    <td class="table-actions">
+                        <?php if ($rapport['statut'] !== 'Archivé'): ?>
+                            <a href="?action=archiver&id=<?= $rapport['id'] ?>" class="btn btn-archive btn-sm" 
+                               onclick="return confirm('Êtes-vous sûr de vouloir archiver ce rapport ?')">
+                                Archiver
+                            </a>
+                        <?php else: ?>
+                            <span class="text-muted">Aucune action</span>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
