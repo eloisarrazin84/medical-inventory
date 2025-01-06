@@ -131,6 +131,7 @@ $lieux = $stmt->fetchAll();
                                 <a href="edit.php?id=<?= $sac['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
                                 <a href="delete.php?id=<?= $sac['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce sac ?')">Supprimer</a>
                                 <a href="../lieux/associer_lieu.php?sac_id=<?= $sac['id'] ?>" class="btn btn-secondary btn-sm">Associer un lieu</a>
+                                <a href="generate_pdf.php?sac_id=<?= $sac['id'] ?>" class="btn btn-info btn-sm">Télécharger PDF</a>
                                 <a href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>" class="btn btn-info btn-sm">Générer QR Code</a>
                             </td>
                         </tr>
