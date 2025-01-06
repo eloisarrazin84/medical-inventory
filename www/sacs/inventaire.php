@@ -81,6 +81,7 @@ $medicaments = $stmt->fetchAll();
                         <div class="card-body">
                             <p><strong>Description :</strong> <?= htmlspecialchars($med['description']) ?: 'Non spécifiée' ?></p>
                             <p><strong>Quantité :</strong> <?= htmlspecialchars($med['quantite']) ?></p>
+                            <p><strong>Numéro de lot :</strong> <?= htmlspecialchars($med['numero_lot']) ?></p>
                             <p><strong>Date d'expiration :</strong> <?= htmlspecialchars($med['date_expiration']) ?: 'Non spécifiée' ?></p>
                         </div>
                     </div>
