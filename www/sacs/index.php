@@ -3,7 +3,7 @@ include '../includes/db.php';
 include '../includes/auth.php';
 
 require '../vendor/autoload.php'; // Inclure l'autoload de Composer
-include 'session_manager.php';
+include '../session_manager.php';
 
 // Vérifiez si l'utilisateur est connecté
 check_auth();
