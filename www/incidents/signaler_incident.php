@@ -55,10 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         ";
 
-        send_email($to, $subject, $body);
-
-        // Redirection après soumission
-        header("Location: confirmation_signalement.php");
+        // Envoyer l'e-mail
+        if (sendEmail('contact@outdoorsecours.fr', $sujet, $message)) {
+            // Redirection après soumission
+            header("Location: confirmation_signalement.php?message=Incident signalé et e-mail envoyé");
+        } else {
+            header("Location: confirmation_signalement.php?message=Incident signalé mais échec de l'envoi de l'e-mail");
+        }
         exit;
     } catch (PDOException $e) {
         die('Erreur lors de l\'enregistrement : ' . $e->getMessage());
