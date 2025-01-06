@@ -20,16 +20,17 @@ if (!$sac) {
 // Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $utilisateur = $_POST['utilisateur'];
+    $nom_evenement = $_POST['nom_evenement'];
     $materiels_utilises = $_POST['materiels_utilises'];
     $observations = $_POST['observations'];
 
     try {
         // Insérer le rapport dans la base de données
         $stmt = $pdo->prepare("
-            INSERT INTO rapports_utilisation (sac_id, utilisateur, materiels_utilises, observations) 
-            VALUES (?, ?, ?, ?)
+            INSERT INTO rapports_utilisation (sac_id, nom_evenement, utilisateur, materiels_utilises, observations) 
+            VALUES (?, ?, ?, ?, ?)
         ");
-        $stmt->execute([$sac_id, $utilisateur, $materiels_utilises, $observations]);
+        $stmt->execute([$sac_id, $nom_evenement, $utilisateur, $materiels_utilises, $observations]);
 
         // Redirection après soumission
         header("Location: ../rapports/confirmation_rapport.php");
@@ -53,6 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="mb-3">
             <label for="utilisateur" class="form-label">Nom du Médecin</label>
             <input type="text" class="form-control" id="utilisateur" name="utilisateur" placeholder="Ex : Dr. Jean Dupont" required>
+        </div>
+        <div class="mb-3">
+            <label for="nom_evenement" class="form-label">Nom de l'Événement</label>
+            <input type="text" class="form-control" id="nom_evenement" name="nom_evenement" placeholder="Ex : Marathon de Paris" required>
         </div>
         <div class="mb-3">
             <label for="materiels_utilises" class="form-label">Matériel Utilisé</label>
