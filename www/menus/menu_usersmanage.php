@@ -25,6 +25,7 @@
                         <li><a class="dropdown-item" href="../lieux/gestion_lieux.php"><i class="fas fa-map-marker-alt"></i> Gestion des Lieux</a></li>
                         <li><a class="dropdown-item" href="../medicaments/choisir_sac.php"><i class="fas fa-pills"></i> Gestion des Médicaments</a></li>
                         <li><a class="dropdown-item" href="../incidents/incidents.php"><i class="fas fa-exclamation-triangle"></i> Gestion des Incidents</a></li>
+                        <li><a class="dropdown-item" href="../rapports/afficher_rapports.php"><i class="fas fa-report"></i> Gestion des Rapports</a></li>
                         <li><a class="dropdown-item" href="../users/manage_users.php"><i class="fas fa-users"></i> Gestion des Utilisateurs</a></li>
                     </ul>
                 </li>
