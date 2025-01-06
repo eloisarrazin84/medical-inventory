@@ -1,5 +1,6 @@
 <?php
 include '../includes/db.php';
+include '../includes/send_email.php'; // Assurez-vous que ce fichier contient la logique pour envoyer des e-mails
 
 // Récupérer l'ID du sac depuis l'URL ou un paramètre
 $sac_id = $_GET['sac_id'] ?? null;
@@ -26,11 +27,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
 
     try {
+        // Enregistrer l'incident dans la base de données
         $stmt = $pdo->prepare("
             INSERT INTO incidents (type_incident, reference_id, nom_evenement, nom_personne, description, statut) 
             VALUES (?, ?, ?, ?, ?, 'Non Résolu')
         ");
         $stmt->execute([$type_incident, $reference_id, $nom_evenement, $nom_personne, $description]);
+
+        // Envoyer un e-mail de notification
+        $to = "contact@outdoorsecours.fr";
+        $subject = "Nouvel Incident Signalé";
+        $body = "
+            <h1>Nouvel Incident Signalé</h1>
+            <p><strong>Type d'Incident :</strong> {$type_incident}</p>
+            <p><strong>Référence (Nom du Sac) :</strong> {$sac['nom']}</p>
+            <p><strong>Nom de l'Événement :</strong> {$nom_evenement}</p>
+            <p><strong>Signalé par :</strong> {$nom_personne}</p>
+            <p><strong>Description :</strong> {$description}</p>
+            <p><strong>Date :</strong> " . date('Y-m-d H:i:s') . "</p>
+        ";
+
+        send_email($to, $subject, $body);
 
         // Redirection après soumission
         header("Location: confirmation_signalement.php");
