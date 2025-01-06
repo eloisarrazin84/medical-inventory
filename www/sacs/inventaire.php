@@ -93,7 +93,7 @@ $medicaments = $stmt->fetchAll();
     <h1 class="h5 mb-0">Inventaire : <?= htmlspecialchars($sac['nom']) ?></h1>
     <div>
         <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" class="btn btn-danger btn-sm">Signaler un Incident</a>
-        <a href="../rapports/creer_rapport.php?sac_id=<?= $sac['id'] ?>" class="btn btn-success btn-sm">Déclarer un Rapport</a>
+        <a href="../rapports/creer_rapport.php?sac_id=<?= $sac['id'] ?>" class="btn btn-success">Déclarer un Rapport</a>
     </div>
 </header>
 <div class="container mt-3">
