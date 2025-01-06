@@ -1,4 +1,5 @@
 <?php
+require '../vendor/autoload.php'; // Assurez-vous que le chemin est correct
 include '../includes/db.php';
 include '../includes/send_email.php'; // Assurez-vous que ce fichier contient la logique pour envoyer des e-mails
 
