@@ -1,7 +1,7 @@
 <?php
 include '../includes/db.php';
 include '../includes/auth.php';
-include 'session_manager.php';
+include '../session_manager.php';
 
 // Vérifiez si l'utilisateur est connecté
 check_auth();
