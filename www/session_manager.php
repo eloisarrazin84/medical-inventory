@@ -11,7 +11,7 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) >
     // Si inactif trop longtemps, détruire la session et rediriger
     session_unset();
     session_destroy();
-    header("Location: login.php?timeout=true");
+    header("Location: /login.php?timeout=true");
     exit;
 }
 
@@ -21,7 +21,7 @@ $_SESSION['last_activity'] = time();
 // Vérifier si l'utilisateur est connecté
 function check_auth() {
     if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php");
+        header("Location: /login.php");
         exit;
     }
 }
