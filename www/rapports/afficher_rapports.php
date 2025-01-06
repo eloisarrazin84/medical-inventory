@@ -15,8 +15,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'archiver' && isset($_GET['id'
     $rapport_id = $_GET['id'];
     $stmt = $pdo->prepare("UPDATE rapports_utilisation SET statut = 'Archivé' WHERE id = ?");
 $stmt->execute([$rapport_id]);
-
-
+    
     // Rediriger pour éviter une double soumission
     header('Location: rapports_utilisation.php?message=Rapport archivé avec succès');
     exit;
