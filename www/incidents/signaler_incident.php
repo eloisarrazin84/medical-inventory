@@ -35,7 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?, 'Non Résolu')
         ");
         $stmt->execute([$type_incident, $reference_id, $nom_evenement, $nom_personne, $description]);
-
+        
+        // Générer le lien vers la page des incidents
+        $incident_url = "https://gestion.outdoorsecours.fr/incidents/incidents.php";
+        
         // Préparation de l'e-mail
         $sujet = "Nouvel incident signalé : $type_incident";
         $message = "
