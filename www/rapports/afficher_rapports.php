@@ -21,7 +21,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'archiver' && isset($_GET['id'
     header('Location: rapports_utilisation.php?message=Rapport archivé avec succès');
     exit;
 }
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
