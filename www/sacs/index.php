@@ -3,7 +3,10 @@ include '../includes/db.php';
 include '../includes/auth.php';
 
 require '../vendor/autoload.php'; // Inclure l'autoload de Composer
+include 'session_manager.php';
 
+// Vérifiez si l'utilisateur est connecté
+check_auth();
 // Récupérer les filtres
 $search = $_GET['search'] ?? '';
 $lieu_id = $_GET['lieu_id'] ?? '';
