@@ -1,7 +1,8 @@
 <?php
 require '../vendor/autoload.php'; // Assurez-vous que le chemin est correct
+
 include '../includes/db.php';
-include '../includes/send_email.php'; // Assurez-vous que ce fichier contient la logique pour envoyer des e-mails
+include '../includes/send_email.php'; // Assurez-vous que ce fichier contient la fonction sendEmail
 
 // Récupérer l'ID du sac depuis l'URL ou un paramètre
 $sac_id = $_GET['sac_id'] ?? null;
@@ -35,10 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
         $stmt->execute([$type_incident, $reference_id, $nom_evenement, $nom_personne, $description]);
 
-        // Envoyer un e-mail de notification
-        $to = "contact@outdoorsecours.fr";
-        $subject = "Nouvel incident signalé : $type_incident";
-        $body = "
+        // Préparation de l'e-mail
+        $sujet = "Nouvel incident signalé : $type_incident";
+        $message = "
         <div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>
             <div style='text-align: center; padding: 10px 0;'>
                 <img src='https://outdoorsecours.fr/wp-content/uploads/2023/07/thumbnail_image001-1.png' alt='Outdoor Secours' style='height: 100px;'>
@@ -55,10 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         ";
 
-        send_email($to, $subject, $body);
-
-        // Redirection après soumission
-        header("Location: confirmation_signalement.php");
+        // Appel de la fonction d'envoi d'e-mail
+        if (sendEmail("contact@outdoorsecours.fr", $sujet, $message)) {
+            // Redirection avec succès
+            header("Location: confirmation_signalement.php?message=Incident signalé et notification envoyée");
+        } else {
+            header("Location: confirmation_signalement.php?message=Incident signalé mais échec de la notification");
+        }
         exit;
     } catch (PDOException $e) {
         die('Erreur lors de l\'enregistrement : ' . $e->getMessage());
