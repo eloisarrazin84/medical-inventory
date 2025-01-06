@@ -1,6 +1,10 @@
 <?php
 include '../includes/db.php';
 
+include 'session_manager.php';
+
+// Vérifiez si l'utilisateur est connecté
+check_auth();
 $stmt = $pdo->query("SELECT * FROM users");
 $users = $stmt->fetchAll();
 ?>
