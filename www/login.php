@@ -13,9 +13,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
         }
-
         .login-container {
             background: #ffffff;
             padding: 30px;
@@ -48,6 +46,13 @@
             margin-bottom: 20px;
             color: #333;
             font-weight: bold;
+        }
+
+        .login-container p {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 20px;
         }
 
         .login-container .form-control {
@@ -103,6 +108,9 @@
 
     <!-- Titre -->
     <h1>Connexion</h1>
+
+    <!-- Message de bienvenue -->
+    <p>Bienvenue sur l'espace de gestion Pharmacie Outdoor Secours</p>
 
     <!-- Message d'erreur -->
     <?php if (isset($error)): ?>
