@@ -30,7 +30,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-red mx-2 nav-link" href="logout.php">
+                    <a class="btn btn-outline-warning mx-2 nav-link" href="logout.php">
                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                     </a>
                 </li>
