@@ -1,6 +1,17 @@
 <?php
 include '../includes/db.php';
 
+// Supprimer un rapport si demandé
+if (isset($_GET['action']) && $_GET['action'] === 'supprimer' && isset($_GET['id'])) {
+    $rapport_id = $_GET['id'];
+    $stmt = $pdo->prepare("DELETE FROM rapports_utilisation WHERE id = ?");
+    $stmt->execute([$rapport_id]);
+
+    // Rediriger après suppression
+    header('Location: afficher_rapports.php?message=Rapport supprimé avec succès');
+    exit;
+}
+
 // Récupérer tous les rapports
 $stmt = $pdo->query("
     SELECT rapports_utilisation.*, sacs_medicaux.nom AS nom_sac 
@@ -9,18 +20,6 @@ $stmt = $pdo->query("
     ORDER BY date_saisie DESC
 ");
 $rapports = $stmt->fetchAll();
-
-// Archiver un rapport si demandé
-if (isset($_GET['action']) && $_GET['action'] === 'archiver' && isset($_GET['id'])) {
-    $rapport_id = $_GET['id'];
-
-    // Valider que le statut est correct
-    $stmt = $pdo->prepare("UPDATE rapports_utilisation SET statut = ? WHERE id = ?");
-    $stmt->execute(['Archivé', $rapport_id]);
-
-    header('Location: rapports_utilisation.php?message=Rapport archivé avec succès');
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -32,6 +31,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'archiver' && isset($_GET['id'
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 <style>
+     .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+            color: white;
+        }
     /* Style pour le menu */
      .navbar .btn {
     min-width: 150px; /* Largeur minimale pour uniformité */
@@ -100,13 +108,17 @@ if (isset($_GET['action']) && $_GET['action'] === 'archiver' && isset($_GET['id'
 <body>
 <!-- Inclure le menu -->
 <?php include '../menus/menu_usersmanage.php'; ?>
+<body>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Rapports d'Utilisation</h1>
+
+    <!-- Afficher un message de succès si nécessaire -->
     <?php if (isset($_GET['message'])): ?>
         <div class="alert alert-success">
             <?= htmlspecialchars($_GET['message']) ?>
         </div>
     <?php endif; ?>
+
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -116,7 +128,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'archiver' && isset($_GET['id'
                 <th>Matériel Utilisé</th>
                 <th>Observations</th>
                 <th>Date de Saisie</th>
-                <th>Statut</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -130,19 +141,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'archiver' && isset($_GET['id'
                     <td><?= nl2br(htmlspecialchars($rapport['observations'])) ?></td>
                     <td><?= htmlspecialchars($rapport['date_saisie']) ?></td>
                     <td>
-                        <span class="badge <?= $rapport['statut'] === 'Archivé' ? 'bg-success' : 'bg-warning' ?>">
-                            <?= htmlspecialchars($rapport['statut']) ?>
-                        </span>
-                    </td>
-                    <td class="table-actions">
-                        <?php if ($rapport['statut'] !== 'Archivé'): ?>
-                            <a href="?action=archiver&id=<?= $rapport['id'] ?>" class="btn btn-archive btn-sm" 
-                               onclick="return confirm('Êtes-vous sûr de vouloir archiver ce rapport ?')">
-                                Archiver
-                            </a>
-                        <?php else: ?>
-                            <span class="text-muted">Aucune action</span>
-                        <?php endif; ?>
+                        <a href="?action=supprimer&id=<?= $rapport['id'] ?>" class="btn btn-delete btn-sm" 
+                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce rapport ?')">
+                            Supprimer
+                        </a>
                     </td>
                 </tr>
             <?php endforeach; ?>
