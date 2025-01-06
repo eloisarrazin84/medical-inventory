@@ -34,15 +34,22 @@ $html = "
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Inventaire du Sac : {$sac['nom']}</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        h1 { color: #0056b3; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #0056b3; text-align: center; }
+        .logo { text-align: center; margin-bottom: 20px; }
+        .logo img { height: 100px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         table, th, td { border: 1px solid #ddd; }
         th, td { padding: 8px; text-align: left; }
         th { background-color: #f4f4f4; }
+        .signature { margin-top: 50px; text-align: left; }
+        .signature .box { border: 1px solid #000; width: 300px; height: 100px; margin-top: 10px; }
     </style>
 </head>
 <body>
+    <div class='logo'>
+        <img src='https://outdoorsecours.fr/wp-content/uploads/2023/07/thumbnail_image001-1.png' alt='Logo Outdoor Secours'>
+    </div>
     <h1>Inventaire du Sac : {$sac['nom']}</h1>
     <p><strong>Description :</strong> {$sac['description']}</p>
     <p><strong>Date de Création :</strong> {$sac['date_creation']}</p>
@@ -73,6 +80,10 @@ foreach ($medicaments as $medicament) {
 $html .= "
         </tbody>
     </table>
+    <div class='signature'>
+        <p><strong>Visa du Responsable :</strong></p>
+        <div class='box'></div>
+    </div>
 </body>
 </html>";
 
