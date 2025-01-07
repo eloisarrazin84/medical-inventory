@@ -50,7 +50,7 @@ if (count($sacs) === 0) {
 <body>
 
 <!-- Inclure le menu -->
-<?php include '../menus/menu_medicaments.php'; ?>
+<?php include '../menus/menu_usersmanage.php'; ?>
 
 <div class="container mt-5">
     <h1>Choisir un Sac Médical</h1>
