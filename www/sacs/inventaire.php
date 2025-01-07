@@ -20,7 +20,7 @@ if (!$sac) {
 // Récupérer les filtres de recherche
 $search = $_GET['search'] ?? '';
 $filter = $_GET['filter'] ?? '';
-$type_medicament = $_GET['type_medicament'] ?? '';
+$type_medicament = $_GET['type_produit'] ?? '';
 
 // Construire la requête des médicaments associés au sac avec les filtres
 $query = "SELECT * FROM medicaments WHERE sac_id = ?";
@@ -39,8 +39,8 @@ if ($filter === 'expired') {
 }
 
 if (!empty($type_medicament)) {
-    $query .= " AND type_medicament = ?";
-    $params[] = $type_medicament;
+    $query .= " AND type_produit = ?";
+    $params[] = $type_produit;
 }
 
 $query .= " ORDER BY nom ASC";
@@ -49,9 +49,9 @@ $stmt->execute($params);
 $medicaments = $stmt->fetchAll();
 
 // Récupérer les types de médicaments pour le filtre
-$stmt = $pdo->prepare("SELECT DISTINCT type_medicament FROM medicaments WHERE sac_id = ?");
+$stmt = $pdo->prepare("SELECT DISTINCT type_produit FROM medicaments WHERE sac_id = ?");
 $stmt->execute([$sac_id]);
-$types_medicaments = $stmt->fetchAll(PDO::FETCH_COLUMN);
+$types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
 <!DOCTYPE html>
@@ -142,10 +142,10 @@ $types_medicaments = $stmt->fetchAll(PDO::FETCH_COLUMN);
             </select>
         </div>
         <div class="col-md-3">
-            <select name="type_medicament" class="form-select">
+            <select name="type_produit" class="form-select">
                 <option value="">Tous les types</option>
-                <?php foreach ($types_medicaments as $type): ?>
-                    <option value="<?= htmlspecialchars($type) ?>" <?= $type_medicament === $type ? 'selected' : '' ?>>
+                <?php foreach ($types_produit as $type): ?>
+                    <option value="<?= htmlspecialchars($type) ?>" <?= $type_produit === $type ? 'selected' : '' ?>>
                         <?= htmlspecialchars($type) ?>
                     </option>
                 <?php endforeach; ?>
