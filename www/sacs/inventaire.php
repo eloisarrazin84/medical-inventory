@@ -17,9 +17,29 @@ if (!$sac) {
     die('Erreur : Sac médical introuvable.');
 }
 
-// Récupérer les médicaments associés au sac
-$stmt = $pdo->prepare("SELECT * FROM medicaments WHERE sac_id = ?");
-$stmt->execute([$sac_id]);
+// Récupérer les filtres de recherche
+$search = $_GET['search'] ?? '';
+$filter = $_GET['filter'] ?? '';
+
+// Construire la requête des médicaments associés au sac avec les filtres
+$query = "SELECT * FROM medicaments WHERE sac_id = ?";
+$params = [$sac_id];
+
+if (!empty($search)) {
+    $query .= " AND (nom LIKE ? OR description LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+}
+
+if ($filter === 'expired') {
+    $query .= " AND date_expiration < CURDATE()";
+} elseif ($filter === 'low_stock') {
+    $query .= " AND quantite < 5";
+}
+
+$query .= " ORDER BY nom ASC";
+$stmt = $pdo->prepare($query);
+$stmt->execute($params);
 $medicaments = $stmt->fetchAll();
 ?>
 
@@ -97,6 +117,25 @@ $medicaments = $stmt->fetchAll();
     </div>
 </header>
 <div class="container mt-3">
+    <!-- Barre de recherche et de filtre -->
+    <form method="GET" class="row g-3 mb-3">
+        <input type="hidden" name="sac_id" value="<?= htmlspecialchars($sac_id) ?>">
+        <div class="col-md-6">
+            <input type="text" name="search" class="form-control" placeholder="Rechercher un médicament (nom ou description)" value="<?= htmlspecialchars($search) ?>">
+        </div>
+        <div class="col-md-4">
+            <select name="filter" class="form-select">
+                <option value="">Tous les médicaments</option>
+                <option value="expired" <?= $filter === 'expired' ? 'selected' : '' ?>>Médicaments expirés</option>
+                <option value="low_stock" <?= $filter === 'low_stock' ? 'selected' : '' ?>>Stock faible (moins de 5)</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Appliquer</button>
+        </div>
+    </form>
+
+    <!-- Liste des médicaments -->
     <?php if (!empty($medicaments)): ?>
         <div class="row">
             <?php foreach ($medicaments as $med): ?>
