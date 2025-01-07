@@ -121,6 +121,18 @@ $total_rapports = $stmt->fetch()['total_rapports'];
         .card {
             margin-bottom: 20px;
         }
+         .table-custom th, .table-custom td {
+            font-size: 14px;
+            padding: 8px;
+        }
+
+        .badge-custom {
+            font-size: 12px;
+        }
+        .btn-toggle {
+            font-size: 0.9rem;
+        }
+    }
 
     .btn-toggle {
         display: flex;
@@ -163,13 +175,54 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     .table-responsive {
         margin-top: 20px;
     }
-
-    @media (max-width: 768px) {
-
-        .btn-toggle {
-            font-size: 0.9rem;
-        }
+.table-custom {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    .table-custom th {
+        background-color: #f8f9fa;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #333;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .table-custom td {
+        padding: 12px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table-custom tr:nth-child(even) {
+        background-color: #f4f4f4;
+    }
+
+    .table-custom tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .badge-custom {
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 50px;
+        font-weight: bold;
+    }
+
+    .badge-warning {
+        background-color: #ffc107;
+        color: #fff;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
 </style>
 </head>
 <body>
