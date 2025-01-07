@@ -49,7 +49,7 @@ $stmt->execute($params);
 $medicaments = $stmt->fetchAll();
 
 // Récupérer les types de médicaments pour le filtre
-$stmt = $pdo->prepare("SELECT DISTINCT type_medicament FROM medicaments WHERE sac_id = ?");
+$stmt = $pdo->prepare("SELECT DISTINCT type_medicamen FROM medicaments WHERE sac_id = ?");
 $stmt->execute([$sac_id]);
 $types_medicaments = $stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
