@@ -54,13 +54,70 @@ $total_rapports = $stmt->fetch()['total_rapports'];
             background-color: #f9f9f9;
         }
 
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 1030;
-            background-color: rgba(0, 0, 0, 0.9);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+       .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background-color: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link, .dropdown-toggle, .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    text-decoration: none;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover, .dropdown-toggle:hover, .btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-menu {
+    min-width: 150px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
 
         .container {
             max-width: 1200px;
@@ -157,6 +214,22 @@ $total_rapports = $stmt->fetch()['total_rapports'];
             background-color: #dc3545;
             color: #fff;
         }
+        @media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-item {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
     </style>
 </head>
 <body>
