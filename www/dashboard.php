@@ -69,15 +69,58 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     }
 
     .card {
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.9));
+        color: white;
+        text-align: center;
+        padding: 20px;
     }
 
     .card:hover {
         transform: scale(1.05);
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
+
+    .card-icon {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .card.bg-primary {
+        background: linear-gradient(135deg, #4a90e2, #007bff);
+    }
+
+    .card.bg-success {
+        background: linear-gradient(135deg, #3fbf61, #28a745);
+    }
+
+    .card.bg-info {
+        background: linear-gradient(135deg, #56c2e6, #17a2b8);
+    }
+
+    .card.bg-danger {
+        background: linear-gradient(135deg, #e57373, #dc3545);
+    }
+
+    .card h5 {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .card p {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .card {
+            margin-bottom: 20px;
+        }
 
     .btn-toggle {
         display: flex;
@@ -122,9 +165,6 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     }
 
     @media (max-width: 768px) {
-        .card {
-            margin-bottom: 20px;
-        }
 
         .btn-toggle {
             font-size: 0.9rem;
@@ -139,51 +179,37 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Tableau de Bord</h1>
 
-    <!-- Statistiques sous forme de cartes -->
-    <div class="row text-center g-3">
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-white bg-primary">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-briefcase-medical card-icon"></i>
-                    <div>
-                        <h5 class="card-title">Total Sacs Médicaux</h5>
-                        <p class="card-text"><?= $total_sacs ?></p>
-                    </div>
-                </div>
-            </div>
+<!-- Cartes avec le nouveau design -->
+<div class="row text-center g-3">
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card bg-primary">
+            <i class="fas fa-briefcase-medical card-icon"></i>
+            <h5>Total Sacs Médicaux</h5>
+            <p><?= $total_sacs ?></p>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-white bg-success">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-pills card-icon"></i>
-                    <div>
-                        <h5 class="card-title">Total Médicaments</h5>
-                        <p class="card-text"><?= $total_medicaments ?></p>
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card bg-success">
+            <i class="fas fa-pills card-icon"></i>
+            <h5>Total Médicaments</h5>
+            <p><?= $total_medicaments ?></p>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-white bg-info">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-file-alt card-icon"></i>
-                    <div>
-                        <h5 class="card-title">Total Rapports</h5>
-                        <p class="card-text"><?= $total_rapports ?></p>
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card bg-info">
+            <i class="fas fa-file-alt card-icon"></i>
+            <h5>Total Rapports</h5>
+            <p><?= $total_rapports ?></p>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-white bg-danger">
-                <div class="card-body d-flex align-items-center">
-                    <i class="fas fa-times-circle card-icon"></i>
-                    <div>
-                        <h5 class="card-title">Incidents Non Résolus</h5>
-                        <p class="card-text"><?= $non_resolus ?></p>
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card bg-danger">
+            <i class="fas fa-times-circle card-icon"></i>
+            <h5>Incidents Non Résolus</h5>
+            <p><?= $non_resolus ?></p>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 
