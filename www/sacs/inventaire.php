@@ -20,7 +20,7 @@ if (!$sac) {
 // Récupérer les filtres de recherche
 $search = $_GET['search'] ?? '';
 $filter = $_GET['filter'] ?? '';
-$type_medicament = $_GET['type_produit'] ?? '';
+$type_produit = $_GET['type_produit'] ?? '';
 
 // Construire la requête des médicaments associés au sac avec les filtres
 $query = "SELECT * FROM medicaments WHERE sac_id = ?";
@@ -38,7 +38,7 @@ if ($filter === 'expired') {
     $query .= " AND quantite < 5";
 }
 
-if (!empty($type_medicament)) {
+if (!empty($type_produit)) {
     $query .= " AND type_produit = ?";
     $params[] = $type_produit;
 }
@@ -95,22 +95,22 @@ $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
         .badge-warning {
             background-color: #ffc107;
-            color: black !important; /* Texte noir pour contraste */
+            color: black !important;
         }
 
         .badge-danger {
             background-color: #dc3545;
-            color: white; /* Texte blanc sur rouge */
+            color: white;
         }
 
         .badge-success {
             background-color: #28a745;
-            color: white; /* Texte blanc sur vert */
+            color: white;
         }
 
         @media (max-width: 768px) {
             .btn {
-                width: 100%; /* Boutons plein écran pour mobile */
+                width: 100%;
             }
 
             .card-header {
@@ -172,7 +172,7 @@ $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                     <?= htmlspecialchars($med['quantite']) ?>
                                 </span>
                             </p>
-                            <p><strong>Type :</strong> <?= htmlspecialchars($med['type_medicament']) ?: 'Non spécifié' ?></p>
+                            <p><strong>Type :</strong> <?= htmlspecialchars($med['type_produit']) ?: 'Non spécifié' ?></p>
                             <p><strong>Numéro de lot :</strong> <?= htmlspecialchars($med['numero_lot']) ?: 'Non spécifié' ?></p>
                             <p><strong>Date d'expiration :</strong> 
                                 <?php if (!empty($med['date_expiration']) && $med['date_expiration'] !== '0000-00-00'): ?>
@@ -195,4 +195,3 @@ $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
