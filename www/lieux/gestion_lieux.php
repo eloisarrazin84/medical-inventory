@@ -70,7 +70,7 @@ $lieux = $stmt->fetchAll();
 </head>
 <body>
 <!-- Inclure le menu -->
-<?php include '../menus/menu_lieux.php'; ?>
+<?php include '../menus/menu_usersmanage.php'; ?>
 <div class="container mt-5">
     <h1>Gestion des Lieux de Stockage</h1>
 
