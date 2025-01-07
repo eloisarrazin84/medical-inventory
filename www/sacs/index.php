@@ -88,7 +88,7 @@ $lieux = $stmt->fetchAll();
 </head>
 <body>
 <!-- Inclure le menu -->
-<?php include '../menus/menu_sacs.php'; ?>
+<?php include '../menus/menu_usersmanage.php'; ?>
 <div class="container mt-5">
     <h1 class="mb-4">Liste des Sacs Médicaux</h1>
 
