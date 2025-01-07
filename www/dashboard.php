@@ -50,7 +50,7 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
+    body {
     background-color: #f9f9f9;
 }
 
@@ -91,7 +91,7 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     justify-content: center;
     padding: 10px 15px;
     border-radius: 5px;
-    color: white;
+    color: #f8f9fa; /* Texte visible */
     font-size: 1rem;
     text-decoration: none;
     background-color: transparent;
@@ -100,6 +100,7 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 
 .nav-link:hover, .dropdown-toggle:hover, .btn:hover {
     background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
 }
 
 .dropdown-menu {
@@ -123,7 +124,7 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 }
 
 .container {
-    max-width: 900px; /* Réduction de la largeur */
+    max-width: 900px; /* Limitation de la largeur */
     margin: 0 auto;
     padding: 20px;
 }
@@ -135,6 +136,10 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     color: white;
     text-align: center;
     padding: 20px;
+    height: 150px; /* Uniformiser les hauteurs */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .card:hover {
@@ -183,14 +188,6 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 
 .btn-toggle:hover {
     background-color: #e9ecef;
-}
-
-.btn-toggle i {
-    transition: transform 0.3s ease;
-}
-
-.btn-toggle.collapsed i {
-    transform: rotate(-90deg);
 }
 
 .table-responsive {
