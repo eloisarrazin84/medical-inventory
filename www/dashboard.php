@@ -136,10 +136,13 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     color: white;
     text-align: center;
     padding: 20px;
-    height: 150px; /* Uniformiser les hauteurs */
+    height: auto; /* Suppression de la contrainte de hauteur fixe */
+    min-height: 150px; /* Définit une hauteur minimale pour éviter les coupures */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    box-sizing: border-box; /* Inclut le padding dans la hauteur totale */
 }
 
 .card:hover {
@@ -167,7 +170,6 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 .card.bg-danger {
     background: linear-gradient(135deg, #e57373, #dc3545);
 }
-
 .btn-toggle {
     display: flex;
     justify-content: space-between;
