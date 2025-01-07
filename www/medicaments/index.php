@@ -66,7 +66,7 @@ $medicaments = $stmt->fetchAll();
 </head>
 <body>
 <!-- Inclure le menu -->
-<?php include '../menus/menu_medicaments.php'; ?>
+<?php include '../menus/menu_usersmanage.php'; ?>
 <div class="container mt-5">
     <h1>Gestion des Médicaments</h1>
     <a href="choisir_sac.php" class="btn btn-primary mb-3">Choisir un autre sac</a>
