@@ -51,10 +51,10 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f9f9f9;
-        }
+    background-color: #f9f9f9;
+}
 
-       .navbar {
+.navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -76,19 +76,20 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 .navbar-nav {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 .nav-item {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .nav-link, .dropdown-toggle, .btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 15px;
+    padding: 10px 15px;
     border-radius: 5px;
     color: white;
     font-size: 1rem;
@@ -106,12 +107,14 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    color: #333;
 }
 
 .dropdown-item {
     padding: 10px;
     font-size: 0.9rem;
     color: #333;
+    transition: all 0.3s ease;
 }
 
 .dropdown-item:hover {
@@ -119,115 +122,145 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     color: #007bff;
 }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+.container {
+    max-width: 900px; /* Réduction de la largeur */
+    margin: 0 auto;
+    padding: 20px;
+}
 
-        .card {
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
+.card {
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
 
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
 
-        .card-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
 
-        .card.bg-primary {
-            background: linear-gradient(135deg, #4a90e2, #007bff);
-        }
+.card.bg-primary {
+    background: linear-gradient(135deg, #4a90e2, #007bff);
+}
 
-        .card.bg-success {
-            background: linear-gradient(135deg, #3fbf61, #28a745);
-        }
+.card.bg-success {
+    background: linear-gradient(135deg, #3fbf61, #28a745);
+}
 
-        .card.bg-info {
-            background: linear-gradient(135deg, #56c2e6, #17a2b8);
-        }
+.card.bg-info {
+    background: linear-gradient(135deg, #56c2e6, #17a2b8);
+}
 
-        .card.bg-danger {
-            background: linear-gradient(135deg, #e57373, #dc3545);
-        }
+.card.bg-danger {
+    background: linear-gradient(135deg, #e57373, #dc3545);
+}
 
-        .btn-toggle {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #f8f9fa;
-            padding: 12px;
-            border: none;
-            width: 100%;
-            text-align: left;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #007bff;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            transition: background-color 0.3s ease;
-            cursor: pointer;
-        }
+.btn-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 12px;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #007bff;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
 
-        .btn-toggle:hover {
-            background-color: #e9ecef;
-        }
+.btn-toggle:hover {
+    background-color: #e9ecef;
+}
 
-        .table-responsive {
-            margin-top: 20px;
-        }
+.btn-toggle i {
+    transition: transform 0.3s ease;
+}
 
-        .table-custom th, .table-custom td {
-            font-size: 14px;
-            text-align: center;
-        }
+.btn-toggle.collapsed i {
+    transform: rotate(-90deg);
+}
 
-        .table-custom tr:nth-child(even) {
-            background-color: #f4f4f4;
-        }
+.table-responsive {
+    margin-top: 20px;
+}
 
-        .table-custom tr:hover {
-            background-color: #e9ecef;
-        }
+.table-custom th, .table-custom td {
+    font-size: 14px;
+    text-align: center;
+    padding: 10px;
+}
 
-        .badge {
-            font-size: 14px;
-            padding: 8px 12px;
-            border-radius: 20px;
-        }
+.table-custom tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
 
-        .badge-warning {
-            background-color: #ffc107;
-            color: #fff;
-        }
+.table-custom tr:hover {
+    background-color: #e9ecef;
+}
 
-        .badge-danger {
-            background-color: #dc3545;
-            color: #fff;
-        }
-        @media (max-width: 768px) {
+.badge {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 20px;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #fff;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
     .navbar {
         flex-direction: column;
         align-items: flex-start;
+        padding: 10px;
     }
 
     .navbar-nav {
         flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
         width: 100%;
     }
 
     .nav-item {
         width: 100%;
-        margin-bottom: 5px;
+        justify-content: flex-start;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+
+    .btn-toggle {
+        font-size: 0.9rem;
+    }
+
+    .table-custom th, .table-custom td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .badge {
+        font-size: 12px;
     }
 }
     </style>
