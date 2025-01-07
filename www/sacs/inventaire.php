@@ -20,6 +20,7 @@ if (!$sac) {
 // Récupérer les filtres de recherche
 $search = $_GET['search'] ?? '';
 $filter = $_GET['filter'] ?? '';
+$type_medicament = $_GET['type_medicament'] ?? '';
 
 // Construire la requête des médicaments associés au sac avec les filtres
 $query = "SELECT * FROM medicaments WHERE sac_id = ?";
@@ -37,10 +38,20 @@ if ($filter === 'expired') {
     $query .= " AND quantite < 5";
 }
 
+if (!empty($type_medicament)) {
+    $query .= " AND type_medicament = ?";
+    $params[] = $type_medicament;
+}
+
 $query .= " ORDER BY nom ASC";
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $medicaments = $stmt->fetchAll();
+
+// Récupérer les types de médicaments pour le filtre
+$stmt = $pdo->prepare("SELECT DISTINCT type_medicament FROM medicaments WHERE sac_id = ?");
+$stmt->execute([$sac_id]);
+$types_medicaments = $stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
 <!DOCTYPE html>
@@ -120,14 +131,24 @@ $medicaments = $stmt->fetchAll();
     <!-- Barre de recherche et de filtre -->
     <form method="GET" class="row g-3 mb-3">
         <input type="hidden" name="sac_id" value="<?= htmlspecialchars($sac_id) ?>">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <input type="text" name="search" class="form-control" placeholder="Rechercher un médicament (nom ou description)" value="<?= htmlspecialchars($search) ?>">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <select name="filter" class="form-select">
                 <option value="">Tous les médicaments</option>
                 <option value="expired" <?= $filter === 'expired' ? 'selected' : '' ?>>Médicaments expirés</option>
                 <option value="low_stock" <?= $filter === 'low_stock' ? 'selected' : '' ?>>Stock faible (moins de 5)</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="type_medicament" class="form-select">
+                <option value="">Tous les types</option>
+                <?php foreach ($types_medicaments as $type): ?>
+                    <option value="<?= htmlspecialchars($type) ?>" <?= $type_medicament === $type ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($type) ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="col-md-2">
@@ -151,6 +172,7 @@ $medicaments = $stmt->fetchAll();
                                     <?= htmlspecialchars($med['quantite']) ?>
                                 </span>
                             </p>
+                            <p><strong>Type :</strong> <?= htmlspecialchars($med['type_medicament']) ?: 'Non spécifié' ?></p>
                             <p><strong>Numéro de lot :</strong> <?= htmlspecialchars($med['numero_lot']) ?: 'Non spécifié' ?></p>
                             <p><strong>Date d'expiration :</strong> 
                                 <?php if (!empty($med['date_expiration']) && $med['date_expiration'] !== '0000-00-00'): ?>
@@ -173,3 +195,4 @@ $medicaments = $stmt->fetchAll();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
