@@ -26,9 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <title>Connexion</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,11 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .login-container {
             background: #ffffff;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
             text-align: center;
+            animation: fadeIn 1.2s ease;
         }
         .login-container img {
             margin-bottom: 20px;
@@ -54,9 +56,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: bold;
             margin-bottom: 20px;
         }
+        .form-control {
+            border-radius: 30px;
+            padding-left: 40px;
+        }
+        .form-control:focus {
+            border-color: #2575fc;
+            box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+        }
+        .form-control::placeholder {
+            color: #aaa;
+        }
+        .form-group {
+            position: relative;
+        }
+        .form-group i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
         .btn {
             background-color: #2575fc;
             border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
             color: #fff;
             font-weight: bold;
         }
@@ -66,27 +91,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .forgot-password a {
             color: #2575fc;
             text-decoration: none;
+            font-size: 14px;
         }
         .forgot-password a:hover {
             text-decoration: underline;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
 <div class="login-container">
     <img src="https://outdoorsecours.fr/wp-content/uploads/2023/07/thumbnail_image001-1.png" alt="Outdoor Secours Logo">
-    <h1>Connexion</h1>
+    <h1>Bienvenue !</h1>
+    <p class="mb-4">Connectez-vous pour accéder à l'espace de gestion Outdoor Secours.</p>
     <?php if (isset($error)): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
     <form method="POST">
-        <div class="mb-3">
+        <div class="form-group mb-3">
+            <i class="fas fa-envelope"></i>
             <input type="email" class="form-control" name="email" placeholder="Email" required>
         </div>
-        <div class="mb-3">
+        <div class="form-group mb-3">
+            <i class="fas fa-lock"></i>
             <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+        <button type="submit" class="btn w-100">Se connecter</button>
     </form>
     <div class="forgot-password mt-3">
         <a href="forgot_password.php">Mot de passe oublié ?</a>
