@@ -63,42 +63,26 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand {
-    display: flex;
-    align-items: center;
+.navbar-nav .nav-link, .navbar-nav .dropdown-toggle, .btn {
+    color: #ffffff; /* Couleur du texte */
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
-
-.navbar-brand img {
-    height: 40px;
-    margin-right: 10px;
-}
-
-.navbar-nav {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+        .navbar-nav {
+    flex-direction: column;
+    width: 100%;
 }
 
 .nav-item {
-    display: flex;
-    align-items: center;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
 }
 
-.nav-link, .dropdown-toggle, .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 15px;
-    border-radius: 5px;
-    color: white;
-    font-size: 1rem;
-    text-decoration: none;
-    background-color: transparent;
-    transition: all 0.3s ease;
-}
-
-.nav-link:hover, .dropdown-toggle:hover, .btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+.navbar-nav .nav-link:hover, .navbar-nav .dropdown-toggle:hover, .btn:hover {
+    color: #f8f9fa; /* Couleur légèrement plus claire au survol */
+    background-color: rgba(255, 255, 255, 0.2); /* Fond semi-transparent */
 }
 
 .dropdown-menu {
@@ -106,18 +90,27 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    color: #333; /* Couleur du texte dans le dropdown */
 }
 
 .dropdown-item {
     padding: 10px;
     font-size: 0.9rem;
-    color: #333;
+    color: #333; /* Couleur du texte dans le dropdown */
 }
 
 .dropdown-item:hover {
-    background-color: #f8f9fa;
-    color: #007bff;
+    background-color: #f8f9fa; /* Fond gris clair au survol */
+    color: #007bff; /* Texte bleu au survol */
 }
+
+.navbar-brand {
+    color: #ffffff; /* Couleur du logo ou texte de la marque */
+    text-decoration: none;
+}
+
+.navbar-brand img {
+    height: 40
 
         .container {
             max-width: 1200px;
