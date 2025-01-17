@@ -184,19 +184,44 @@ body {
     .navbar {
         text-align: center; /* Centrer les boutons */
     }
+/* Forcer le dropdown à occuper toute la largeur */
     .dropdown-menu {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
+        width: 100%; /* Le menu occupe toute la largeur de l'écran */
+        position: static; /* Empêche le chevauchement en rendant le menu statique */
+        margin: 0; /* Supprime les marges inutiles */
+        border-radius: 0; /* Supprime les arrondis pour occuper tout l'espace */
+        box-shadow: none; /* Supprime les ombres */
     }
 
+    /* Espacement vertical entre les options du menu dropdown */
     .dropdown-item {
-        font-size: 1rem;
-        padding: 12px 20px;
-        border-bottom: 1px solid #e9ecef;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
+        padding: 10px;
+        font-size: 1rem; /* Taille lisible */
+        text-align: center; /* Centre le texte */
+    }
+
+    /* Empêcher le bouton dropdown de chevaucher */
+    .dropdown-toggle {
+        width: 100%;
+        display: block;
+        margin-bottom: 15px; /* Ajoute un espacement en bas du bouton */
+        text-align: center; /* Centre le texte */
+    }
+
+    /* Supprime tout chevauchement en rendant le menu visible sous le bouton */
+    .dropdown {
+        position: relative; /* Positionner le dropdown correctement */
+    }
+
+    /* Les boutons du menu complet */
+    .navbar .btn {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    /* Supprimer l'espace supplémentaire après le dernier bouton */
+    .navbar .btn:last-child {
+        margin-bottom: 0;
     }
 
     .dropdown-item:last-child {
