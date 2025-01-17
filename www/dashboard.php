@@ -241,10 +241,14 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .navbar .menu-buttons {
-        flex-direction: column;
-        align-items: flex-start;
+    .navbar-nav .btn {
+        margin-bottom: 10px;
+        width: 100%;
     }
+    .navbar-nav .dropdown-menu {
+        width: 100%;
+    }
+}
     .card-icon {
         font-size: 2rem;
     }
