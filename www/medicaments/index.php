@@ -60,28 +60,28 @@ $medicaments = $stmt->fetchAll();
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            <?php if (count($medicaments) > 0): ?>
-                <?php foreach ($medicaments as $med): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($med['nom'] ?? 'Inconnu') ?></td>
-                        <td class="d-none d-sm-table-cell"><?= htmlspecialchars($med['description'] ?? 'Aucune description') ?></td>
-                        <td><?= htmlspecialchars($med['quantite'] ?? '0') ?></td>
-                        <td><?= htmlspecialchars($med['date_expiration'] ?? 'Non spécifiée') ?></td>
-                        <td class="d-none d-md-table-cell"><?= htmlspecialchars($med['numero_lot'] ?? 'Non spécifié') ?></td>
-                        <td class="d-none d-md-table-cell"><?= htmlspecialchars($med['type_produit'] ?? 'Non spécifié') ?></td>
-                        <td>
-                            <a href="edit.php?id=<?= $med['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
-                            <a href="delete.php?id=<?= $med['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce médicament ?')">Supprimer</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="7" class="text-center">Aucun médicament trouvé pour ce sac.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
+       <tbody>
+    <?php if (count($medicaments) > 0): ?>
+        <?php foreach ($medicaments as $med): ?>
+            <tr>
+                <td data-label="Nom"><?= htmlspecialchars($med['nom'] ?? 'Inconnu') ?></td>
+                <td data-label="Description" class="d-none d-sm-table-cell"><?= htmlspecialchars($med['description'] ?? 'Aucune description') ?></td>
+                <td data-label="Quantité"><?= htmlspecialchars($med['quantite'] ?? '0') ?></td>
+                <td data-label="Date d'Expiration"><?= htmlspecialchars($med['date_expiration'] ?? 'Non spécifiée') ?></td>
+                <td data-label="Numéro de Lot" class="d-none d-md-table-cell"><?= htmlspecialchars($med['numero_lot'] ?? 'Non spécifié') ?></td>
+                <td data-label="Type" class="d-none d-md-table-cell"><?= htmlspecialchars($med['type_produit'] ?? 'Non spécifié') ?></td>
+                <td data-label="Actions">
+                    <a href="edit.php?id=<?= $med['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="delete.php?id=<?= $med['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce médicament ?')">Supprimer</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="7" class="text-center">Aucun médicament trouvé pour ce sac.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
     </table>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
