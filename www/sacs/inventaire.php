@@ -17,46 +17,69 @@ if (!$sac) {
     die('Erreur : Sac médical introuvable.');
 }
 
-// Récupérer les filtres de recherche pour les médicaments
+// Récupérer les filtres de recherche
 $search = $_GET['search'] ?? '';
 $filter = $_GET['filter'] ?? '';
 $type_produit = $_GET['type_produit'] ?? '';
+$filter_section = $_GET['filter_section'] ?? 'medicaments'; // Nouvelle section pour filtrer (médicaments, lots, consommables)
 
-// Construire la requête des médicaments associés au sac avec les filtres
-$query = "SELECT * FROM medicaments WHERE sac_id = ?";
-$params = [$sac_id];
+// Construire les requêtes selon les sections
+$medicaments = [];
+$lots = [];
 
-if (!empty($search)) {
-    $query .= " AND (nom LIKE ? OR description LIKE ?)";
-    $params[] = "%$search%";
-    $params[] = "%$search%";
+// Requête pour les médicaments
+if ($filter_section === 'medicaments') {
+    $query = "SELECT * FROM medicaments WHERE sac_id = ?";
+    $params = [$sac_id];
+
+    if (!empty($search)) {
+        $query .= " AND (nom LIKE ? OR description LIKE ?)";
+        $params[] = "%$search%";
+        $params[] = "%$search%";
+    }
+
+    if ($filter === 'expired') {
+        $query .= " AND date_expiration < CURDATE()";
+    } elseif ($filter === 'low_stock') {
+        $query .= " AND quantite < 5";
+    }
+
+    if (!empty($type_produit)) {
+        $query .= " AND type_produit = ?";
+        $params[] = $type_produit;
+    }
+
+    $query .= " ORDER BY nom ASC";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+    $medicaments = $stmt->fetchAll();
 }
 
-if ($filter === 'expired') {
-    $query .= " AND date_expiration < CURDATE()";
-} elseif ($filter === 'low_stock') {
-    $query .= " AND quantite < 5";
-}
+// Requête pour les lots et leurs consommables
+if ($filter_section === 'lots' || $filter_section === 'consommables') {
+    $query = "SELECT lots.*, consommables.nom AS consommable_nom, consommables.description AS consommable_description, consommables.quantite AS consommable_quantite, consommables.date_expiration AS consommable_date_expiration
+              FROM lots
+              LEFT JOIN consommables ON lots.id = consommables.lot_id
+              WHERE lots.sac_id = ?";
+    $params = [$sac_id];
 
-if (!empty($type_produit)) {
-    $query .= " AND type_produit = ?";
-    $params[] = $type_produit;
-}
+    if (!empty($search)) {
+        $query .= " AND (lots.nom LIKE ? OR consommables.nom LIKE ? OR consommables.description LIKE ?)";
+        $params[] = "%$search%";
+        $params[] = "%$search%";
+        $params[] = "%$search%";
+    }
 
-$query .= " ORDER BY nom ASC";
-$stmt = $pdo->prepare($query);
-$stmt->execute($params);
-$medicaments = $stmt->fetchAll();
+    $query .= " ORDER BY lots.nom ASC, consommables.nom ASC";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+    $lots = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 // Récupérer les types de médicaments pour le filtre
 $stmt = $pdo->prepare("SELECT DISTINCT type_produit FROM medicaments WHERE sac_id = ?");
 $stmt->execute([$sac_id]);
 $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-// Récupérer les lots associés au sac
-$stmt = $pdo->prepare("SELECT * FROM lots WHERE sac_id = ?");
-$stmt->execute([$sac_id]);
-$lots = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -221,18 +244,17 @@ $lots = $stmt->fetchAll();
     Inventaire : <?= htmlspecialchars($sac['nom']) ?>
 </header>
 
-<div class="container mt-3">
-    <!-- Barre de recherche et de filtre pour les médicaments -->
+ <!-- Barre de recherche et de filtre -->
     <form method="GET" class="search-bar">
         <input type="hidden" name="sac_id" value="<?= htmlspecialchars($sac_id) ?>">
         <div class="row g-2">
             <div class="col-12">
-                <input type="text" name="search" class="form-control" placeholder="Rechercher un médicament" value="<?= htmlspecialchars($search) ?>">
+                <input type="text" name="search" class="form-control" placeholder="Rechercher dans l'inventaire" value="<?= htmlspecialchars($search) ?>">
             </div>
             <div class="col-6">
                 <select name="filter" class="form-select">
-                    <option value="">Tous les médicaments</option>
-                    <option value="expired" <?= $filter === 'expired' ? 'selected' : '' ?>>Médicaments expirés</option>
+                    <option value="">Tous les éléments</option>
+                    <option value="expired" <?= $filter === 'expired' ? 'selected' : '' ?>>Expirés</option>
                     <option value="low_stock" <?= $filter === 'low_stock' ? 'selected' : '' ?>>Stock faible</option>
                 </select>
             </div>
@@ -244,6 +266,13 @@ $lots = $stmt->fetchAll();
                             <?= htmlspecialchars($type) ?>
                         </option>
                     <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-12">
+                <select name="filter_section" class="form-select">
+                    <option value="medicaments" <?= $filter_section === 'medicaments' ? 'selected' : '' ?>>Médicaments</option>
+                    <option value="lots" <?= $filter_section === 'lots' ? 'selected' : '' ?>>Lots</option>
+                    <option value="consommables" <?= $filter_section === 'consommables' ? 'selected' : '' ?>>Consommables</option>
                 </select>
             </div>
             <div class="col-12">
