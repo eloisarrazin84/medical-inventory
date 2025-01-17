@@ -47,15 +47,16 @@ $medicaments = $stmt->fetchAll();
     <a href="add.php?sac_id=<?= htmlspecialchars($sac_id) ?>" class="btn btn-primary mb-3">Ajouter un médicament</a>
     
     <!-- Table des médicaments -->
+ <div class="table-responsive">
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Nom</th>
-                <th>Description</th>
+                <th class="d-none d-sm-table-cell">Description</th>
                 <th>Quantité</th>
-                <th>Date d'expiration</th>
-                <th>Numéro de Lot</th>
-                <th>Type de Médicament</th>
+                <th>Date d'Expiration</th>
+                <th class="d-none d-md-table-cell">Numéro de Lot</th>
+                <th class="d-none d-md-table-cell">Type</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -64,11 +65,11 @@ $medicaments = $stmt->fetchAll();
                 <?php foreach ($medicaments as $med): ?>
                     <tr>
                         <td><?= htmlspecialchars($med['nom'] ?? 'Inconnu') ?></td>
-                        <td><?= htmlspecialchars($med['description'] ?? 'Aucune description') ?></td>
+                        <td class="d-none d-sm-table-cell"><?= htmlspecialchars($med['description'] ?? 'Aucune description') ?></td>
                         <td><?= htmlspecialchars($med['quantite'] ?? '0') ?></td>
                         <td><?= htmlspecialchars($med['date_expiration'] ?? 'Non spécifiée') ?></td>
-                        <td><?= htmlspecialchars($med['numero_lot'] ?? 'Non spécifié') ?></td>
-                        <td><?= htmlspecialchars($med['type_produit'] ?? 'Non spécifié') ?></td>
+                        <td class="d-none d-md-table-cell"><?= htmlspecialchars($med['numero_lot'] ?? 'Non spécifié') ?></td>
+                        <td class="d-none d-md-table-cell"><?= htmlspecialchars($med['type_produit'] ?? 'Non spécifié') ?></td>
                         <td>
                             <a href="edit.php?id=<?= $med['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
                             <a href="delete.php?id=<?= $med['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce médicament ?')">Supprimer</a>
