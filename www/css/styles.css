@@ -167,7 +167,6 @@ body {
         margin-bottom: 15px; /* Espacement vertical entre les boutons */
         text-align: center; /* Centrer le texte */
         font-size: 1rem; /* Taille de texte lisible */
-        padding: 8px 15px;
     }
      .navbar .btn:last-child {
         margin-bottom: 0;
