@@ -162,76 +162,43 @@ body {
 @media (max-width: 768px) {
     /* Navbar */
     .navbar .btn {
-        display: block; /* Les boutons occupent toute la largeur */
-        width: 100%; /* Largeur complète */
-        margin-bottom: 15px; /* Espacement vertical entre les boutons */
-        text-align: center; /* Centrer le texte */
-        font-size: 1rem; /* Taille de texte lisible */
-    }
-     .navbar .btn:last-child {
-        margin-bottom: 0;
-    }
-     /* Centrer les boutons du menu */
-    .navbar-nav {
-        text-align: center;
-        width: 100%;
-    }
-
-    /* Espacement global pour l'alignement */
-    .navbar-toggler {
-        margin-bottom: 15px;
-    }
-    .navbar {
-        text-align: center; /* Centrer les boutons */
-    }
-/* Forcer le dropdown à occuper toute la largeur */
-    .dropdown-menu {
-        width: 100%; /* Le menu occupe toute la largeur de l'écran */
-        position: static; /* Empêche le chevauchement en rendant le menu statique */
-        margin: 0; /* Supprime les marges inutiles */
-        border-radius: 0; /* Supprime les arrondis pour occuper tout l'espace */
-        box-shadow: none; /* Supprime les ombres */
-    }
-
-    /* Espacement vertical entre les options du menu dropdown */
-    .dropdown-item {
-        padding: 10px;
-        font-size: 1rem; /* Taille lisible */
-        text-align: center; /* Centre le texte */
-    }
-
-    /* Empêcher le bouton dropdown de chevaucher */
-    .dropdown-toggle {
-        width: 100%;
         display: block;
-        margin-bottom: 15px; /* Ajoute un espacement en bas du bouton */
-        text-align: center; /* Centre le texte */
-    }
-
-    /* Supprime tout chevauchement en rendant le menu visible sous le bouton */
-    .dropdown {
-        position: relative; /* Positionner le dropdown correctement */
-    }
-
-    /* Les boutons du menu complet */
-    .navbar .btn {
-        margin-bottom: 15px;
         width: 100%;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 1rem;
     }
-
-    /* Supprimer l'espace supplémentaire après le dernier bouton */
     .navbar .btn:last-child {
         margin-bottom: 0;
     }
 
-    .dropdown-item:last-child {
-        border-bottom: none;
+    .navbar-toggler {
+        margin-bottom: 15px;
     }
 
-    .dropdown-item i {
-        margin-right: 10px;
-        font-size: 1.2rem;
-        color: #007bff;
+    .dropdown-menu {
+        width: 100%;
+        position: static;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .dropdown-item {
+        padding: 10px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .dropdown-toggle {
+        width: 100%;
+        display: block;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .dropdown {
+        position: relative;
     }
 
     /* Cartes */
@@ -250,7 +217,7 @@ body {
     .table {
         display: block;
         width: 100%;
-        overflow-x: auto; /* Ajout du défilement horizontal si nécessaire */
+        overflow-x: auto;
     }
 
     .table thead {
@@ -288,9 +255,8 @@ body {
         color: #333;
     }
 
-    /* Espacement et alignement des boutons */
     .btn-warning, .btn-danger {
         margin: 5px 0;
-        width: 100%; /* Les boutons prennent toute la largeur */
+        width: 100%;
     }
 }
