@@ -85,45 +85,98 @@ body {
     padding: 0;
 }
 
-/* Barre de Navigation */
+/* Style Général */
 .navbar {
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
+    background: linear-gradient(135deg, #004aad, #007bff);
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1030;
 }
-.navbar .logo img {
-    height: 40px;
+
+/* Logo */
+.navbar-brand img {
+    height: 50px;
+    transition: transform 0.3s ease;
 }
-.navbar .menu-buttons {
-    display: flex;
-    gap: 10px;
+.navbar-brand img:hover {
+    transform: scale(1.1);
 }
-.navbar .menu-buttons a {
-    color: white;
-    text-decoration: none;
+
+/* Boutons */
+.navbar .btn {
     font-weight: bold;
+    font-size: 1rem;
     border-radius: 30px;
-    padding: 8px 15px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white !important;
 }
-.navbar .menu-buttons a:hover {
-    transform: scale(1.05);
+.navbar .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+.btn-primary:hover {
     background-color: #0056b3;
 }
-.navbar .menu-buttons a.dashboard {
-    background-color: #007bff;
-}
-.navbar .menu-buttons a.settings {
+.btn-success {
     background-color: #28a745;
+    border: none;
 }
-.navbar .menu-buttons a.logout {
+.btn-success:hover {
+    background-color: #218838;
+}
+.btn-danger {
     background-color: #dc3545;
+    border: none;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.dropdown-item {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+/* Toggler (Mobile View) */
+.navbar-toggler {
+    border: none;
+}
+.navbar-toggler-icon {
+    color: white;
+    background-color: white;
+    border-radius: 3px;
+    padding: 5px;
+}
+.navbar-toggler:focus {
+    outline: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar .btn {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
 }
 
 /* Cartes */
