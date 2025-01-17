@@ -177,6 +177,35 @@ body {
         font-size: 0.9rem;
         padding: 8px 15px;
     }
+     .dropdown-menu {
+        width: 100%; /* Le menu occupe toute la largeur */
+        text-align: center; /* Centrer le texte */
+        padding: 10px; /* Ajouter de l'espace interne */
+    }
+
+    .dropdown-item {
+        font-size: 1rem; /* Agrandir légèrement la taille du texte */
+        padding: 12px 20px; /* Ajouter de l'espace entre les items */
+        border-bottom: 1px solid #e9ecef; /* Ligne pour séparer chaque item */
+        display: flex; /* Affichage en flex */
+        align-items: center; /* Alignement vertical des icônes et du texte */
+        justify-content: flex-start; /* Alignement gauche */
+    }
+
+    .dropdown-item:last-child {
+        border-bottom: none; /* Supprimer la bordure du dernier élément */
+    }
+
+    .dropdown-item i {
+        margin-right: 10px; /* Espace entre l'icône et le texte */
+        font-size: 1.2rem; /* Taille des icônes */
+        color: #007bff; /* Couleur des icônes */
+    }
+
+    .dropdown-menu.show {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajouter une ombre */
+        border-radius: 10px; /* Arrondir les coins */
+    }
 }
 
 /* Cartes */
