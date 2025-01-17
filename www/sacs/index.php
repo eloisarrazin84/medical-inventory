@@ -51,6 +51,33 @@ $lieux = $stmt->fetchAll();
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
     <link href="../css/styles.css" rel="stylesheet">
     <style>
+    <style>
+        /* Optimisation pour Mobile */
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .page-header .btn {
+                width: 100%;
+            }
+            .table-responsive {
+                overflow-x: auto;
+            }
+            .btn-group {
+                display: block;
+                margin-top: 5px;
+            }
+            .btn-sm {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            .dropdown-menu {
+                width: 100%;
+            }
+        }
+    </style>
         .page-header {
             display: flex;
             flex-wrap: wrap;
