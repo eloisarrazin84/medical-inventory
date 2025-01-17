@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['sac_id'], $_GET['action
     $action = htmlspecialchars($_GET['action']);
 
     if ($action === 'medicaments') {
-        header("Location: ../medicaments/manage_medicaments.php?sac_id=$sac_id");
+        header("Location: ../medicaments/index.php?sac_id=$sac_id");
     } elseif ($action === 'lots') {
         header("Location: ../lots/manage_lots.php?sac_id=$sac_id");
     } else {
