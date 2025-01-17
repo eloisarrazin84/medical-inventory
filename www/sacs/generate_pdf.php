@@ -25,6 +25,11 @@ $stmt = $pdo->prepare("SELECT * FROM medicaments WHERE sac_id = ?");
 $stmt->execute([$sac_id]);
 $medicaments = $stmt->fetchAll();
 
+// Récupérer les lots associés au sac
+$stmt = $pdo->prepare("SELECT * FROM lots WHERE sac_id = ?");
+$stmt->execute([$sac_id]);
+$lots = $stmt->fetchAll();
+
 // Contenu HTML pour le PDF
 $html = "
 <!DOCTYPE html>
@@ -53,6 +58,7 @@ $html = "
     <h1>Inventaire du Sac : {$sac['nom']}</h1>
     <p><strong>Description :</strong> {$sac['description']}</p>
     <p><strong>Date de Création :</strong> {$sac['date_creation']}</p>
+    
     <h2>Médicaments</h2>
     <table>
         <thead>
@@ -80,6 +86,52 @@ foreach ($medicaments as $medicament) {
 $html .= "
         </tbody>
     </table>
+    
+    <h2>Lots et Consommables</h2>";
+    
+foreach ($lots as $lot) {
+    $html .= "
+    <h3>Lot : {$lot['nom']}</h3>
+    <p><strong>Description :</strong> {$lot['description']}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Quantité</th>
+                <th>Date d'Expiration</th>
+            </tr>
+        </thead>
+        <tbody>";
+        
+    // Récupérer les consommables associés au lot
+    $stmt = $pdo->prepare("SELECT * FROM consommables WHERE lot_id = ?");
+    $stmt->execute([$lot['id']]);
+    $consommables = $stmt->fetchAll();
+    
+    if (!empty($consommables)) {
+        foreach ($consommables as $consommable) {
+            $html .= "
+            <tr>
+                <td>{$consommable['nom']}</td>
+                <td>{$consommable['description']}</td>
+                <td>{$consommable['quantite']}</td>
+                <td>{$consommable['date_expiration']}</td>
+            </tr>";
+        }
+    } else {
+        $html .= "
+            <tr>
+                <td colspan='4'>Aucun consommable trouvé pour ce lot.</td>
+            </tr>";
+    }
+
+    $html .= "
+        </tbody>
+    </table>";
+}
+
+$html .= "
     <div class='signature'>
         <p><strong>Visa du Responsable :</strong></p>
         <div class='box'></div>
