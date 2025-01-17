@@ -17,7 +17,7 @@ if (!$sac) {
     die('Erreur : Sac médical introuvable.');
 }
 
-// Récupérer les filtres de recherche
+// Récupérer les filtres de recherche pour les médicaments
 $search = $_GET['search'] ?? '';
 $filter = $_GET['filter'] ?? '';
 $type_produit = $_GET['type_produit'] ?? '';
@@ -52,6 +52,11 @@ $medicaments = $stmt->fetchAll();
 $stmt = $pdo->prepare("SELECT DISTINCT type_produit FROM medicaments WHERE sac_id = ?");
 $stmt->execute([$sac_id]);
 $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+// Récupérer les lots associés au sac
+$stmt = $pdo->prepare("SELECT * FROM lots WHERE sac_id = ?");
+$stmt->execute([$sac_id]);
+$lots = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -182,7 +187,7 @@ $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
 </header>
 
 <div class="container mt-3">
-    <!-- Barre de recherche et de filtre -->
+    <!-- Barre de recherche et de filtre pour les médicaments -->
     <form method="GET" class="search-bar">
         <input type="hidden" name="sac_id" value="<?= htmlspecialchars($sac_id) ?>">
         <div class="row g-2">
@@ -213,6 +218,7 @@ $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
     </form>
 
     <!-- Liste des médicaments -->
+    <h3>Médicaments</h3>
     <?php if (!empty($medicaments)): ?>
         <div class="row">
             <?php foreach ($medicaments as $med): ?>
@@ -228,17 +234,7 @@ $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
                                     <?= htmlspecialchars($med['quantite']) ?>
                                 </span>
                             </p>
-                            <p><strong>Type :</strong> <?= htmlspecialchars($med['type_produit']) ?: 'Non spécifié' ?></p>
-                            <p><strong>Numéro de lot :</strong> <?= htmlspecialchars($med['numero_lot']) ?: 'Non spécifié' ?></p>
-                            <p><strong>Date d'expiration :</strong> 
-                                <?php if (!empty($med['date_expiration']) && $med['date_expiration'] !== '0000-00-00'): ?>
-                                    <span class="badge <?= strtotime($med['date_expiration']) < time() ? 'badge-danger' : 'badge-success' ?>">
-                                        <?= htmlspecialchars($med['date_expiration']) ?>
-                                    </span>
-                                <?php else: ?>
-                                    <span class="badge badge-warning">Non spécifiée</span>
-                                <?php endif; ?>
-                            </p>
+                            <p><strong>Date d'expiration :</strong> <?= htmlspecialchars($med['date_expiration']) ?></p>
                         </div>
                     </div>
                 </div>
@@ -247,16 +243,40 @@ $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
     <?php else: ?>
         <p class="alert alert-warning text-center">Aucun médicament trouvé pour ce sac.</p>
     <?php endif; ?>
-</div>
 
-<!-- Boutons flottants -->
-<div class="floating-buttons">
-    <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" title="Signaler un incident">
-        <i class="fas fa-exclamation-circle"></i>
-    </a>
-    <a href="../rapports/creer_rapport.php?sac_id=<?= $sac['id'] ?>" title="Créer un rapport">
-        <i class="fas fa-file-alt"></i>
-    </a>
+    <!-- Liste des lots et des consommables -->
+    <h3>Lots et Consommables</h3>
+    <?php if (!empty($lots)): ?>
+        <?php foreach ($lots as $lot): ?>
+            <div class="card mb-3">
+                <div class="card-header"><?= htmlspecialchars($lot['nom']) ?></div>
+                <div class="card-body">
+                    <p><?= htmlspecialchars($lot['description']) ?: 'Aucune description' ?></p>
+                    <h5>Consommables</h5>
+                    <?php
+                    $stmt = $pdo->prepare("SELECT * FROM consommables WHERE lot_id = ?");
+                    $stmt->execute([$lot['id']]);
+                    $consommables = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+                    <?php if (!empty($consommables)): ?>
+                        <ul>
+                            <?php foreach ($consommables as $cons): ?>
+                                <li>
+                                    <?= htmlspecialchars($cons['nom']) ?> 
+                                    - Quantité : <?= $cons['quantite'] ?> 
+                                    - Expire le : <?= htmlspecialchars($cons['date_expiration']) ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p class="text-muted">Aucun consommable ajouté.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p class="alert alert-warning text-center">Aucun lot trouvé pour ce sac.</p>
+    <?php endif; ?>
 </div>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
