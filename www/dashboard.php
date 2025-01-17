@@ -77,179 +77,150 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
- /* Style général */
+/* Style Général */
 body {
-    background-color: #f9f9f9;
-    font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 /* Style pour le menu */
 .navbar {
-    position: fixed;
+    position: sticky;
     top: 0;
-    width: 100%;
     z-index: 1030;
-    background-color: rgba(0, 0, 0, 0.8); /* Transparence avec fond noir */
-    padding: 10px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 10px 20px;
 }
 .navbar-brand img {
-    height: 50px;
+    height: 40px;
 }
 .navbar .btn {
-    min-width: 150px;
-    text-align: center;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 15px;
+    border: none;
     border-radius: 30px;
-    font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-}
-.navbar .btn i {
-    margin-right: 8px;
+    padding: 10px 15px;
+    color: white;
+    background-color: #007bff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 .navbar .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-    color: #fff !important;
+    background-color: #0056b3;
+    transform: scale(1.05);
 }
 
-/* Dropdown styles */
-.dropdown-menu {
-    min-width: 150px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-.dropdown-item {
-    padding: 10px;
-    font-size: 0.9rem;
-    color: #333;
-    transition: all 0.3s ease;
-}
-.dropdown-item:hover {
-    background-color: #f8f9fa;
-    color: #007bff;
-}
-
-/* Container and layout */
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Card styles */
+/* Style des Cartes */
 .card {
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     text-align: center;
     cursor: pointer;
+    background-color: white;
     padding: 20px;
-    min-height: 150px;
-    color: white;
+    margin-bottom: 15px;
 }
 .card:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 .card-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-bottom: 10px;
+    color: #007bff;
 }
+.card h5 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+.card p {
+    font-size: 1.5rem;
+    margin: 0;
+    color: #333;
+}
+
+/* Couleurs des Cartes */
 .card.bg-primary {
     background: linear-gradient(135deg, #4a90e2, #007bff);
+    color: white;
 }
 .card.bg-success {
     background: linear-gradient(135deg, #3fbf61, #28a745);
+    color: white;
 }
 .card.bg-info {
     background: linear-gradient(135deg, #56c2e6, #17a2b8);
+    color: white;
 }
 .card.bg-danger {
     background: linear-gradient(135deg, #e57373, #dc3545);
+    color: white;
 }
 .card.bg-warning {
     background: linear-gradient(135deg, #ffc107, #ffcc00);
     color: black;
 }
 
-/* Toggle button */
+/* Boutons de bascule */
 .btn-toggle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f8f9fa;
-    padding: 12px;
-    border: none;
-    width: 100%;
-    text-align: left;
+    background-color: #f4f7fa;
+    color: #007bff;
+    padding: 10px 15px;
     font-size: 1rem;
     font-weight: bold;
-    color: #007bff;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    text-align: left;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
     transition: background-color 0.3s ease;
-    cursor: pointer;
 }
 .btn-toggle:hover {
     background-color: #e9ecef;
 }
 
-/* Table styles */
-.table-custom {
-    margin-top: 20px;
+/* Tableaux */
+.table {
+    border-collapse: collapse;
     width: 100%;
+    margin-top: 20px;
+    border: 1px solid #ddd;
 }
-.table-custom th, .table-custom td {
-    font-size: 14px;
+.table th, .table td {
     text-align: center;
-    padding: 10px;
+    padding: 12px;
+    font-size: 0.9rem;
 }
-.table-custom tr:nth-child(even) {
+.table th {
     background-color: #f4f4f4;
+    color: #333;
 }
-.table-custom tr:hover {
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.table tr:hover {
     background-color: #e9ecef;
 }
 
-/* Badge styles */
-.badge {
-    font-size: 14px;
-    padding: 8px 12px;
-    border-radius: 20px;
-}
-.badge-warning {
-    background-color: #ffc107;
-    color: #fff;
-}
-.badge-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-/* Responsive styles */
+/* Responsive */
 @media (max-width: 768px) {
     .card-icon {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
     .card h5 {
         font-size: 1rem;
     }
-    .btn-toggle {
+    .card p {
+        font-size: 1.3rem;
+    }
+    .table th, .table td {
+        font-size: 0.8rem;
+    }
+    .navbar .btn {
         font-size: 0.9rem;
     }
-    .table-custom th, .table-custom td {
-        font-size: 12px;
-        padding: 8px;
-    }
-    .badge {
-        font-size: 12px;
-    }
 }
+
     </style>
 </head>
 <body>
