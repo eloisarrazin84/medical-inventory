@@ -85,36 +85,52 @@ body {
     padding: 0;
 }
 
-/* Style pour le menu */
+/* Barre de Navigation */
 .navbar {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
     position: sticky;
     top: 0;
     z-index: 1030;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    color: white;
-    padding: 10px 20px;
 }
-.navbar-brand img {
+.navbar .logo img {
     height: 40px;
 }
-.navbar .btn {
-    border: none;
-    border-radius: 30px;
-    padding: 10px 15px;
+.navbar .menu-buttons {
+    display: flex;
+    gap: 10px;
+}
+.navbar .menu-buttons a {
     color: white;
-    background-color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 30px;
+    padding: 8px 15px;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
-.navbar .btn:hover {
-    background-color: #0056b3;
+.navbar .menu-buttons a:hover {
     transform: scale(1.05);
+    background-color: #0056b3;
+}
+.navbar .menu-buttons a.dashboard {
+    background-color: #007bff;
+}
+.navbar .menu-buttons a.settings {
+    background-color: #28a745;
+}
+.navbar .menu-buttons a.logout {
+    background-color: #dc3545;
 }
 
-/* Style des Cartes */
+/* Cartes */
 .card {
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
     cursor: pointer;
     background-color: white;
@@ -126,57 +142,25 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 .card-icon {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 10px;
-    color: #007bff;
+    color: white;
 }
-.card h5 {
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
-.card p {
-    font-size: 1.5rem;
-    margin: 0;
-    color: #333;
-}
-
-/* Couleurs des Cartes */
 .card.bg-primary {
     background: linear-gradient(135deg, #4a90e2, #007bff);
-    color: white;
 }
 .card.bg-success {
     background: linear-gradient(135deg, #3fbf61, #28a745);
-    color: white;
 }
 .card.bg-info {
     background: linear-gradient(135deg, #56c2e6, #17a2b8);
-    color: white;
 }
 .card.bg-danger {
     background: linear-gradient(135deg, #e57373, #dc3545);
-    color: white;
 }
 .card.bg-warning {
     background: linear-gradient(135deg, #ffc107, #ffcc00);
     color: black;
-}
-
-/* Boutons de bascule */
-.btn-toggle {
-    background-color: #f4f7fa;
-    color: #007bff;
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-align: left;
-    border: none;
-    border-radius: 8px;
-    width: 100%;
-    transition: background-color 0.3s ease;
-}
-.btn-toggle:hover {
-    background-color: #e9ecef;
 }
 
 /* Tableaux */
@@ -202,25 +186,22 @@ body {
     background-color: #e9ecef;
 }
 
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
+    .navbar .menu-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+    }
     .card-icon {
         font-size: 2rem;
     }
     .card h5 {
         font-size: 1rem;
     }
-    .card p {
-        font-size: 1.3rem;
-    }
     .table th, .table td {
         font-size: 0.8rem;
     }
-    .navbar .btn {
-        font-size: 0.9rem;
-    }
 }
-
     </style>
 </head>
 <body>
