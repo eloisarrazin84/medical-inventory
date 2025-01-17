@@ -291,6 +291,57 @@ $total_rapports = $stmt->fetch()['total_rapports'];
         font-size: 12px;
     }
 }
+                .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .bg-primary { background-color: #007bff; color: white; }
+        .bg-success { background-color: #28a745; color: white; }
+        .bg-info { background-color: #17a2b8; color: white; }
+        .bg-danger { background-color: #dc3545; color: white; }
+        .bg-warning { background-color: #ffc107; color: black; }
+        .details {
+            margin-top: 20px;
+        }
+        .details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .details table {
+            width: 100%;
+        }
+        .details table th, .details table td {
+            text-align: center;
+            padding: 8px;
+        }
+        .details table th {
+            background-color: #f1f1f1;
+        }
+        .details table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .details table tr:hover {
+            background-color: #e9ecef;
+        }
+        @media (max-width: 768px) {
+            .card-icon {
+                font-size: 2.5rem;
+            }
+            .card h5 {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -299,43 +350,36 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
     <div class="row text-center g-3">
-        <div class="col-md-4">
-            <div class="card bg-primary">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card bg-primary" onclick="toggleDetails('sacsDetails')">
                 <i class="fas fa-briefcase-medical card-icon"></i>
                 <h5>Total Sacs Médicaux</h5>
                 <p><?= $total_sacs ?></p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card bg-success">
-                <i class="fas fa-box card-icon"></i>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card bg-success" onclick="toggleDetails('lotsDetails')">
+                <i class="fas fa-box-open card-icon"></i>
                 <h5>Total Lots</h5>
                 <p><?= $total_lots ?></p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card bg-info">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card bg-info" onclick="toggleDetails('medicamentsDetails')">
                 <i class="fas fa-pills card-icon"></i>
                 <h5>Total Médicaments</h5>
                 <p><?= $total_medicaments ?></p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card bg-danger">
-                <i class="fas fa-dolly card-icon"></i>
-                <h5>Total Consommables</h5>
-                <p><?= $total_consommables ?></p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-warning">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card bg-warning" onclick="toggleDetails('prochesDetails')">
                 <i class="fas fa-exclamation-circle card-icon"></i>
                 <h5>Médicaments Proches Expiration</h5>
                 <p><?= count($details_medicaments_proches_expiration) ?></p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card bg-danger">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card bg-danger" onclick="toggleDetails('expiresDetails')">
                 <i class="fas fa-times-circle card-icon"></i>
                 <h5>Médicaments Expirés</h5>
                 <p><?= count($details_medicaments_expires) ?></p>
@@ -343,38 +387,65 @@ $total_rapports = $stmt->fetch()['total_rapports'];
         </div>
     </div>
 
-    <!-- Section Médicaments Proches Expiration -->
-    <h2 class="text-warning mt-4">Médicaments Proches de l'Expiration</h2>
-    <button class="btn-toggle" data-bs-toggle="collapse" data-bs-target="#medicamentsProches">
-        Afficher / Cacher
-    </button>
-    <div class="collapse" id="medicamentsProches">
-        <div class="table-responsive">
-            <table class="table table-bordered table-custom">
-                <thead>
+    <!-- Section Details -->
+    <div class="details" id="sacsDetails" style="display: none;">
+        <h3>Total Sacs Médicaux</h3>
+        <!-- Ajouter un tableau ou un contenu -->
+        <p>Liste des sacs médicaux...</p>
+    </div>
+
+    <div class="details" id="lotsDetails" style="display: none;">
+        <h3>Total Lots</h3>
+        <p>Liste des lots...</p>
+    </div>
+
+    <div class="details" id="medicamentsDetails" style="display: none;">
+        <h3>Total Médicaments</h3>
+        <p>Liste des médicaments...</p>
+    </div>
+
+    <div class="details" id="prochesDetails" style="display: none;">
+        <h3>Médicaments Proches de l'Expiration</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date d'Expiration</th>
+                    <th>Sac</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($details_medicaments_proches_expiration as $med): ?>
                     <tr>
-                        <th>Nom</th>
-                        <th>Date d'Expiration</th>
-                        <th>Sac</th>
+                        <td><?= htmlspecialchars($med['med_nom']) ?></td>
+                        <td><?= htmlspecialchars($med['date_expiration']) ?></td>
+                        <td><?= htmlspecialchars($med['sac_nom']) ?></td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($details_medicaments_proches_expiration)): ?>
-                        <?php foreach ($details_medicaments_proches_expiration as $med): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($med['med_nom']) ?></td>
-                                <td><span class="badge badge-warning"><?= htmlspecialchars($med['date_expiration']) ?></span></td>
-                                <td><?= htmlspecialchars($med['sac_nom']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="3">Aucun médicament proche de l'expiration.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="details" id="expiresDetails" style="display: none;">
+        <h3>Médicaments Expirés</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date d'Expiration</th>
+                    <th>Sac</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($details_medicaments_expires as $med): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($med['med_nom']) ?></td>
+                        <td><?= htmlspecialchars($med['date_expiration']) ?></td>
+                        <td><?= htmlspecialchars($med['sac_nom']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -382,6 +453,18 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init({ duration: 1000 });
+</script>
+    <script>
+    function toggleDetails(id) {
+        const sections = document.querySelectorAll('.details');
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+        const selectedSection = document.getElementById(id);
+        if (selectedSection) {
+            selectedSection.style.display = 'block';
+        }
+    }
 </script>
 </body>
 </html>
