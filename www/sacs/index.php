@@ -77,6 +77,7 @@ $lieux = $stmt->fetchAll();
                 width: 100%;
             }
         }
+    </style>
         .page-header {
             display: flex;
             flex-wrap: wrap;
@@ -99,13 +100,13 @@ $lieux = $stmt->fetchAll();
 <body>
 <!-- Inclure le menu -->
 <?php include '../menus/menu_usersmanage.php'; ?>
-<div class="container mt-4">
-    <h1 class="mb-3 text-center">Liste des Sacs Médicaux</h1>
+<div class="container mt-5">
+    <h1 class="mb-4">Liste des Sacs Médicaux</h1>
 
-    <!-- Formulaire de recherche et filtres -->
-    <form method="GET" class="page-header d-flex flex-wrap align-items-center gap-2">
-        <input type="text" name="search" class="form-control flex-grow-1" placeholder="Rechercher par nom ou description" value="<?= htmlspecialchars($search) ?>">
-        <select name="lieu_id" class="form-control flex-grow-1">
+    <!-- Formulaire de recherche et de filtre -->
+    <form method="GET" class="page-header">
+        <input type="text" name="search" class="form-control search-bar" placeholder="Rechercher par nom ou description" value="<?= htmlspecialchars($search) ?>">
+        <select name="lieu_id" class="form-control search-bar">
             <option value="">Tous les lieux</option>
             <?php foreach ($lieux as $lieu): ?>
                 <option value="<?= $lieu['id'] ?>" <?= $lieu_id == $lieu['id'] ? 'selected' : '' ?>>
@@ -113,13 +114,15 @@ $lieux = $stmt->fetchAll();
                 </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="btn btn-primary">Filtrer</button>
-        <a href="?" class="btn btn-secondary">Réinitialiser</a>
-        <a href="add.php" class="btn btn-success">Ajouter un sac</a>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+            <a href="?" class="btn btn-secondary">Réinitialiser</a>
+            <a href="add.php" class="btn btn-success">Ajouter un sac</a>
+        </div>
     </form>
 
     <!-- Tableau des sacs -->
-    <div class="table-responsive mt-4">
+    <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -147,9 +150,21 @@ $lieux = $stmt->fetchAll();
                                         Générer Documents
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="generate_pdf.php?sac_id=<?= $sac['id'] ?>"><i class="fas fa-file-pdf"></i> Télécharger inventaire PDF</a></li>
-                                        <li><a class="dropdown-item" href="generate_order.php?sac_id=<?= $sac['id'] ?>"><i class="fas fa-shopping-cart"></i> Générer Fiche de Commande</a></li>
-                                        <li><a class="dropdown-item" href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>"><i class="fas fa-qrcode"></i> Générer QR Code</a></li>
+                                        <li>
+                                            <a class="dropdown-item" href="generate_pdf.php?sac_id=<?= $sac['id'] ?>">
+                                                <i class="fas fa-file-pdf"></i> Télécharger inventaire PDF
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="generate_order.php?sac_id=<?= $sac['id'] ?>">
+                                                <i class="fas fa-shopping-cart"></i> Générer Fiche de Commande
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>">
+                                                <i class="fas fa-qrcode"></i> Générer QR Code
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </td>
