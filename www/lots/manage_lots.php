@@ -3,6 +3,9 @@ include '../includes/db.php';
 include '../includes/auth.php';
 include '../session_manager.php';
 
+// Vérifiez si l'utilisateur est connecté
+check_auth();
+
 // Récupérer l'ID du sac
 $sac_id = $_GET['sac_id'] ?? null;
 
