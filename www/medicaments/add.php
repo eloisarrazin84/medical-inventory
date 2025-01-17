@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="../css/styles.css" rel="stylesheet">
 </head>
 <body>
+<div class="page-content">
 <div class="container mt-5">
     <h1>Ajouter un Médicament</h1>
     <form method="POST">
