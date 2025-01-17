@@ -95,6 +95,7 @@ body {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+    /* Navbar */
     .navbar .btn {
         font-size: 0.9rem;
         padding: 8px 15px;
@@ -127,6 +128,113 @@ body {
     .dropdown-menu.show {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
+    }
+
+    /* Cartes */
+    .card {
+        margin-bottom: 15px;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-icon {
+        font-size: 2rem;
+    }
+    .card h5 {
+        font-size: 1rem;
+    }
+
+    /* Table Responsive */
+    .table {
+        display: block;
+        width: 100%;
+        overflow-x: auto; /* Ajout du défilement horizontal si nécessaire */
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 5px;
+        font-size: 0.9rem;
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    .table td:last-child {
+        border-bottom: none;
+    }
+
+    .table td::before {
+        content: attr(data-label); /* Utilisation de l'attribut data-label */
+        font-weight: bold;
+        flex-basis: 50%;
+        text-align: left;
+        padding-right: 10px;
+        color: #333;
+    }
+
+    /* Boutons dans les tables */
+    .btn {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+
+    /* Espacement et alignement des boutons */
+    .btn-warning, .btn-danger {
+        margin: 5px 0;
+        width: 100%; /* Les boutons prennent toute la largeur */
+    }
+
+    /* Ajout de marges pour séparer les éléments */
+    .container {
+        padding: 15px;
+    }
+
+    /* Formulaires et inputs */
+    input, select, textarea {
+        font-size: 1rem;
+        padding: 8px;
+        width: 100%;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    /* Titre principal */
+    h1, h2, h3 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* Espacement des liens et boutons */
+    a.btn {
+        margin-bottom: 10px;
+    }
+
+    /* Icônes de navigation */
+    .navbar-toggler-icon {
+        width: 30px;
+        height: 30px;
     }
 }
 
