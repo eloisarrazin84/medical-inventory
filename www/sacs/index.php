@@ -59,6 +59,7 @@ $lieux = $stmt->fetchAll();
 
     <!-- Formulaire de recherche et de filtre -->
     <form method="GET" class="form-inline">
+<div class="page-header">
         <input type="text" name="search" class="form-control" placeholder="Rechercher par nom ou description" value="<?= htmlspecialchars($search) ?>">
         <select name="lieu_id" class="form-control">
             <option value="">Tous les lieux</option>
