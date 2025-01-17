@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <!-- Logo -->
         <a class="navbar-brand" href="#">
@@ -10,14 +10,14 @@
         </button>
         <!-- Liens -->
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
-                    <a class="btn btn-outline-primary mx-2 nav-link" href="dashboard.php">
+                    <a class="nav-link btn btn-primary mx-2" href="dashboard.php">
                         <i class="fas fa-home"></i> Tableau de Bord
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <button class="btn btn-outline-secondary mx-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-success mx-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-cogs"></i> Gestion
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -30,7 +30,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-warning mx-2 nav-link" href="logout.php">
+                    <a class="nav-link btn btn-danger mx-2" href="logout.php">
                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                     </a>
                 </li>
