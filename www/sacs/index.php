@@ -77,7 +77,6 @@ $lieux = $stmt->fetchAll();
                 width: 100%;
             }
         }
-    </style>
         .page-header {
             display: flex;
             flex-wrap: wrap;
