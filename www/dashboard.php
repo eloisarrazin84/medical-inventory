@@ -77,128 +77,107 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-    body {
+ /* Style général */
+body {
     background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
 }
 
- /* Style pour le menu */
-     .navbar .btn {
-    min-width: 150px; /* Largeur minimale pour uniformité */
-    max-width: auto; /* Laisse la largeur s'ajuster dynamiquement */
-    text-align: center; /* Centre le texte */
-    white-space: nowrap; /* Empêche le retour à la ligne */
-    display: inline-flex; /* Permet une meilleure gestion des espaces */
-    align-items: center; /* Aligne le texte et l'icône verticalement */
-    justify-content: center; /* Centre le contenu horizontalement */
-    padding: 10px 15px; /* Ajuste l'espacement interne */
+/* Style pour le menu */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+    background-color: rgba(0, 0, 0, 0.8); /* Transparence avec fond noir */
+    padding: 10px;
 }
-
+.navbar-brand img {
+    height: 50px;
+}
+.navbar .btn {
+    min-width: 150px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    border-radius: 30px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
 .navbar .btn i {
-    margin-right: 8px; /* Espace entre l'icône et le texte */
+    margin-right: 8px;
 }
-        .dropdown-item i {
-    margin-right: 8px; /* Espace entre l'icône et le texte */
+.navbar .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    color: #fff !important;
 }
-        .dropdown-toggle {
-    border: none; /* Supprime la bordure */
-    box-shadow: none; /* Supprime l'ombre */
-}
-.dropdown-toggle:focus {
-    outline: none; /* Supprime l'effet de focus */
-    box-shadow: none; /* Supprime l'ombre au focus */
-}
-          .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1030;
-            background-color: rgba(0, 0, 0, 0.8); /* Transparence avec fond noir */
-        }
 
-        .navbar-brand img {
-            height: 50px;
-        }
-
-        .btn {
-            border-radius: 30px; /* Boutons arrondis */
-            font-weight: bold; /* Texte en gras */
-            transition: all 0.3s ease-in-out; /* Animation fluide */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
-        }
-
-        .btn:hover {
-            transform: translateY(-3px); /* Effet de levée */
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus forte */
-            color: #fff !important; /* Texte blanc au survol */
-        }
-
+/* Dropdown styles */
 .dropdown-menu {
     min-width: 150px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    color: #333;
 }
-
 .dropdown-item {
     padding: 10px;
     font-size: 0.9rem;
     color: #333;
     transition: all 0.3s ease;
 }
-
 .dropdown-item:hover {
     background-color: #f8f9fa;
     color: #007bff;
 }
 
+/* Container and layout */
 .container {
-    max-width: 900px; /* Limitation de la largeur */
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
 }
 
+/* Card styles */
 .card {
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: white;
     text-align: center;
+    cursor: pointer;
     padding: 20px;
-    height: auto; /* Suppression de la contrainte de hauteur fixe */
-    min-height: 150px; /* Définit une hauteur minimale pour éviter les coupures */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box; /* Inclut le padding dans la hauteur totale */
+    min-height: 150px;
+    color: white;
 }
-
 .card:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-
 .card-icon {
     font-size: 3rem;
     margin-bottom: 10px;
 }
-
 .card.bg-primary {
     background: linear-gradient(135deg, #4a90e2, #007bff);
 }
-
 .card.bg-success {
     background: linear-gradient(135deg, #3fbf61, #28a745);
 }
-
 .card.bg-info {
     background: linear-gradient(135deg, #56c2e6, #17a2b8);
 }
-
 .card.bg-danger {
     background: linear-gradient(135deg, #e57373, #dc3545);
 }
+.card.bg-warning {
+    background: linear-gradient(135deg, #ffc107, #ffcc00);
+    color: black;
+}
+
+/* Toggle button */
 .btn-toggle {
     display: flex;
     justify-content: space-between;
@@ -216,132 +195,61 @@ $total_rapports = $stmt->fetch()['total_rapports'];
     transition: background-color 0.3s ease;
     cursor: pointer;
 }
-
 .btn-toggle:hover {
     background-color: #e9ecef;
 }
 
-.table-responsive {
+/* Table styles */
+.table-custom {
     margin-top: 20px;
+    width: 100%;
 }
-
 .table-custom th, .table-custom td {
     font-size: 14px;
     text-align: center;
     padding: 10px;
 }
-
 .table-custom tr:nth-child(even) {
     background-color: #f4f4f4;
 }
-
 .table-custom tr:hover {
     background-color: #e9ecef;
 }
 
+/* Badge styles */
 .badge {
     font-size: 14px;
     padding: 8px 12px;
     border-radius: 20px;
 }
-
 .badge-warning {
     background-color: #ffc107;
     color: #fff;
 }
-
 .badge-danger {
     background-color: #dc3545;
     color: #fff;
 }
 
+/* Responsive styles */
 @media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px;
+    .card-icon {
+        font-size: 2.5rem;
     }
-
-    .navbar-nav {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        width: 100%;
+    .card h5 {
+        font-size: 1rem;
     }
-
-    .nav-item {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-    .card {
-        margin-bottom: 15px;
-    }
-
     .btn-toggle {
         font-size: 0.9rem;
     }
-
     .table-custom th, .table-custom td {
         font-size: 12px;
         padding: 8px;
     }
-
     .badge {
         font-size: 12px;
     }
 }
-                .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: center;
-            cursor: pointer;
-        }
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-        .card-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-        .bg-primary { background-color: #007bff; color: white; }
-        .bg-success { background-color: #28a745; color: white; }
-        .bg-info { background-color: #17a2b8; color: white; }
-        .bg-danger { background-color: #dc3545; color: white; }
-        .bg-warning { background-color: #ffc107; color: black; }
-        .details {
-            margin-top: 20px;
-        }
-        .details h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-        .details table {
-            width: 100%;
-        }
-        .details table th, .details table td {
-            text-align: center;
-            padding: 8px;
-        }
-        .details table th {
-            background-color: #f1f1f1;
-        }
-        .details table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .details table tr:hover {
-            background-color: #e9ecef;
-        }
-        @media (max-width: 768px) {
-            .card-icon {
-                font-size: 2.5rem;
-            }
-            .card h5 {
-                font-size: 1rem;
-            }
-        }
     </style>
 </head>
 <body>
