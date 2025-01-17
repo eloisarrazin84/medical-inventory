@@ -296,6 +296,7 @@ body {
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
     <div class="row text-center g-3">
+        <!-- Carte : Total Sacs Médicaux -->
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card bg-primary" onclick="toggleDetails('sacsDetails')">
                 <i class="fas fa-briefcase-medical card-icon"></i>
@@ -303,6 +304,8 @@ body {
                 <p><?= $total_sacs ?></p>
             </div>
         </div>
+
+        <!-- Carte : Total Lots -->
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card bg-success" onclick="toggleDetails('lotsDetails')">
                 <i class="fas fa-box-open card-icon"></i>
@@ -310,6 +313,8 @@ body {
                 <p><?= $total_lots ?></p>
             </div>
         </div>
+
+        <!-- Carte : Total Médicaments -->
         <div class="col-12 col-md-6 col-lg-4">
             <div class="card bg-info" onclick="toggleDetails('medicamentsDetails')">
                 <i class="fas fa-pills card-icon"></i>
@@ -317,40 +322,46 @@ body {
                 <p><?= $total_medicaments ?></p>
             </div>
         </div>
+
+        <!-- Carte : Médicaments Proches Expiration -->
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="card bg-warning" onclick="toggleDetails('prochesDetails')">
+            <div class="card bg-warning" onclick="toggleDetails('prochesMedicamentsDetails')">
                 <i class="fas fa-exclamation-circle card-icon"></i>
                 <h5>Médicaments Proches Expiration</h5>
                 <p><?= count($details_medicaments_proches_expiration) ?></p>
             </div>
         </div>
+
+        <!-- Carte : Médicaments Expirés -->
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="card bg-danger" onclick="toggleDetails('expiresDetails')">
+            <div class="card bg-danger" onclick="toggleDetails('expiresMedicamentsDetails')">
                 <i class="fas fa-times-circle card-icon"></i>
                 <h5>Médicaments Expirés</h5>
                 <p><?= count($details_medicaments_expires) ?></p>
             </div>
         </div>
+
+        <!-- Carte : Consommables Proches Expiration -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card bg-warning" onclick="toggleDetails('prochesConsommablesDetails')">
+                <i class="fas fa-clock card-icon"></i>
+                <h5>Consommables Proches Expiration</h5>
+                <p><?= count($details_consommables_proches_expiration) ?></p>
+            </div>
+        </div>
+
+        <!-- Carte : Consommables Expirés -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card bg-danger" onclick="toggleDetails('expiresConsommablesDetails')">
+                <i class="fas fa-trash-alt card-icon"></i>
+                <h5>Consommables Expirés</h5>
+                <p><?= count($details_consommables_expires) ?></p>
+            </div>
+        </div>
     </div>
 
-    <!-- Section Details -->
-    <div class="details" id="sacsDetails" style="display: none;">
-        <h3>Total Sacs Médicaux</h3>
-        <!-- Ajouter un tableau ou un contenu -->
-        <p>Liste des sacs médicaux...</p>
-    </div>
-
-    <div class="details" id="lotsDetails" style="display: none;">
-        <h3>Total Lots</h3>
-        <p>Liste des lots...</p>
-    </div>
-
-    <div class="details" id="medicamentsDetails" style="display: none;">
-        <h3>Total Médicaments</h3>
-        <p>Liste des médicaments...</p>
-    </div>
-
-    <div class="details" id="prochesDetails" style="display: none;">
+    <!-- Sections Détails -->
+    <div class="details" id="prochesMedicamentsDetails" style="display: none;">
         <h3>Médicaments Proches de l'Expiration</h3>
         <table class="table table-bordered">
             <thead>
@@ -372,7 +383,7 @@ body {
         </table>
     </div>
 
-    <div class="details" id="expiresDetails" style="display: none;">
+    <div class="details" id="expiresMedicamentsDetails" style="display: none;">
         <h3>Médicaments Expirés</h3>
         <table class="table table-bordered">
             <thead>
@@ -393,7 +404,52 @@ body {
             </tbody>
         </table>
     </div>
+
+    <div class="details" id="prochesConsommablesDetails" style="display: none;">
+        <h3>Consommables Proches de l'Expiration</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date d'Expiration</th>
+                    <th>Lot</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($details_consommables_proches_expiration as $cons): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
+                        <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
+                        <td><?= htmlspecialchars($cons['lot_nom']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="details" id="expiresConsommablesDetails" style="display: none;">
+        <h3>Consommables Expirés</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date d'Expiration</th>
+                    <th>Lot</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($details_consommables_expires as $cons): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
+                        <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
+                        <td><?= htmlspecialchars($cons['lot_nom']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
