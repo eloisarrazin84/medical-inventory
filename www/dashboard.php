@@ -42,18 +42,20 @@ $details_medicaments_proches_expiration = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Consommables proches de l'expiration
 $stmt = $pdo->query("
-    SELECT consommables.nom AS cons_nom, consommables.date_expiration, lots.nom AS lot_nom
+    SELECT consommables.nom AS cons_nom, consommables.date_expiration, lots.nom AS lot_nom, sacs_medicaux.nom AS sac_nom
     FROM consommables
     LEFT JOIN lots ON consommables.lot_id = lots.id
+    LEFT JOIN sacs_medicaux ON lots.sac_id = sacs_medicaux.id
     WHERE consommables.date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
 ");
 $details_consommables_proches_expiration = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Lots avec des consommables expirés
+// Consommables expirés
 $stmt = $pdo->query("
-    SELECT lots.nom AS lot_nom, consommables.nom AS cons_nom, consommables.date_expiration
+    SELECT consommables.nom AS cons_nom, consommables.date_expiration, lots.nom AS lot_nom, sacs_medicaux.nom AS sac_nom
     FROM consommables
     LEFT JOIN lots ON consommables.lot_id = lots.id
+    LEFT JOIN sacs_medicaux ON lots.sac_id = sacs_medicaux.id
     WHERE consommables.date_expiration < CURDATE()
 ");
 $details_consommables_expires = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -405,49 +407,53 @@ body {
         </table>
     </div>
 
-    <div class="details" id="prochesConsommablesDetails" style="display: none;">
-        <h3>Consommables Proches de l'Expiration</h3>
-        <table class="table table-bordered">
-            <thead>
+<div class="details" id="prochesConsommablesDetails" style="display: none;">
+    <h3>Consommables Proches de l'Expiration</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Date d'Expiration</th>
+                <th>Lot</th>
+                <th>Sac</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($details_consommables_proches_expiration as $cons): ?>
                 <tr>
-                    <th>Nom</th>
-                    <th>Date d'Expiration</th>
-                    <th>Lot</th>
+                    <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
+                    <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
+                    <td><?= htmlspecialchars($cons['lot_nom']) ?></td>
+                    <td><?= htmlspecialchars($cons['sac_nom']) ?></td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($details_consommables_proches_expiration as $cons): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
-                        <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
-                        <td><?= htmlspecialchars($cons['lot_nom']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
-    <div class="details" id="expiresConsommablesDetails" style="display: none;">
-        <h3>Consommables Expirés</h3>
-        <table class="table table-bordered">
-            <thead>
+<div class="details" id="expiresConsommablesDetails" style="display: none;">
+    <h3>Consommables Expirés</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Date d'Expiration</th>
+                <th>Lot</th>
+                <th>Sac</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($details_consommables_expires as $cons): ?>
                 <tr>
-                    <th>Nom</th>
-                    <th>Date d'Expiration</th>
-                    <th>Lot</th>
+                    <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
+                    <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
+                    <td><?= htmlspecialchars($cons['lot_nom']) ?></td>
+                    <td><?= htmlspecialchars($cons['sac_nom']) ?></td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($details_consommables_expires as $cons): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
-                        <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
-                        <td><?= htmlspecialchars($cons['lot_nom']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
