@@ -70,6 +70,29 @@ body {
 .btn-danger:hover {
     background-color: #c82333;
 }
+/* Styles pour les boutons en haut */
+.page-header {
+    margin-bottom: 20px; /* Espace entre le header et le reste de la page */
+    display: flex;
+    flex-wrap: wrap; /* Permet aux boutons de s'adapter sur plusieurs lignes si nécessaire */
+    justify-content: space-between; /* Espacement égal entre les boutons */
+    align-items: center;
+    gap: 10px; /* Espace entre les boutons */
+}
+
+/* Style des boutons */
+.page-header .btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Champ de recherche */
+.search-bar {
+    flex: 1; /* Permet au champ de recherche d'occuper plus d'espace */
+    margin-right: 10px;
+    min-width: 250px; /* Largeur minimale pour garder un design propre */
+}
 
 /* Dropdown Menu */
 .dropdown-menu {
