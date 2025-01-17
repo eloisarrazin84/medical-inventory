@@ -1,5 +1,6 @@
 <?php
 include '../includes/db.php';
+include '../session_manager.php';
 
 // Récupérer l'ID du sac
 $sac_id = $_GET['sac_id'] ?? null;
