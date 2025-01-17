@@ -162,13 +162,25 @@ body {
 @media (max-width: 768px) {
     /* Navbar */
     .navbar .btn {
-        display: block; /* Forcer les boutons à occuper toute la largeur */
-        margin-bottom: 15px; /* Ajout d'un espacement vertical entre les boutons */
-        font-size: 1rem; /* Taille lisible sur mobile */
+        display: block; /* Les boutons occupent toute la largeur */
+        width: 100%; /* Largeur complète */
+        margin-bottom: 15px; /* Espacement vertical entre les boutons */
+        text-align: center; /* Centrer le texte */
+        font-size: 1rem; /* Taille de texte lisible */
         padding: 8px 15px;
     }
      .navbar .btn:last-child {
         margin-bottom: 0;
+    }
+     /* Centrer les boutons du menu */
+    .navbar-nav {
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Espacement global pour l'alignement */
+    .navbar-toggler {
+        margin-bottom: 15px;
     }
     .navbar {
         text-align: center; /* Centrer les boutons */
