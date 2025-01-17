@@ -208,4 +208,37 @@ body {
     .table th, .table td {
         font-size: 0.8rem;
     }
+      .table {
+        display: block;
+        width: 100%;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 5px;
+        font-size: 0.9rem;
+        border: none;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        flex-basis: 50%;
+        text-align: left;
+        padding-right: 10px;
+    }
 }
