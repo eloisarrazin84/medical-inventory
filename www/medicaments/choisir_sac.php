@@ -2,6 +2,21 @@
 include '../includes/db.php';
 include '../includes/auth.php';
 
+// Traitement de la redirection après soumission du formulaire
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['sac_id'], $_GET['action'])) {
+    $sac_id = htmlspecialchars($_GET['sac_id']);
+    $action = htmlspecialchars($_GET['action']);
+
+    if ($action === 'medicaments') {
+        header("Location: ../medicaments/manage_medicaments.php?sac_id=$sac_id");
+    } elseif ($action === 'lots') {
+        header("Location: ../lots/manage_lots.php?sac_id=$sac_id");
+    } else {
+        die('Erreur : Action invalide.');
+    }
+    exit;
+}
+
 // Récupérer tous les sacs disponibles
 $stmt = $pdo->query("SELECT * FROM sacs_medicaux");
 $sacs = $stmt->fetchAll();
