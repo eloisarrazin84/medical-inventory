@@ -69,7 +69,7 @@ $lots = $stmt->fetchAll();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Animate.css -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
     <style>
-        body {
+              body {
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
         }
@@ -85,6 +85,15 @@ $lots = $stmt->fetchAll();
             font-weight: bold;
             font-size: 1.2rem;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .accordion-body {
+            padding: 15px;
         }
 
         .search-bar {
@@ -243,77 +252,98 @@ $lots = $stmt->fetchAll();
         </div>
     </form>
 
-    <!-- Liste des médicaments -->
-    <h3>Médicaments</h3>
-    <?php if (!empty($medicaments)): ?>
-        <div class="row">
-            <?php foreach ($medicaments as $med): ?>
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <?= htmlspecialchars($med['nom']) ?>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Description :</strong> <?= htmlspecialchars($med['description']) ?: 'Non spécifiée' ?></p>
-                            <p><strong>Quantité :</strong> 
-                                <span class="badge <?= $med['quantite'] < 5 ? 'badge-warning' : 'badge-success' ?>">
-                                    <?= htmlspecialchars($med['quantite']) ?>
-                                </span>
-                            </p>
-                            <p><strong>Date d'expiration :</strong> <?= htmlspecialchars($med['date_expiration']) ?></p>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    <?php else: ?>
-        <p class="alert alert-warning text-center">Aucun médicament trouvé pour ce sac.</p>
-    <?php endif; ?>
-
-    <!-- Liste des lots et des consommables -->
-    <h3>Lots et Consommables</h3>
-    <?php if (!empty($lots)): ?>
-        <?php foreach ($lots as $lot): ?>
-            <div class="card mb-3">
-                <div class="card-header"><?= htmlspecialchars($lot['nom']) ?></div>
-                <div class="card-body">
-                    <p><?= htmlspecialchars($lot['description']) ?: 'Aucune description' ?></p>
-                    <h5>Consommables</h5>
-                    <?php
-                    $stmt = $pdo->prepare("SELECT * FROM consommables WHERE lot_id = ?");
-                    $stmt->execute([$lot['id']]);
-                    $consommables = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    ?>
-                    <?php if (!empty($consommables)): ?>
-                        <ul>
-                            <?php foreach ($consommables as $cons): ?>
-                                <li>
-                                    <?= htmlspecialchars($cons['nom']) ?> 
-                                    - Quantité : <?= $cons['quantite'] ?> 
-                                    - Expire le : <?= htmlspecialchars($cons['date_expiration']) ?>
-                                </li>
+  <div class="container mt-3">
+    <!-- Accordéon pour les Médicaments -->
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingMedicaments">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMedicaments" aria-expanded="true" aria-controls="collapseMedicaments">
+                    Médicaments
+                </button>
+            </h2>
+            <div id="collapseMedicaments" class="accordion-collapse collapse show" aria-labelledby="headingMedicaments" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <?php if (!empty($medicaments)): ?>
+                        <div class="row">
+                            <?php foreach ($medicaments as $med): ?>
+                                <div class="col-12">
+                                    <div class="card mb-2">
+                                        <div class="card-header">
+                                            <?= htmlspecialchars($med['nom']) ?>
+                                        </div>
+                                        <div class="card-body">
+                                            <p><strong>Description :</strong> <?= htmlspecialchars($med['description']) ?: 'Non spécifiée' ?></p>
+                                            <p><strong>Quantité :</strong> 
+                                                <span class="badge <?= $med['quantite'] < 5 ? 'badge-warning' : 'badge-success' ?>">
+                                                    <?= htmlspecialchars($med['quantite']) ?>
+                                                </span>
+                                            </p>
+                                            <p><strong>Date d'expiration :</strong> <?= htmlspecialchars($med['date_expiration']) ?></p>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php endforeach; ?>
-                        </ul>
+                        </div>
                     <?php else: ?>
-                        <p class="text-muted">Aucun consommable ajouté.</p>
+                        <p class="alert alert-warning text-center">Aucun médicament trouvé pour ce sac.</p>
                     <?php endif; ?>
                 </div>
             </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p class="alert alert-warning text-center">Aucun lot trouvé pour ce sac.</p>
-    <?php endif; ?>
+        </div>
+        
+        <!-- Accordéon pour les Lots et Consommables -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingLots">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLots" aria-expanded="false" aria-controls="collapseLots">
+                    Lots et Consommables
+                </button>
+            </h2>
+            <div id="collapseLots" class="accordion-collapse collapse" aria-labelledby="headingLots" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <?php if (!empty($lots)): ?>
+                        <?php foreach ($lots as $lot): ?>
+                            <div class="card mb-3">
+                                <div class="card-header"><?= htmlspecialchars($lot['nom']) ?></div>
+                                <div class="card-body">
+                                    <p><?= htmlspecialchars($lot['description']) ?: 'Aucune description' ?></p>
+                                    <h5>Consommables</h5>
+                                    <?php
+                                    $stmt = $pdo->prepare("SELECT * FROM consommables WHERE lot_id = ?");
+                                    $stmt->execute([$lot['id']]);
+                                    $consommables = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                    ?>
+                                    <?php if (!empty($consommables)): ?>
+                                        <ul>
+                                            <?php foreach ($consommables as $cons): ?>
+                                                <li>
+                                                    <?= htmlspecialchars($cons['nom']) ?>
+                                                    - Quantité : <?= $cons['quantite'] ?>
+                                                    - Expire le : <?= htmlspecialchars($cons['date_expiration']) ?>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php else: ?>
+                                        <p class="text-muted">Aucun consommable ajouté.</p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="alert alert-warning text-center">Aucun lot trouvé pour ce sac.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Boutons flottants -->
 <div class="floating-buttons">
-    <!-- Bouton pour créer un rapport -->
     <a href="../rapports/creer_rapport.php?sac_id=<?= $sac['id'] ?>" title="Créer un rapport" class="btn btn-rapport">
-        <i class="fas fa-file-alt"></i> <!-- Icône de fichier -->
+        <i class="fas fa-file-alt"></i>
     </a>
-    <!-- Bouton pour signaler un incident -->
     <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" title="Signaler un incident" class="btn btn-incident">
-        <i class="fas fa-exclamation-triangle"></i> <!-- Icône d'avertissement -->
+        <i class="fas fa-exclamation-triangle"></i>
     </a>
 </div>
 
