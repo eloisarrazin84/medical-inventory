@@ -82,7 +82,7 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 </head>
 <body>
 <?php include 'menus/menu_dashboard.php'; ?>
-
+<div class="page-content">
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
     <div class="row text-center g-3">
