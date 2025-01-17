@@ -49,7 +49,25 @@ $lieux = $stmt->fetchAll();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Animate.css -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
     <link href="../css/styles.css" rel="stylesheet">
-  
+    <style>
+        .page-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .btn-group {
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
 <!-- Inclure le menu -->
@@ -58,10 +76,9 @@ $lieux = $stmt->fetchAll();
     <h1 class="mb-4">Liste des Sacs Médicaux</h1>
 
     <!-- Formulaire de recherche et de filtre -->
-    <form method="GET" class="form-inline">
-<div class="page-header">
-        <input type="text" name="search" class="form-control" placeholder="Rechercher par nom ou description" value="<?= htmlspecialchars($search) ?>">
-        <select name="lieu_id" class="form-control">
+    <form method="GET" class="page-header">
+        <input type="text" name="search" class="form-control search-bar" placeholder="Rechercher par nom ou description" value="<?= htmlspecialchars($search) ?>">
+        <select name="lieu_id" class="form-control search-bar">
             <option value="">Tous les lieux</option>
             <?php foreach ($lieux as $lieu): ?>
                 <option value="<?= $lieu['id'] ?>" <?= $lieu_id == $lieu['id'] ? 'selected' : '' ?>>
@@ -69,12 +86,12 @@ $lieux = $stmt->fetchAll();
                 </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="btn btn-primary">Filtrer</button>
-        <a href="?" class="btn btn-secondary">Réinitialiser</a>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+            <a href="?" class="btn btn-secondary">Réinitialiser</a>
+            <a href="add.php" class="btn btn-success">Ajouter un sac</a>
+        </div>
     </form>
-
-    <!-- Bouton Ajouter un sac -->
-    <a href="add.php" class="btn btn-success mb-3">Ajouter un sac</a>
 
     <!-- Tableau des sacs -->
     <div class="table-responsive">
@@ -100,29 +117,29 @@ $lieux = $stmt->fetchAll();
                                 <a href="edit.php?id=<?= $sac['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
                                 <a href="delete.php?id=<?= $sac['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce sac ?')">Supprimer</a>
                                 <a href="../lieux/associer_lieu.php?sac_id=<?= $sac['id'] ?>" class="btn btn-secondary btn-sm">Associer un lieu</a>
-    <div class="btn-group">
-        <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
-            Générer Documents
-        </button>
-        <ul class="dropdown-menu">
-            <li>
-                <a class="dropdown-item" href="generate_pdf.php?sac_id=<?= $sac['id'] ?>">
-                    <i class="fas fa-file-pdf"></i> Télécharger inventaire PDF
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="generate_order.php?sac_id=<?= $sac['id'] ?>">
-                    <i class="fas fa-shopping-cart"></i> Générer Fiche de Commande
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>">
-                    <i class="fas fa-qrcode"></i> Générer QR Code
-                </a>
-            </li>
-        </ul>
-    </div>
-</td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Générer Documents
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="generate_pdf.php?sac_id=<?= $sac['id'] ?>">
+                                                <i class="fas fa-file-pdf"></i> Télécharger inventaire PDF
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="generate_order.php?sac_id=<?= $sac['id'] ?>">
+                                                <i class="fas fa-shopping-cart"></i> Générer Fiche de Commande
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="generate_qrcode.php?sac_id=<?= $sac['id'] ?>">
+                                                <i class="fas fa-qrcode"></i> Générer QR Code
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -134,17 +151,11 @@ $lieux = $stmt->fetchAll();
         </table>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init({
-        duration: 1000, // Durée de l'animation (en ms)
-    });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
+        duration: 1000,
     });
 </script>
 </body>
