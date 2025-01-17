@@ -80,7 +80,13 @@ if ($filter_section === 'lots' || $filter_section === 'consommables') {
 $stmt = $pdo->prepare("SELECT DISTINCT type_produit FROM medicaments WHERE sac_id = ?");
 $stmt->execute([$sac_id]);
 $types_produit = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+// Récupérer les lots associés au sac
+$stmt = $pdo->prepare("SELECT * FROM lots WHERE sac_id = ?");
+$stmt->execute([$sac_id]);
+$lots = $stmt->fetchAll();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
