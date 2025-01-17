@@ -95,7 +95,8 @@ $lots = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <!-- Inclure le menu -->
 <?php include '../menus/menu_usersmanage.php'; ?>
-<div class="container mt-3">
+
+   <div class="container mt-3">
     <h1 class="mb-4">Gestion des Lots : <?= htmlspecialchars($sac['nom']) ?></h1>
 
     <!-- Ajouter un nouveau lot -->
@@ -122,7 +123,12 @@ $lots = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span><?= htmlspecialchars($lot['nom']) ?></span>
-                    <button class="btn btn-sm btn-success" data-bs-toggle="collapse" data-bs-target="#lot-<?= $lot['id'] ?>">Voir Consommables</button>
+                    <div>
+                        <!-- Boutons Modifier et Supprimer pour le lot -->
+                        <a href="edit_lot.php?id=<?= $lot['id'] ?>&sac_id=<?= $sac_id ?>" class="btn btn-warning btn-sm me-2">Modifier</a>
+                        <a href="delete_lot.php?id=<?= $lot['id'] ?>&sac_id=<?= $sac_id ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce lot ?')">Supprimer</a>
+                        <button class="btn btn-sm btn-success" data-bs-toggle="collapse" data-bs-target="#lot-<?= $lot['id'] ?>">Voir Consommables</button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <p><?= htmlspecialchars($lot['description']) ?: 'Aucune description' ?></p>
@@ -162,11 +168,18 @@ $lots = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php if (!empty($consommables)): ?>
                             <ul class="list-group">
                                 <?php foreach ($consommables as $cons): ?>
-                                    <li class="list-group-item">
-                                        <strong><?= htmlspecialchars($cons['nom']) ?></strong> 
-                                        - <?= htmlspecialchars($cons['description']) ?> 
-                                        - Quantité : <?= $cons['quantite'] ?> 
-                                        - Expire le : <?= htmlspecialchars($cons['date_expiration']) ?>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong><?= htmlspecialchars($cons['nom']) ?></strong> 
+                                            - <?= htmlspecialchars($cons['description']) ?> 
+                                            - Quantité : <?= $cons['quantite'] ?> 
+                                            - Expire le : <?= htmlspecialchars($cons['date_expiration']) ?>
+                                        </div>
+                                        <div>
+                                            <!-- Boutons Modifier et Supprimer pour le consommable -->
+                                            <a href="edit_consumable.php?id=<?= $cons['id'] ?>&lot_id=<?= $lot['id'] ?>&sac_id=<?= $sac_id ?>" class="btn btn-warning btn-sm me-2">Modifier</a>
+                                            <a href="delete_consumable.php?id=<?= $cons['id'] ?>&lot_id=<?= $lot['id'] ?>&sac_id=<?= $sac_id ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce consommable ?')">Supprimer</a>
+                                        </div>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
