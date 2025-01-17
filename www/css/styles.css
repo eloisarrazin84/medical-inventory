@@ -162,8 +162,16 @@ body {
 @media (max-width: 768px) {
     /* Navbar */
     .navbar .btn {
-        font-size: 0.9rem;
+        display: block; /* Forcer les boutons à occuper toute la largeur */
+        margin-bottom: 15px; /* Ajout d'un espacement vertical entre les boutons */
+        font-size: 1rem; /* Taille lisible sur mobile */
         padding: 8px 15px;
+    }
+     .navbar .btn:last-child {
+        margin-bottom: 0;
+    }
+    .navbar {
+        text-align: center; /* Centrer les boutons */
     }
     .dropdown-menu {
         width: 100%;
