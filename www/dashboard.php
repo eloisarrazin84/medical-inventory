@@ -5,6 +5,7 @@ include 'session_manager.php';
 
 // Vérifiez si l'utilisateur est connecté
 check_auth();
+
 // Nombre total de sacs médicaux
 $stmt = $pdo->query("SELECT COUNT(*) AS total_sacs FROM sacs_medicaux");
 $total_sacs = $stmt->fetch()['total_sacs'];
@@ -12,6 +13,14 @@ $total_sacs = $stmt->fetch()['total_sacs'];
 // Nombre total de médicaments
 $stmt = $pdo->query("SELECT COUNT(*) AS total_medicaments FROM medicaments");
 $total_medicaments = $stmt->fetch()['total_medicaments'];
+
+// Nombre total de lots
+$stmt = $pdo->query("SELECT COUNT(*) AS total_lots FROM lots");
+$total_lots = $stmt->fetch()['total_lots'];
+
+// Nombre total de consommables
+$stmt = $pdo->query("SELECT COUNT(*) AS total_consommables FROM consommables");
+$total_consommables = $stmt->fetch()['total_consommables'];
 
 // Médicaments expirés
 $stmt = $pdo->query("
@@ -30,6 +39,24 @@ $stmt = $pdo->query("
     WHERE medicaments.date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
 ");
 $details_medicaments_proches_expiration = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Consommables proches de l'expiration
+$stmt = $pdo->query("
+    SELECT consommables.nom AS cons_nom, consommables.date_expiration, lots.nom AS lot_nom
+    FROM consommables
+    LEFT JOIN lots ON consommables.lot_id = lots.id
+    WHERE consommables.date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+");
+$details_consommables_proches_expiration = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Lots avec des consommables expirés
+$stmt = $pdo->query("
+    SELECT lots.nom AS lot_nom, consommables.nom AS cons_nom, consommables.date_expiration
+    FROM consommables
+    LEFT JOIN lots ON consommables.lot_id = lots.id
+    WHERE consommables.date_expiration < CURDATE()
+");
+$details_consommables_expires = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Statistiques sur les incidents
 $stmt = $pdo->query("SELECT statut, COUNT(*) AS total FROM incidents GROUP BY statut");
@@ -272,36 +299,51 @@ $total_rapports = $stmt->fetch()['total_rapports'];
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
     <div class="row text-center g-3">
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-md-4">
             <div class="card bg-primary">
                 <i class="fas fa-briefcase-medical card-icon"></i>
                 <h5>Total Sacs Médicaux</h5>
                 <p><?= $total_sacs ?></p>
             </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-md-4">
             <div class="card bg-success">
+                <i class="fas fa-box card-icon"></i>
+                <h5>Total Lots</h5>
+                <p><?= $total_lots ?></p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info">
                 <i class="fas fa-pills card-icon"></i>
                 <h5>Total Médicaments</h5>
                 <p><?= $total_medicaments ?></p>
             </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card bg-info">
-                <i class="fas fa-file-alt card-icon"></i>
-                <h5>Total Rapports</h5>
-                <p><?= $total_rapports ?></p>
+        <div class="col-md-4">
+            <div class="card bg-danger">
+                <i class="fas fa-dolly card-icon"></i>
+                <h5>Total Consommables</h5>
+                <p><?= $total_consommables ?></p>
             </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-md-4">
+            <div class="card bg-warning">
+                <i class="fas fa-exclamation-circle card-icon"></i>
+                <h5>Médicaments Proches Expiration</h5>
+                <p><?= count($details_medicaments_proches_expiration) ?></p>
+            </div>
+        </div>
+        <div class="col-md-4">
             <div class="card bg-danger">
                 <i class="fas fa-times-circle card-icon"></i>
-                <h5>Incidents Non Résolus</h5>
-                <p><?= $non_resolus ?></p>
+                <h5>Médicaments Expirés</h5>
+                <p><?= count($details_medicaments_expires) ?></p>
             </div>
         </div>
     </div>
 
+    <!-- Section Médicaments Proches Expiration -->
     <h2 class="text-warning mt-4">Médicaments Proches de l'Expiration</h2>
     <button class="btn-toggle" data-bs-toggle="collapse" data-bs-target="#medicamentsProches">
         Afficher / Cacher
@@ -311,9 +353,9 @@ $total_rapports = $stmt->fetch()['total_rapports'];
             <table class="table table-bordered table-custom">
                 <thead>
                     <tr>
-                        <th>Nom du Médicament</th>
+                        <th>Nom</th>
                         <th>Date d'Expiration</th>
-                        <th>Nom du Sac</th>
+                        <th>Sac</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -328,39 +370,6 @@ $total_rapports = $stmt->fetch()['total_rapports'];
                     <?php else: ?>
                         <tr>
                             <td colspan="3">Aucun médicament proche de l'expiration.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <h2 class="text-danger mt-4">Médicaments Expirés</h2>
-    <button class="btn-toggle" data-bs-toggle="collapse" data-bs-target="#medicamentsExpires">
-        Afficher / Cacher
-    </button>
-    <div class="collapse" id="medicamentsExpires">
-        <div class="table-responsive">
-            <table class="table table-bordered table-custom">
-                <thead>
-                    <tr>
-                        <th>Nom du Médicament</th>
-                        <th>Date d'Expiration</th>
-                        <th>Nom du Sac</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($details_medicaments_expires)): ?>
-                        <?php foreach ($details_medicaments_expires as $med): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($med['med_nom']) ?></td>
-                                <td><span class="badge badge-danger"><?= htmlspecialchars($med['date_expiration']) ?></span></td>
-                                <td><?= htmlspecialchars($med['sac_nom']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="3">Aucun médicament expiré.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
