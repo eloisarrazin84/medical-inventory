@@ -41,7 +41,7 @@ if (count($sacs) === 0) {
 
 <!-- Inclure le menu -->
 <?php include '../menus/menu_usersmanage.php'; ?>
-
+<div class="page-content">
 <div class="container mt-5">
     <h1>Choisir un Sac Médical</h1>
     <p>Sélectionnez un sac pour gérer ses médicaments ou ses lots.</p>
