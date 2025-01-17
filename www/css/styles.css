@@ -1,0 +1,211 @@
+/* styles.css */
+/* Style Général */
+body {
+    background-color: #f4f7fa;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style Navbar */
+.navbar {
+    background: linear-gradient(135deg, #004aad, #007bff);
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+/* Logo */
+.navbar-brand img {
+    height: 50px;
+    transition: transform 0.3s ease;
+}
+.navbar-brand img:hover {
+    transform: scale(1.1);
+}
+
+/* Boutons */
+.navbar .btn {
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 30px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white !important;
+}
+.navbar .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+.btn-success:hover {
+    background-color: #218838;
+}
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.dropdown-item {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+/* Toggler (Mobile View) */
+.navbar-toggler {
+    border: none;
+}
+.navbar-toggler-icon {
+    color: white;
+    background-color: white;
+    border-radius: 3px;
+    padding: 5px;
+}
+.navbar-toggler:focus {
+    outline: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar .btn {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+    .dropdown-menu {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .dropdown-item {
+        font-size: 1rem;
+        padding: 12px 20px;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .dropdown-item:last-child {
+        border-bottom: none;
+    }
+
+    .dropdown-item i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+        color: #007bff;
+    }
+
+    .dropdown-menu.show {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+}
+
+/* Cartes */
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: white;
+}
+.card.bg-primary {
+    background: linear-gradient(135deg, #4a90e2, #007bff);
+}
+.card.bg-success {
+    background: linear-gradient(135deg, #3fbf61, #28a745);
+}
+.card.bg-info {
+    background: linear-gradient(135deg, #56c2e6, #17a2b8);
+}
+.card.bg-danger {
+    background: linear-gradient(135deg, #e57373, #dc3545);
+}
+.card.bg-warning {
+    background: linear-gradient(135deg, #ffc107, #ffcc00);
+    color: black;
+}
+
+/* Tableaux */
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+}
+.table th, .table td {
+    text-align: center;
+    padding: 12px;
+    font-size: 0.9rem;
+}
+.table th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.table tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar-nav .btn {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .navbar-nav .dropdown-menu {
+        width: 100%;
+    }
+    .card-icon {
+        font-size: 2rem;
+    }
+    .card h5 {
+        font-size: 1rem;
+    }
+    .table th, .table td {
+        font-size: 0.8rem;
+    }
+}
