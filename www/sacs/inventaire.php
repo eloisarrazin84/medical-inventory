@@ -278,6 +278,17 @@ $lots = $stmt->fetchAll();
         <p class="alert alert-warning text-center">Aucun lot trouvé pour ce sac.</p>
     <?php endif; ?>
 </div>
+
+<!-- Boutons flottants -->
+<div class="floating-buttons">
+    <a href="../rapports/creer_rapport.php?sac_id=<?= $sac['id'] ?>" title="Créer un rapport">
+        <i class="fas fa-file-alt"></i>
+    </a>
+    <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" title="Signaler un incident">
+        <i class="fas fa-exclamation-circle"></i>
+    </a>
+</div>
+
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
