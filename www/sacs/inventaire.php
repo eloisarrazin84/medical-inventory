@@ -142,32 +142,50 @@ $lots = $stmt->fetchAll();
             color: #fff;
         }
 
-        .floating-buttons {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            display: flex;
-            gap: 10px;
-            z-index: 1050;
-        }
+    .floating-buttons {
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 1050;
+    }
 
-        .floating-buttons a {
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease;
-        }
+    .floating-buttons .btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        .floating-buttons a:hover {
-            background-color: #0056b3;
-        }
+    .floating-buttons .btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-rapport {
+        background-color: #28a745; /* Vert pour les rapports */
+        color: white;
+    }
+
+    .btn-rapport:hover {
+        background-color: #218838;
+    }
+
+    .btn-incident {
+        background-color: #dc3545; /* Rouge pour les incidents */
+        color: white;
+    }
+
+    .btn-incident:hover {
+        background-color: #c82333;
+    }
 
         @media (max-width: 768px) {
             .form-select, .form-control {
@@ -281,11 +299,11 @@ $lots = $stmt->fetchAll();
 
 <!-- Boutons flottants -->
 <div class="floating-buttons">
-    <a href="../rapports/creer_rapport.php?sac_id=<?= $sac['id'] ?>" title="Créer un rapport">
+    <a href="../rapports/creer_rapport.php?sac_id=<?= $sac['id'] ?>" title="Créer un rapport" class="btn btn-rapport">
         <i class="fas fa-file-alt"></i>
     </a>
-    <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" title="Signaler un incident">
-        <i class="fas fa-exclamation-circle"></i>
+    <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" title="Signaler un incident" class="btn btn-incident">
+        <i class="fas fa-exclamation-triangle"></i>
     </a>
 </div>
 
