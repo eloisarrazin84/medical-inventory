@@ -159,9 +159,10 @@ $lots = $stmt->fetchAll();
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
+        font-size: 1.5rem; /* Taille de l'icône */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
     }
 
     .floating-buttons .btn:hover {
@@ -185,6 +186,10 @@ $lots = $stmt->fetchAll();
 
     .btn-incident:hover {
         background-color: #c82333;
+    }
+
+    .btn i {
+        margin-right: 0; /* Supprime l'espacement entre l'icône et le texte */
     }
 
         @media (max-width: 768px) {
@@ -299,11 +304,13 @@ $lots = $stmt->fetchAll();
 
 <!-- Boutons flottants -->
 <div class="floating-buttons">
+    <!-- Bouton pour créer un rapport -->
     <a href="../rapports/creer_rapport.php?sac_id=<?= $sac['id'] ?>" title="Créer un rapport" class="btn btn-rapport">
-        <i class="fas fa-file-alt"></i>
+        <i class="fas fa-file-alt"></i> <!-- Icône de fichier -->
     </a>
+    <!-- Bouton pour signaler un incident -->
     <a href="../incidents/signaler_incident.php?sac_id=<?= $sac['id'] ?>" title="Signaler un incident" class="btn btn-incident">
-        <i class="fas fa-exclamation-triangle"></i>
+        <i class="fas fa-exclamation-triangle"></i> <!-- Icône d'avertissement -->
     </a>
 </div>
 
