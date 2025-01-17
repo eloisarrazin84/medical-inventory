@@ -15,12 +15,12 @@ if (count($sacs) === 0) {
 <html lang="fr">
 <head>
     <title>Choisir un Sac</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Animate.css -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"> <!-- AOS -->
 <style>
-    /* Style pour le menu */
     .navbar {
         position: fixed;
         top: 0;
@@ -54,8 +54,8 @@ if (count($sacs) === 0) {
 
 <div class="container mt-5">
     <h1>Choisir un Sac Médical</h1>
-    <p>Sélectionnez un sac pour gérer ses médicaments.</p>
-    <form method="GET" action="index.php">
+    <p>Sélectionnez un sac pour gérer ses médicaments ou ses lots.</p>
+    <form method="GET" action="">
         <label for="sac_id" class="form-label">Sélectionner un sac :</label>
         <select name="sac_id" id="sac_id" class="form-select mb-3" required>
             <?php foreach ($sacs as $sac): ?>
@@ -64,9 +64,17 @@ if (count($sacs) === 0) {
                 </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="btn btn-primary">Accéder au Sac</button>
+
+        <label for="action" class="form-label">Action :</label>
+        <select name="action" id="action" class="form-select mb-3" required>
+            <option value="medicaments">Gérer les Médicaments</option>
+            <option value="lots">Gérer les Lots et Consommables</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Accéder</button>
     </form>
 </div>
+
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init({
