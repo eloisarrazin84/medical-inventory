@@ -91,6 +91,15 @@ $details_consommables_expires = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <p><?= count($details_consommables_expires) ?></p>
             </div>
         </div>
+
+        <!-- Nouvelle carte : Consommables Proches Expiration -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card bg-warning" onclick="toggleDetails('prochesConsommables')">
+                <i class="fas fa-clock card-icon"></i>
+                <h5>Consommables Proches Expiration</h5>
+                <p><?= count($details_consommables_proches_expiration) ?></p>
+            </div>
+        </div>
     </div>
 
     <!-- Médicaments Expirés -->
@@ -153,6 +162,31 @@ $details_consommables_expires = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </thead>
             <tbody>
                 <?php foreach ($details_consommables_expires as $cons): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
+                        <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
+                        <td><?= htmlspecialchars($cons['lot_nom']) ?></td>
+                        <td><?= htmlspecialchars($cons['sac_nom']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Consommables Proches Expiration -->
+    <div id="prochesConsommables" class="details">
+        <h3>Consommables Proches de l'Expiration</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date d'Expiration</th>
+                    <th>Lot</th>
+                    <th>Sac</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($details_consommables_proches_expiration as $cons): ?>
                     <tr>
                         <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
                         <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
