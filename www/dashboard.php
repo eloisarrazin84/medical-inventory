@@ -164,9 +164,9 @@ $total_rapports = $stmt->fetch()['total_rapports'];
             <tbody>
                 <?php foreach ($details_medicaments_proches_expiration as $med): ?>
                     <tr>
-                        <td><?= htmlspecialchars($med['med_nom']) ?></td>
-                        <td><?= htmlspecialchars($med['date_expiration']) ?></td>
-                        <td><?= htmlspecialchars($med['sac_nom']) ?></td>
+                        <td data-label="Nom"><?= htmlspecialchars($med['med_nom']) ?></td>
+                        <td data-label="Date d'Expiration"><?= htmlspecialchars($med['date_expiration']) ?></td>
+                        <td data-label="Sac"><?= htmlspecialchars($med['sac_nom']) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -186,9 +186,9 @@ $total_rapports = $stmt->fetch()['total_rapports'];
             <tbody>
                 <?php foreach ($details_medicaments_expires as $med): ?>
                     <tr>
-                        <td><?= htmlspecialchars($med['med_nom']) ?></td>
-                        <td><?= htmlspecialchars($med['date_expiration']) ?></td>
-                        <td><?= htmlspecialchars($med['sac_nom']) ?></td>
+                        <td data-label="Nom"><?= htmlspecialchars($med['med_nom']) ?></td>
+                        <td data-label="Date d'Expiration"><?= htmlspecialchars($med['date_expiration']) ?></td>
+                        <td data-label="Sac"><?= htmlspecialchars($med['sac_nom']) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -209,10 +209,10 @@ $total_rapports = $stmt->fetch()['total_rapports'];
         <tbody>
             <?php foreach ($details_consommables_proches_expiration as $cons): ?>
                 <tr>
-                    <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
-                    <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
-                    <td><?= htmlspecialchars($cons['lot_nom']) ?></td>
-                    <td><?= htmlspecialchars($cons['sac_nom']) ?></td>
+                    <td data-label="Nom"><?= htmlspecialchars($cons['cons_nom']) ?></td>
+                    <td data-label="Date d'Expiration"><?= htmlspecialchars($cons['date_expiration']) ?></td>
+                    <td data-label="Lot"><?= htmlspecialchars($cons['lot_nom']) ?></td>
+                    <td data-label="Sac"><?= htmlspecialchars($cons['sac_nom']) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -233,10 +233,10 @@ $total_rapports = $stmt->fetch()['total_rapports'];
         <tbody>
             <?php foreach ($details_consommables_expires as $cons): ?>
                 <tr>
-                    <td><?= htmlspecialchars($cons['cons_nom']) ?></td>
-                    <td><?= htmlspecialchars($cons['date_expiration']) ?></td>
-                    <td><?= htmlspecialchars($cons['lot_nom']) ?></td>
-                    <td><?= htmlspecialchars($cons['sac_nom']) ?></td>
+                    <td data-label="Nom"><?= htmlspecialchars($cons['cons_nom']) ?></td>
+                    <td data-label="Date d'Expiration"><?= htmlspecialchars($cons['date_expiration']) ?></td>
+                    <td data-label="Lot"><?= htmlspecialchars($cons['lot_nom']) ?></td>
+                    <td data-label="Sac"><?= htmlspecialchars($cons['sac_nom']) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
