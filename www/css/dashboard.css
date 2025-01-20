@@ -1,0 +1,149 @@
+/* Style Général */
+body {
+    background-color: #f4f7fa;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1200px;
+    padding: 15px;
+    margin: auto;
+}
+
+.page-content {
+    margin: 20px 10px; /* Ajuste les marges globales */
+}
+
+/* Header */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #333;
+}
+
+/* Cartes */
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: white;
+}
+.card h5 {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+.card p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Couleurs des Cartes */
+.card.bg-primary {
+    background: linear-gradient(135deg, #4a90e2, #007bff);
+    color: white;
+}
+.card.bg-success {
+    background: linear-gradient(135deg, #3fbf61, #28a745);
+    color: white;
+}
+.card.bg-info {
+    background: linear-gradient(135deg, #56c2e6, #17a2b8);
+    color: white;
+}
+.card.bg-danger {
+    background: linear-gradient(135deg, #e57373, #dc3545);
+    color: white;
+}
+.card.bg-warning {
+    background: linear-gradient(135deg, #ffc107, #ffcc00);
+    color: black;
+}
+
+/* Tableau */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.table th, .table td {
+    text-align: left;
+    padding: 10px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #ddd;
+}
+.table th {
+    background-color: #f9f9f9;
+    color: #333;
+}
+.table tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+    .card-icon {
+        font-size: 2rem;
+    }
+    .card h5 {
+        font-size: 1rem;
+    }
+    .card p {
+        font-size: 1.2rem;
+    }
+
+    .table {
+        display: block;
+        overflow-x: auto; /* Ajout du défilement horizontal si nécessaire */
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 5px;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        flex-basis: 50%;
+        color: #333;
+    }
+}
