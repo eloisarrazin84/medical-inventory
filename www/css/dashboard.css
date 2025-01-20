@@ -79,12 +79,6 @@ h1 {
 }
 
 /* Tableau */
-.table-container {
-    width: 100%;
-    margin: auto;
-    overflow-x: auto; /* Permet de scroller horizontalement sur mobile */
-}
-
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -132,37 +126,26 @@ h1 {
 
     /* Tableaux */
     .table {
-        display: block;
+        display: table; /* Rendre les tableaux simplement visibles */
         width: 100%;
-        overflow-x: auto;
+        margin: 0 auto;
     }
 
     .table thead {
-        display: none; /* Cache les en-têtes sur mobile */
+        display: table-header-group; /* Affiche les en-têtes sur mobile */
     }
 
-    .table tr {
-        display: block;
-        margin-bottom: 15px;
+    .table td, .table th {
+        display: table-cell;
         padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        background-color: white;
-    }
-
-    .table td {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 5px;
-        border-bottom: none;
     }
 
     .table td::before {
-        content: attr(data-label); /* Ajoute les labels dynamiques */
-        font-weight: bold;
-        flex-basis: 50%;
-        color: #333;
+        content: none; /* Supprime les labels dynamiques */
+    }
+
+    .table tr {
+        display: table-row;
     }
 
     .table tr:hover {
