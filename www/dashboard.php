@@ -198,12 +198,21 @@ $details_consommables_expires = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
     </div>
 </div>
-
+<!-- Bouton de bascule du thème -->
+<button class="theme-toggle-btn" onclick="toggleTheme()" title="Changer de thème">
+    <i class="fas fa-adjust"></i>
+</button>
 <script>
     function toggleDetails(id) {
         const sections = document.querySelectorAll('.details');
         sections.forEach(section => section.style.display = 'none');
         document.getElementById(id).style.display = 'block';
+    }
+      // Fonction pour basculer entre les thèmes
+    function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+        const isDarkMode = document.body.classList.contains("dark-mode");
+        localStorage.setItem("theme", isDarkMode ? "dark" : "light");
     }
 </script>
 </body>
