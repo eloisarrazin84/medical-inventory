@@ -269,4 +269,17 @@ h1 {
 .btn-danger:hover {
     background-color: #c82333;
 }
+/* Toggler (Mobile View) */
+.navbar-toggler {
+    border: none;
+}
+.navbar-toggler-icon {
+    color: white;
+    background-color: white;
+    border-radius: 3px;
+    padding: 5px;
+}
+.navbar-toggler:focus {
+    outline: none;
+}
 
