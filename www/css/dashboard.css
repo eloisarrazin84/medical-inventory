@@ -79,6 +79,12 @@ h1 {
 }
 
 /* Tableau */
+.table-container {
+    width: 100%;
+    margin: auto;
+    overflow-x: auto; /* Permet de scroller horizontalement sur mobile */
+}
+
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -128,7 +134,7 @@ h1 {
     .table {
         display: block;
         width: 100%;
-        overflow-x: auto; /* Ajout du défilement horizontal si nécessaire */
+        overflow-x: auto;
     }
 
     .table thead {
