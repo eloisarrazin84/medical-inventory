@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.5;
+    color: #333;
 }
 
 .container {
@@ -14,7 +15,8 @@ body {
 }
 
 .page-content {
-    margin: 20px 10px; /* Ajuste les marges globales */
+    margin: 20px 10px;
+    padding-bottom: 50px;
 }
 
 /* Header */
@@ -83,10 +85,13 @@ h1 {
     margin-top: 20px;
     border: 1px solid #ddd;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
 }
 .table th, .table td {
     text-align: left;
-    padding: 10px;
+    padding: 12px;
     font-size: 0.9rem;
     border-bottom: 1px solid #ddd;
 }
@@ -99,6 +104,7 @@ h1 {
 }
 .table tr:hover {
     background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
 }
 
 /* Responsive Design */
@@ -123,7 +129,7 @@ h1 {
     }
 
     .table thead {
-        display: none;
+        display: none; /* Cache les en-têtes sur mobile */
     }
 
     .table tr {
@@ -132,12 +138,14 @@ h1 {
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .table td {
         display: flex;
         justify-content: space-between;
         padding: 8px 5px;
+        border-bottom: none;
     }
 
     .table td::before {
@@ -146,4 +154,24 @@ h1 {
         flex-basis: 50%;
         color: #333;
     }
+
+    .table tr:hover {
+        background-color: #f9f9f9;
+    }
+}
+
+/* Animation pour les cartes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.5s ease-in-out;
 }
