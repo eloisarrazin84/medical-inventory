@@ -109,6 +109,7 @@ h1 {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Cartes */
     .card {
         margin-bottom: 15px;
         padding: 15px;
@@ -123,8 +124,10 @@ h1 {
         font-size: 1.2rem;
     }
 
+    /* Tableaux */
     .table {
         display: block;
+        width: 100%;
         overflow-x: auto; /* Ajout du défilement horizontal si nécessaire */
     }
 
@@ -139,6 +142,7 @@ h1 {
         border: 1px solid #ddd;
         border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: white;
     }
 
     .table td {
@@ -149,7 +153,7 @@ h1 {
     }
 
     .table td::before {
-        content: attr(data-label);
+        content: attr(data-label); /* Ajoute les labels dynamiques */
         font-weight: bold;
         flex-basis: 50%;
         color: #333;
