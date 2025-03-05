@@ -48,15 +48,16 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         .btn {
             border: none;
-            background-color: transparent;
-            color: #333;
+            background-color: #007bff;
+            color: white;
             font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .btn:hover, .btn:focus, .btn:active {
-            background-color: transparent !important;
-            color: #000 !important;
-            box-shadow: none !important;
-            outline: none !important;
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -78,32 +79,16 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     <div class="row g-3 mt-4 text-center">
         <div class="col-6 col-md-3">
-            <div class="card p-3 shadow-sm rounded-lg">
-                <i class="fas fa-briefcase-medical fa-3x text-primary"></i>
-                <h5 class="mt-3">Sacs Médicaux</h5>
-                <p class="display-6 fw-bold"> <?= $total_sacs ?> </p>
-            </div>
+            <button class="btn"><i class="fas fa-briefcase-medical"></i> Sacs Médicaux (<?= $total_sacs ?>)</button>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card p-3 shadow-sm rounded-lg">
-                <i class="fas fa-pills fa-3x text-secondary"></i>
-                <h5 class="mt-3">Médicaments</h5>
-                <p class="display-6 fw-bold"> <?= $total_medicaments ?> </p>
-            </div>
+            <button class="btn"><i class="fas fa-pills"></i> Médicaments (<?= $total_medicaments ?>)</button>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card p-3 shadow-sm rounded-lg">
-                <i class="fas fa-boxes fa-3x text-info"></i>
-                <h5 class="mt-3">Lots</h5>
-                <p class="display-6 fw-bold"> <?= $total_lots ?> </p>
-            </div>
+            <button class="btn"><i class="fas fa-boxes"></i> Lots (<?= $total_lots ?>)</button>
         </div>
         <div class="col-6 col-md-3">
-            <div class="card p-3 shadow-sm rounded-lg">
-                <i class="fas fa-box-open fa-3x text-success"></i>
-                <h5 class="mt-3">Consommables</h5>
-                <p class="display-6 fw-bold"> <?= $total_consommables ?> </p>
-            </div>
+            <button class="btn"><i class="fas fa-box-open"></i> Consommables (<?= $total_consommables ?>)</button>
         </div>
     </div>
 
@@ -141,7 +126,6 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     AOS.init({
         duration: 1000,
     });
-</script>
+</script>    
 </body>
 </html>
-
