@@ -57,43 +57,58 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </select>
     </div>
     
-    <canvas id="dashboardChart" width="400" height="200"></canvas>
-    <div class="row g-3 mt-4">
-        <div class="col-md-6 col-lg-3">
-            <div class="card text-white bg-primary text-center p-3 animate__animated animate__fadeIn">
-                <i class="fas fa-briefcase-medical fa-3x"></i>
+    <div class="row g-3 mt-4 text-center">
+        <div class="col-6 col-md-3">
+            <div class="card p-3 shadow-sm rounded-lg">
+                <i class="fas fa-briefcase-medical fa-3x text-primary"></i>
                 <h5 class="mt-3">Sacs Médicaux</h5>
-                <p class="display-6"> <?= $total_sacs ?> </p>
+                <p class="display-6 fw-bold"> <?= $total_sacs ?> </p>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
-            <div class="card text-white bg-secondary text-center p-3 animate__animated animate__fadeIn">
-                <i class="fas fa-pills fa-3x"></i>
+        <div class="col-6 col-md-3">
+            <div class="card p-3 shadow-sm rounded-lg">
+                <i class="fas fa-pills fa-3x text-secondary"></i>
                 <h5 class="mt-3">Médicaments</h5>
-                <p class="display-6"> <?= $total_medicaments ?> </p>
+                <p class="display-6 fw-bold"> <?= $total_medicaments ?> </p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card p-3 shadow-sm rounded-lg">
+                <i class="fas fa-boxes fa-3x text-info"></i>
+                <h5 class="mt-3">Lots</h5>
+                <p class="display-6 fw-bold"> <?= $total_lots ?> </p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card p-3 shadow-sm rounded-lg">
+                <i class="fas fa-box-open fa-3x text-success"></i>
+                <h5 class="mt-3">Consommables</h5>
+                <p class="display-6 fw-bold"> <?= $total_consommables ?> </p>
             </div>
         </div>
     </div>
-    
+
     <h3 class="mt-5">Détails des Médicaments</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Date d'Expiration</th>
-                <th>Sac</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($filtered_medicaments as $med): ?>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
                 <tr>
-                    <td><?= htmlspecialchars($med['med_nom']) ?></td>
-                    <td><?= htmlspecialchars($med['date_expiration']) ?></td>
-                    <td><?= htmlspecialchars($med['sac_nom']) ?></td>
+                    <th>Nom</th>
+                    <th>Date d'Expiration</th>
+                    <th>Sac</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($filtered_medicaments as $med): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($med['med_nom']) ?></td>
+                        <td><?= htmlspecialchars($med['date_expiration']) ?></td>
+                        <td><?= htmlspecialchars($med['sac_nom']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script>
     function applyFilter() {
