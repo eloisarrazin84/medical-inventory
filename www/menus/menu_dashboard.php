@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
             <img src="https://outdoorsecours.fr/wp-content/uploads/2023/07/thumbnail_image001-1.png" alt="Logo" height="50" class="me-2">
-            <span class="fw-bold">Outdoor Secours</span>
+            <span class="fw-bold text-dark">Outdoor Secours</span>
         </a>
         <!-- Bouton Mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,12 +13,12 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link btn btn-outline-light mx-2" href="dashboard.php">
+                    <a class="nav-link btn btn-outline-primary mx-2 fw-bold" href="dashboard.php">
                         <i class="fas fa-home"></i> Tableau de Bord
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <button class="btn btn-outline-success dropdown-toggle mx-2" type="button" id="dropdownGestion" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-outline-secondary dropdown-toggle mx-2 fw-bold" type="button" id="dropdownGestion" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-cogs"></i> Gestion
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownGestion">
@@ -31,7 +31,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-outline-danger mx-2" href="logout.php">
+                    <a class="nav-link btn btn-outline-danger mx-2 fw-bold" href="logout.php">
                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                     </a>
                 </li>
