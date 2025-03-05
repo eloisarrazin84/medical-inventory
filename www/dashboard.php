@@ -40,24 +40,39 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .card:hover {
-            transform: none;
+        body {
+            background-color: #f8f9fa;
         }
-        .table-hover tbody tr:hover {
-            background-color: initial;
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .btn {
+        .dashboard-btn {
             border: none;
             background-color: #007bff;
             color: white;
             font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            width: 100%;
         }
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        .dashboard-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .table th {
+            background: #007bff;
+            color: white;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.1);
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -79,23 +94,23 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     <div class="row g-3 mt-4 text-center">
         <div class="col-6 col-md-3">
-            <button class="btn"><i class="fas fa-briefcase-medical"></i> Sacs Médicaux (<?= $total_sacs ?>)</button>
+            <button class="dashboard-btn"><i class="fas fa-briefcase-medical"></i> Sacs Médicaux (<?= $total_sacs ?>)</button>
         </div>
         <div class="col-6 col-md-3">
-            <button class="btn"><i class="fas fa-pills"></i> Médicaments (<?= $total_medicaments ?>)</button>
+            <button class="dashboard-btn"><i class="fas fa-pills"></i> Médicaments (<?= $total_medicaments ?>)</button>
         </div>
         <div class="col-6 col-md-3">
-            <button class="btn"><i class="fas fa-boxes"></i> Lots (<?= $total_lots ?>)</button>
+            <button class="dashboard-btn"><i class="fas fa-boxes"></i> Lots (<?= $total_lots ?>)</button>
         </div>
         <div class="col-6 col-md-3">
-            <button class="btn"><i class="fas fa-box-open"></i> Consommables (<?= $total_consommables ?>)</button>
+            <button class="dashboard-btn"><i class="fas fa-box-open"></i> Consommables (<?= $total_consommables ?>)</button>
         </div>
     </div>
 
     <h3 class="mt-5">Détails des Médicaments</h3>
     <div class="table-responsive">
         <table class="table table-hover">
-            <thead class="table-light">
+            <thead>
                 <tr>
                     <th>Nom</th>
                     <th>Date d'Expiration</th>
