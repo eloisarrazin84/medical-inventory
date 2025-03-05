@@ -48,34 +48,17 @@ foreach ($expired_medicaments as $med) {
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .card-summary {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-            position: relative;
-        }
-        .card-summary:hover {
-            transform: translateY(-5px);
-        }
-        .card-summary i {
-            font-size: 40px;
-        }
-        .badge-alert {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: red;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
+        .toggle-btn {
+            cursor: pointer;
+            font-size: 18px;
             font-weight: bold;
+            color: #007bff;
+        }
+        .toggle-btn:hover {
+            text-decoration: underline;
+        }
+        .table-container {
+            display: none;
         }
         .table th {
             background: #dc3545;
@@ -85,52 +68,40 @@ foreach ($expired_medicaments as $med) {
             background-color: rgba(220, 53, 69, 0.1);
         }
     </style>
+    <script>
+        function toggleTable(id) {
+            let table = document.getElementById(id);
+            table.style.display = (table.style.display === "none" || table.style.display === "") ? "block" : "none";
+        }
+    </script>
 </head>
 <body>
 <?php include 'menus/menu_dashboard.php'; ?>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
     
-    <div class="row g-3 mt-4 text-center">
-        <div class="col-6 col-md-3">
-            <div class="card-summary">
-                <i class="fas fa-briefcase-medical"></i>
-                <h5 class="mt-2">Sacs Médicaux</h5>
-                <p class="display-6 fw-bold"><?= $total_sacs ?></p>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card-summary" style="background: linear-gradient(135deg, #6c757d, #343a40);">
-                <i class="fas fa-pills"></i>
-                <h5 class="mt-2">Médicaments</h5>
-                <p class="display-6 fw-bold"><?= $total_medicaments ?></p>
-                <?php if ($total_medicaments_expires > 0): ?>
-                    <span class="badge-alert">⚠ <?= $total_medicaments_expires ?></span>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-
     <h3 class="mt-5 text-danger">Médicaments Expirés par Sac</h3>
     <div class="table-responsive">
         <?php foreach ($grouped_medicaments as $sac_nom => $medicaments): ?>
-            <h4 class="text-primary mt-4">Sac: <?= htmlspecialchars($sac_nom) ?></h4>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Date d'Expiration</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($medicaments as $med): ?>
+            <h4 class="text-primary mt-4 toggle-btn" onclick="toggleTable('table-<?= md5($sac_nom) ?>')">Sac: <?= htmlspecialchars($sac_nom) ?> <i class="fas fa-chevron-down"></i></h4>
+            <div id="table-<?= md5($sac_nom) ?>" class="table-container">
+                <table class="table table-hover">
+                    <thead>
                         <tr>
-                            <td><?= htmlspecialchars($med['med_nom']) ?></td>
-                            <td><?= htmlspecialchars($med['date_expiration']) ?></td>
+                            <th>Nom</th>
+                            <th>Date d'Expiration</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($medicaments as $med): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($med['med_nom']) ?></td>
+                                <td><?= htmlspecialchars($med['date_expiration']) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         <?php endforeach; ?>
     </div>
 </div>
