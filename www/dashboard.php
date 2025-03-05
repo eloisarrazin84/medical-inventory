@@ -22,8 +22,14 @@ $total_consommables = $stmt->fetch()['total_consommables'];
 $stmt = $pdo->query("SELECT COUNT(*) AS total_medicaments_expires FROM medicaments WHERE date_expiration < CURDATE()");
 $total_medicaments_expires = $stmt->fetch()['total_medicaments_expires'];
 
-$stmt = $pdo->query("SELECT medicaments.nom AS med_nom, medicaments.date_expiration, sacs_medicaux.nom AS sac_nom FROM medicaments LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id WHERE medicaments.date_expiration < CURDATE()");
+$stmt = $pdo->query("SELECT sacs_medicaux.nom AS sac_nom, medicaments.nom AS med_nom, medicaments.date_expiration FROM medicaments LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id WHERE medicaments.date_expiration < CURDATE() ORDER BY sacs_medicaux.nom");
 $expired_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Regrouper les médicaments par sac
+$grouped_medicaments = [];
+foreach ($expired_medicaments as $med) {
+    $grouped_medicaments[$med['sac_nom']][] = $med;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -103,42 +109,29 @@ $expired_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php endif; ?>
             </div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="card-summary" style="background: linear-gradient(135deg, #17a2b8, #117a8b);">
-                <i class="fas fa-boxes"></i>
-                <h5 class="mt-2">Lots</h5>
-                <p class="display-6 fw-bold"><?= $total_lots ?></p>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card-summary" style="background: linear-gradient(135deg, #28a745, #1e7e34);">
-                <i class="fas fa-box-open"></i>
-                <h5 class="mt-2">Consommables</h5>
-                <p class="display-6 fw-bold"><?= $total_consommables ?></p>
-            </div>
-        </div>
     </div>
 
-    <h3 class="mt-5 text-danger">Médicaments Expirés</h3>
+    <h3 class="mt-5 text-danger">Médicaments Expirés par Sac</h3>
     <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Date d'Expiration</th>
-                    <th>Sac</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($expired_medicaments as $med): ?>
+        <?php foreach ($grouped_medicaments as $sac_nom => $medicaments): ?>
+            <h4 class="text-primary mt-4">Sac: <?= htmlspecialchars($sac_nom) ?></h4>
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td><?= htmlspecialchars($med['med_nom']) ?></td>
-                        <td><?= htmlspecialchars($med['date_expiration']) ?></td>
-                        <td><?= htmlspecialchars($med['sac_nom']) ?></td>
+                        <th>Nom</th>
+                        <th>Date d'Expiration</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($medicaments as $med): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($med['med_nom']) ?></td>
+                            <td><?= htmlspecialchars($med['date_expiration']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endforeach; ?>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
