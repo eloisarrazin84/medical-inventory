@@ -49,6 +49,28 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        .menu-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px 0;
+        }
+        .menu-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        .menu-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
         .dashboard-btn {
             border: none;
             background-color: #007bff;
@@ -67,10 +89,6 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
             background-color: #0056b3;
             transform: translateY(-3px);
         }
-        .table {
-            border-radius: 10px;
-            overflow: hidden;
-        }
         .table th {
             background: #007bff;
             color: white;
@@ -82,19 +100,13 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<?php include 'menus/menu_usersmanage.php'; ?>
+<div class="menu-container">
+    <button class="menu-btn"><i class="fas fa-home"></i> Tableau de Bord</button>
+    <button class="menu-btn"><i class="fas fa-cogs"></i> Gestion</button>
+    <button class="menu-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+</div>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
-    
-    <!-- Filtres dynamiques -->
-    <div class="mb-3 text-center">
-        <label for="filter" class="form-label">Filtrer les médicaments :</label>
-        <select id="filter" class="form-select w-auto d-inline" onchange="applyFilter()">
-            <option value="all" <?= $filter == 'all' ? 'selected' : '' ?>>Tous</option>
-            <option value="medicaments_expired" <?= $filter == 'medicaments_expired' ? 'selected' : '' ?>>Expirés</option>
-            <option value="medicaments_soon" <?= $filter == 'medicaments_soon' ? 'selected' : '' ?>>Proches de l'expiration</option>
-        </select>
-    </div>
     
     <div class="row g-3 mt-4 text-center">
         <div class="col-6 col-md-3">
