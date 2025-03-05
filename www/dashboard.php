@@ -29,6 +29,9 @@ $total_lots = $stmt->fetch()['total_lots'];
 $stmt = $pdo->query("SELECT COUNT(*) AS total_consommables FROM consommables");
 $total_consommables = $stmt->fetch()['total_consommables'];
 
+$stmt = $pdo->query("SELECT COUNT(*) AS total_medicaments_expires FROM medicaments WHERE date_expiration < CURDATE()");
+$total_medicaments_expires = $stmt->fetch()['total_medicaments_expires'];
+
 $stmt = $pdo->query("SELECT medicaments.nom AS med_nom, medicaments.date_expiration, sacs_medicaux.nom AS sac_nom FROM medicaments LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id $whereClause");
 $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -60,12 +63,23 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
             padding: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease-in-out;
+            position: relative;
         }
         .card-summary:hover {
             transform: translateY(-5px);
         }
         .card-summary i {
             font-size: 40px;
+        }
+        .badge-alert {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
         }
         .table th {
             background: #007bff;
@@ -95,6 +109,9 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <i class="fas fa-pills"></i>
                 <h5 class="mt-2">Médicaments</h5>
                 <p class="display-6 fw-bold"><?= $total_medicaments ?></p>
+                <?php if ($total_medicaments_expires > 0): ?>
+                    <span class="badge-alert">⚠ <?= $total_medicaments_expires ?></span>
+                <?php endif; ?>
             </div>
         </div>
         <div class="col-6 col-md-3">
@@ -135,12 +152,6 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
     </div>
 </div>
-<script>
-    function applyFilter() {
-        let filter = document.getElementById('filter').value;
-        window.location.href = '?filter=' + filter;
-    }
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
