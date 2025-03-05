@@ -38,9 +38,11 @@ foreach ($expired_medicaments as $med) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
+            font-family: 'Inter', sans-serif;
         }
         .container {
             background: white;
@@ -57,15 +59,17 @@ foreach ($expired_medicaments as $med) {
             align-items: center;
             justify-content: space-between;
             background: #e9ecef;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 10px;
             margin-top: 10px;
+            transition: background 0.3s ease;
         }
         .toggle-btn:hover {
             background: #d6d8db;
         }
         .table-container {
             display: none;
+            transition: all 0.3s ease-in-out;
         }
         .table th {
             background: #dc3545;
@@ -74,19 +78,23 @@ foreach ($expired_medicaments as $med) {
         .table-hover tbody tr:hover {
             background-color: rgba(220, 53, 69, 0.1);
         }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
     </style>
     <script>
         function toggleTable(id) {
             let table = document.getElementById(id);
-            let icon = document.getElementById('icon-' + id);
+            let toggleButton = document.getElementById('toggle-' + id);
             if (table.style.display === "none" || table.style.display === "") {
                 table.style.display = "block";
-                icon.classList.remove("fa-chevron-down");
-                icon.classList.add("fa-chevron-up");
+                toggleButton.classList.add("expanded");
             } else {
                 table.style.display = "none";
-                icon.classList.remove("fa-chevron-up");
-                icon.classList.add("fa-chevron-down");
+                toggleButton.classList.remove("expanded");
             }
         }
     </script>
@@ -99,16 +107,16 @@ foreach ($expired_medicaments as $med) {
     <h3 class="mt-5 text-danger">Médicaments Expirés par Sac</h3>
     <div class="table-responsive">
         <?php foreach ($grouped_medicaments as $sac_nom => $medicaments): ?>
-            <div class="toggle-btn" onclick="toggleTable('table-<?= md5($sac_nom) ?>')">
-                <span>Sac: <?= htmlspecialchars($sac_nom) ?></span> 
-                <i id="icon-table-<?= md5($sac_nom) ?>" class="fas fa-chevron-down"></i>
+            <div id="toggle-table-<?= md5($sac_nom) ?>" class="toggle-btn" onclick="toggleTable('table-<?= md5($sac_nom) ?>')">
+                <span><i class="fas fa-box-medical me-2"></i> Sac: <?= htmlspecialchars($sac_nom) ?></span>
+                <i class="fas fa-chevron-down toggle-icon" id="icon-table-<?= md5($sac_nom) ?>"></i>
             </div>
             <div id="table-<?= md5($sac_nom) ?>" class="table-container">
                 <table class="table table-hover mt-2">
                     <thead>
                         <tr>
-                            <th>Nom</th>
-                            <th>Date d'Expiration</th>
+                            <th><i class="fas fa-pills me-2"></i>Nom</th>
+                            <th><i class="fas fa-calendar-alt me-2"></i>Date d'Expiration</th>
                         </tr>
                     </thead>
                     <tbody>
