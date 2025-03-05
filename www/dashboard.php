@@ -140,6 +140,6 @@ foreach ($expired_medicaments as $med) {
     AOS.init({
         duration: 1000,
     });
-</script>    
+</script>
 </body>
 </html>
