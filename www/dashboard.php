@@ -49,46 +49,6 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .menu-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 20px 0;
-        }
-        .menu-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 30px;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-        .menu-btn:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-        .dashboard-btn {
-            border: none;
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-            padding: 15px;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .dashboard-btn:hover {
-            background-color: #0056b3;
-            transform: translateY(-3px);
-        }
         .table th {
             background: #007bff;
             color: white;
@@ -100,26 +60,22 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<div class="menu-container">
-    <button class="menu-btn"><i class="fas fa-home"></i> Tableau de Bord</button>
-    <button class="menu-btn"><i class="fas fa-cogs"></i> Gestion</button>
-    <button class="menu-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
-</div>
+<?php include 'menus/menu_usersmanage.php'; ?>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
     
     <div class="row g-3 mt-4 text-center">
         <div class="col-6 col-md-3">
-            <button class="dashboard-btn"><i class="fas fa-briefcase-medical"></i> Sacs Médicaux (<?= $total_sacs ?>)</button>
+            <button class="btn btn-primary rounded-pill px-4 py-2"><i class="fas fa-briefcase-medical"></i> Sacs Médicaux (<?= $total_sacs ?>)</button>
         </div>
         <div class="col-6 col-md-3">
-            <button class="dashboard-btn"><i class="fas fa-pills"></i> Médicaments (<?= $total_medicaments ?>)</button>
+            <button class="btn btn-secondary rounded-pill px-4 py-2"><i class="fas fa-pills"></i> Médicaments (<?= $total_medicaments ?>)</button>
         </div>
         <div class="col-6 col-md-3">
-            <button class="dashboard-btn"><i class="fas fa-boxes"></i> Lots (<?= $total_lots ?>)</button>
+            <button class="btn btn-info rounded-pill px-4 py-2"><i class="fas fa-boxes"></i> Lots (<?= $total_lots ?>)</button>
         </div>
         <div class="col-6 col-md-3">
-            <button class="dashboard-btn"><i class="fas fa-box-open"></i> Consommables (<?= $total_consommables ?>)</button>
+            <button class="btn btn-success rounded-pill px-4 py-2"><i class="fas fa-box-open"></i> Consommables (<?= $total_consommables ?>)</button>
         </div>
     </div>
 
