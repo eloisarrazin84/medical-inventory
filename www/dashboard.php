@@ -48,65 +48,63 @@ foreach ($expired_medicaments as $med) {
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .card-summary {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-            position: relative;
-        }
-        .card-summary:hover {
-            transform: translateY(-5px);
-        }
-        .badge-alert {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: red;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
+        .toggle-btn {
+            cursor: pointer;
+            font-size: 18px;
             font-weight: bold;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .toggle-btn:hover {
+            background: #d6d8db;
+        }
+        .table-container {
+            display: none;
+        }
+        .table th {
+            background: #dc3545;
+            color: white;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(220, 53, 69, 0.1);
         }
     </style>
+    <script>
+        function toggleTable(id) {
+            let table = document.getElementById(id);
+            let icon = document.getElementById('icon-' + id);
+            if (table.style.display === "none" || table.style.display === "") {
+                table.style.display = "block";
+                icon.classList.remove("fa-chevron-down");
+                icon.classList.add("fa-chevron-up");
+            } else {
+                table.style.display = "none";
+                icon.classList.remove("fa-chevron-up");
+                icon.classList.add("fa-chevron-down");
+            }
+        }
+    </script>
 </head>
 <body>
 <?php include 'menus/menu_dashboard.php'; ?>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
     
-    <div class="row g-3 text-center">
-        <div class="col-md-3">
-            <div class="card-summary">
-                <i class="fas fa-briefcase-medical"></i>
-                <h5 class="mt-2">Sacs Médicaux</h5>
-                <p class="display-6 fw-bold"><?= $total_sacs ?></p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card-summary" style="background: linear-gradient(135deg, #6c757d, #343a40);">
-                <i class="fas fa-pills"></i>
-                <h5 class="mt-2">Médicaments</h5>
-                <p class="display-6 fw-bold"><?= $total_medicaments ?></p>
-                <?php if ($total_medicaments_expires > 0): ?>
-                    <span class="badge-alert">⚠ <?= $total_medicaments_expires ?></span>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-
     <h3 class="mt-5 text-danger">Médicaments Expirés par Sac</h3>
     <div class="table-responsive">
         <?php foreach ($grouped_medicaments as $sac_nom => $medicaments): ?>
-            <h4 class="text-primary mt-4 toggle-btn" onclick="toggleTable('table-<?= md5($sac_nom) ?>')">Sac: <?= htmlspecialchars($sac_nom) ?> <i class="fas fa-chevron-down"></i></h4>
+            <div class="toggle-btn" onclick="toggleTable('table-<?= md5($sac_nom) ?>')">
+                <span>Sac: <?= htmlspecialchars($sac_nom) ?></span> 
+                <i id="icon-table-<?= md5($sac_nom) ?>" class="fas fa-chevron-down"></i>
+            </div>
             <div id="table-<?= md5($sac_nom) ?>" class="table-container">
-                <table class="table table-hover">
+                <table class="table table-hover mt-2">
                     <thead>
                         <tr>
                             <th>Nom</th>
@@ -127,7 +125,7 @@ foreach ($expired_medicaments as $med) {
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init({
         duration: 1000,
