@@ -25,9 +25,15 @@ $total_medicaments_expires = $stmt->fetch()['total_medicaments_expires'];
 $stmt = $pdo->query("SELECT sacs_medicaux.nom AS sac_nom, medicaments.nom AS med_nom, medicaments.date_expiration FROM medicaments LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id WHERE medicaments.date_expiration < CURDATE() ORDER BY sacs_medicaux.nom");
 $expired_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Regrouper les médicaments par sac
+// Regrouper les médicaments par sac et compter les expirés
 $grouped_medicaments = [];
+$critical_meds = [];
+$now = new DateTime();
 foreach ($expired_medicaments as $med) {
+    $exp_date = new DateTime($med['date_expiration']);
+    $diff = $now->diff($exp_date)->days;
+    $severity = $diff > 60 ? '🔴' : ($diff > 30 ? '🟠' : '🟢');
+    $med['severity'] = $severity;
     $grouped_medicaments[$med['sac_nom']][] = $med;
 }
 ?>
@@ -40,50 +46,15 @@ foreach ($expired_medicaments as $med) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Inter', sans-serif;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .toggle-btn {
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            color: #007bff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #e9ecef;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 10px;
-            transition: background 0.3s ease;
-        }
-        .toggle-btn:hover {
-            background: #d6d8db;
-        }
-        .table-container {
-            display: none;
-            transition: all 0.3s ease-in-out;
-        }
-        .table th {
-            background: #dc3545;
-            color: white;
-        }
-        .table-hover tbody tr:hover {
-            background-color: rgba(220, 53, 69, 0.1);
-        }
-        .toggle-icon {
-            transition: transform 0.3s ease;
-        }
-        .expanded .toggle-icon {
-            transform: rotate(180deg);
-        }
+        body { background-color: #f8f9fa; font-family: 'Inter', sans-serif; }
+        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        .toggle-btn { cursor: pointer; font-size: 18px; font-weight: bold; color: #007bff; display: flex; align-items: center; justify-content: space-between; background: #e9ecef; padding: 12px; border-radius: 10px; margin-top: 10px; transition: background 0.3s ease; }
+        .toggle-btn:hover { background: #d6d8db; }
+        .table-container { display: none; transition: all 0.3s ease-in-out; }
+        .table th { background: #dc3545; color: white; }
+        .table-hover tbody tr:hover { background-color: rgba(220, 53, 69, 0.1); }
+        .toggle-icon { transition: transform 0.3s ease; }
+        .expanded .toggle-icon { transform: rotate(180deg); }
     </style>
     <script>
         function toggleTable(id) {
@@ -97,18 +68,25 @@ foreach ($expired_medicaments as $med) {
                 toggleButton.classList.remove("expanded");
             }
         }
+        function toggleAll(expand) {
+            document.querySelectorAll('.table-container').forEach(table => table.style.display = expand ? "block" : "none");
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.toggle("expanded", expand));
+        }
     </script>
 </head>
 <body>
 <?php include 'menus/menu_dashboard.php'; ?>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
-    
+    <div class="text-end mb-3">
+        <button class="btn btn-primary" onclick="toggleAll(true)">Tout Déplier</button>
+        <button class="btn btn-secondary" onclick="toggleAll(false)">Tout Replier</button>
+    </div>
     <h3 class="mt-5 text-danger">Médicaments Expirés par Sac</h3>
     <div class="table-responsive">
         <?php foreach ($grouped_medicaments as $sac_nom => $medicaments): ?>
             <div id="toggle-table-<?= md5($sac_nom) ?>" class="toggle-btn" onclick="toggleTable('table-<?= md5($sac_nom) ?>')">
-                <span><i class="fas fa-box-medical me-2"></i> Sac: <?= htmlspecialchars($sac_nom) ?></span>
+                <span><i class="fas fa-box-medical me-2"></i> Sac: <?= htmlspecialchars($sac_nom) ?> <span class="badge bg-danger ms-2"><?= count($medicaments) ?></span></span>
                 <i class="fas fa-chevron-down toggle-icon" id="icon-table-<?= md5($sac_nom) ?>"></i>
             </div>
             <div id="table-<?= md5($sac_nom) ?>" class="table-container">
@@ -117,6 +95,7 @@ foreach ($expired_medicaments as $med) {
                         <tr>
                             <th><i class="fas fa-pills me-2"></i>Nom</th>
                             <th><i class="fas fa-calendar-alt me-2"></i>Date d'Expiration</th>
+                            <th><i class="fas fa-exclamation-triangle me-2"></i>Gravité</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,6 +103,7 @@ foreach ($expired_medicaments as $med) {
                             <tr>
                                 <td><?= htmlspecialchars($med['med_nom']) ?></td>
                                 <td><?= htmlspecialchars($med['date_expiration']) ?></td>
+                                <td><?= $med['severity'] ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -138,6 +118,6 @@ foreach ($expired_medicaments as $med) {
     AOS.init({
         duration: 1000,
     });
-</script>
+</script>    
 </body>
 </html>
