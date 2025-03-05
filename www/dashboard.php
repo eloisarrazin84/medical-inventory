@@ -52,9 +52,11 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: #333;
             font-weight: bold;
         }
-        .btn:hover, .btn:focus {
-            background-color: transparent;
-            color: #000;
+        .btn:hover, .btn:focus, .btn:active {
+            background-color: transparent !important;
+            color: #000 !important;
+            box-shadow: none !important;
+            outline: none !important;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -139,6 +141,7 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     AOS.init({
         duration: 1000,
     });
-</script>    
+</script>
 </body>
 </html>
+
