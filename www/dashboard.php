@@ -49,6 +49,24 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        .card-summary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card-summary:hover {
+            transform: translateY(-5px);
+        }
+        .card-summary i {
+            font-size: 40px;
+        }
         .table th {
             background: #007bff;
             color: white;
@@ -66,16 +84,32 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     <div class="row g-3 mt-4 text-center">
         <div class="col-6 col-md-3">
-            <button class="btn btn-primary rounded-pill px-4 py-2"><i class="fas fa-briefcase-medical"></i> Sacs Médicaux (<?= $total_sacs ?>)</button>
+            <div class="card-summary">
+                <i class="fas fa-briefcase-medical"></i>
+                <h5 class="mt-2">Sacs Médicaux</h5>
+                <p class="display-6 fw-bold"><?= $total_sacs ?></p>
+            </div>
         </div>
         <div class="col-6 col-md-3">
-            <button class="btn btn-secondary rounded-pill px-4 py-2"><i class="fas fa-pills"></i> Médicaments (<?= $total_medicaments ?>)</button>
+            <div class="card-summary" style="background: linear-gradient(135deg, #6c757d, #343a40);">
+                <i class="fas fa-pills"></i>
+                <h5 class="mt-2">Médicaments</h5>
+                <p class="display-6 fw-bold"><?= $total_medicaments ?></p>
+            </div>
         </div>
         <div class="col-6 col-md-3">
-            <button class="btn btn-info rounded-pill px-4 py-2"><i class="fas fa-boxes"></i> Lots (<?= $total_lots ?>)</button>
+            <div class="card-summary" style="background: linear-gradient(135deg, #17a2b8, #117a8b);">
+                <i class="fas fa-boxes"></i>
+                <h5 class="mt-2">Lots</h5>
+                <p class="display-6 fw-bold"><?= $total_lots ?></p>
+            </div>
         </div>
         <div class="col-6 col-md-3">
-            <button class="btn btn-success rounded-pill px-4 py-2"><i class="fas fa-box-open"></i> Consommables (<?= $total_consommables ?>)</button>
+            <div class="card-summary" style="background: linear-gradient(135deg, #28a745, #1e7e34);">
+                <i class="fas fa-box-open"></i>
+                <h5 class="mt-2">Consommables</h5>
+                <p class="display-6 fw-bold"><?= $total_consommables ?></p>
+            </div>
         </div>
     </div>
 
@@ -113,6 +147,6 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     AOS.init({
         duration: 1000,
     });
-</script>    
+</script>
 </body>
 </html>
