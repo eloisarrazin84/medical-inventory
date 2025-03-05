@@ -6,16 +6,6 @@ include 'session_manager.php';
 // Vérifiez si l'utilisateur est connecté
 check_auth();
 
-// Gestion des filtres dynamiques
-$filter = $_GET['filter'] ?? 'all';
-$whereClause = '';
-
-if ($filter == 'medicaments_expired') {
-    $whereClause = "WHERE medicaments.date_expiration < CURDATE()";
-} elseif ($filter == 'medicaments_soon') {
-    $whereClause = "WHERE medicaments.date_expiration BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
-}
-
 // Requêtes pour les données du tableau de bord
 $stmt = $pdo->query("SELECT COUNT(*) AS total_sacs FROM sacs_medicaux");
 $total_sacs = $stmt->fetch()['total_sacs'];
@@ -32,8 +22,8 @@ $total_consommables = $stmt->fetch()['total_consommables'];
 $stmt = $pdo->query("SELECT COUNT(*) AS total_medicaments_expires FROM medicaments WHERE date_expiration < CURDATE()");
 $total_medicaments_expires = $stmt->fetch()['total_medicaments_expires'];
 
-$stmt = $pdo->query("SELECT medicaments.nom AS med_nom, medicaments.date_expiration, sacs_medicaux.nom AS sac_nom FROM medicaments LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id $whereClause");
-$filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->query("SELECT medicaments.nom AS med_nom, medicaments.date_expiration, sacs_medicaux.nom AS sac_nom FROM medicaments LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id WHERE medicaments.date_expiration < CURDATE()");
+$expired_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -82,14 +72,13 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
             font-weight: bold;
         }
         .table th {
-            background: #007bff;
+            background: #dc3545;
             color: white;
         }
         .table-hover tbody tr:hover {
-            background-color: rgba(0, 123, 255, 0.1);
+            background-color: rgba(220, 53, 69, 0.1);
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <?php include 'menus/menu_dashboard.php'; ?>
@@ -130,7 +119,7 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <h3 class="mt-5">Détails des Médicaments</h3>
+    <h3 class="mt-5 text-danger">Médicaments Expirés</h3>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -141,7 +130,7 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($filtered_medicaments as $med): ?>
+                <?php foreach ($expired_medicaments as $med): ?>
                     <tr>
                         <td><?= htmlspecialchars($med['med_nom']) ?></td>
                         <td><?= htmlspecialchars($med['date_expiration']) ?></td>
@@ -158,6 +147,6 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     AOS.init({
         duration: 1000,
     });
-</script>
+</script>    
 </body>
 </html>
