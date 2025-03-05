@@ -27,7 +27,6 @@ $expired_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Regrouper les médicaments par sac et compter les expirés
 $grouped_medicaments = [];
-$critical_meds = [];
 $now = new DateTime();
 foreach ($expired_medicaments as $med) {
     $exp_date = new DateTime($med['date_expiration']);
@@ -79,6 +78,8 @@ foreach ($expired_medicaments as $med) {
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
     <div class="text-end mb-3">
+        <a href="export_pdf.php" class="btn btn-danger"><i class="fas fa-file-pdf"></i> Exporter en PDF</a>
+        <a href="export_excel.php" class="btn btn-success"><i class="fas fa-file-excel"></i> Exporter en Excel</a>
         <button class="btn btn-primary" onclick="toggleAll(true)">Tout Déplier</button>
         <button class="btn btn-secondary" onclick="toggleAll(false)">Tout Replier</button>
     </div>
@@ -86,16 +87,16 @@ foreach ($expired_medicaments as $med) {
     <div class="table-responsive">
         <?php foreach ($grouped_medicaments as $sac_nom => $medicaments): ?>
             <div id="toggle-table-<?= md5($sac_nom) ?>" class="toggle-btn" onclick="toggleTable('table-<?= md5($sac_nom) ?>')">
-                <span><i class="fas fa-box-medical me-2"></i> Sac: <?= htmlspecialchars($sac_nom) ?> <span class="badge bg-danger ms-2"><?= count($medicaments) ?></span></span>
+                <span><i class="fas fa-box-medical me-2"></i> Sac: <?= htmlspecialchars($sac_nom) ?> <span class="badge bg-danger ms-2"> <?= count($medicaments) ?> </span></span>
                 <i class="fas fa-chevron-down toggle-icon" id="icon-table-<?= md5($sac_nom) ?>"></i>
             </div>
             <div id="table-<?= md5($sac_nom) ?>" class="table-container">
                 <table class="table table-hover mt-2">
                     <thead>
                         <tr>
-                            <th><i class="fas fa-pills me-2"></i>Nom</th>
-                            <th><i class="fas fa-calendar-alt me-2"></i>Date d'Expiration</th>
-                            <th><i class="fas fa-exclamation-triangle me-2"></i>Gravité</th>
+                            <th>Nom</th>
+                            <th>Date d'Expiration</th>
+                            <th>Gravité</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -118,6 +119,6 @@ foreach ($expired_medicaments as $med) {
     AOS.init({
         duration: 1000,
     });
-</script>    
+</script>
 </body>
 </html>
