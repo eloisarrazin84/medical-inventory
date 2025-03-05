@@ -55,9 +55,13 @@ $filtered_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: white;
             font-weight: bold;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 50px;
             transition: all 0.3s ease;
             width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         .dashboard-btn:hover {
             background-color: #0056b3;
