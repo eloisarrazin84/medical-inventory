@@ -60,25 +60,13 @@ foreach ($expired_medicaments as $med) {
         .dark-mode .toggle-btn:hover { background: #6c757d; }
         .dark-mode .table th { background: #dc3545; color: white; }
 
-        /* Notifications */
-        .notifications-container { position: fixed; top: 20px; right: 20px; z-index: 1050; width: 300px; }
-        .notification { background: #dc3545; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 10px; display: none; }
-      
 /* Ajustement du badge de notification */
-.nav-item .position-relative {
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-}
-
 #notif-badge {
     position: absolute;
-    top: -5px;  /* Remonte légèrement */
-    right: -10px; /* Décale plus vers la droite */
-    transform: translate(50%, -50%);
+    top: 0;
+    right: -5px;
     font-size: 10px;
-    padding: 3px 5px;
-    line-height: 1;
+    padding: 3px 6px;
     min-width: 18px;
     min-height: 18px;
     display: flex;
@@ -89,7 +77,32 @@ foreach ($expired_medicaments as $med) {
     color: white;
     font-weight: bold;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-    z-index: 10; /* S'assure que le badge est bien devant */
+}
+
+/* Espacement des icônes pour un meilleur affichage */
+.navbar-nav .nav-item {
+    margin-left: 15px;
+}
+
+/* Optimisation du bouton Gestion */
+#dropdownGestion {
+    min-width: 150px;
+    text-align: center;
+}
+
+/* Rendre la cloche plus visible */
+.nav-link i.fas.fa-bell {
+    font-size: 1.3rem;
+    color: #333;
+}
+.nav-link:hover i.fas.fa-bell {
+    color: red;
+}
+
+/* Rendre la barre de navigation plus élégante */
+.navbar {
+    padding: 10px 20px;
+    border-bottom: 2px solid #eee;
 }
 
 
