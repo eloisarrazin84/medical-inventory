@@ -88,13 +88,6 @@ foreach ($expired_medicaments as $med) {
             notif.style.display = "block";
             setTimeout(() => notif.remove(), 5000);
         }
-        setInterval(() => {
-            fetch('check_notifications.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) showNotification(data.message);
-                });
-        }, 10000);
     </script>
 </head>
 <body>
@@ -107,6 +100,15 @@ foreach ($expired_medicaments as $med) {
         <a href="export_pdf.php" class="btn btn-danger"><i class="fas fa-file-pdf"></i> Exporter en PDF</a>
         <a href="export_excel.php" class="btn btn-success"><i class="fas fa-file-excel"></i> Exporter en Excel</a>
     </div>
+    <h3 class="mt-5 text-danger">Médicaments Expirés par Sac</h3>
+    <div class="table-responsive">
+        <?php foreach ($grouped_medicaments as $sac_nom => $medicaments): ?>
+            <div class="toggle-btn" onclick="toggleTable('table-<?= md5($sac_nom) ?>')">
+                <span><i class="fas fa-box-medical me-2"></i> Sac: <?= htmlspecialchars($sac_nom) ?> <span class="badge bg-danger ms-2"> <?= count($medicaments) ?> </span></span>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
@@ -117,4 +119,3 @@ foreach ($expired_medicaments as $med) {
 </script>    
 </body>
 </html>
-
