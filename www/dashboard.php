@@ -22,7 +22,11 @@ $total_consommables = $stmt->fetch()['total_consommables'];
 $stmt = $pdo->query("SELECT COUNT(*) AS total_medicaments_expires FROM medicaments WHERE date_expiration < CURDATE()");
 $total_medicaments_expires = $stmt->fetch()['total_medicaments_expires'];
 
-$stmt = $pdo->query("SELECT sacs_medicaux.nom AS sac_nom, medicaments.nom AS med_nom, medicaments.date_expiration FROM medicaments LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id WHERE medicaments.date_expiration < CURDATE() ORDER BY sacs_medicaux.nom");
+$stmt = $pdo->query("SELECT sacs_medicaux.nom AS sac_nom, medicaments.nom AS med_nom, medicaments.date_expiration 
+                     FROM medicaments 
+                     LEFT JOIN sacs_medicaux ON medicaments.sac_id = sacs_medicaux.id 
+                     WHERE medicaments.date_expiration < CURDATE() 
+                     ORDER BY sacs_medicaux.nom");
 $expired_medicaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Regrouper les médicaments par sac et compter les expirés
@@ -54,21 +58,54 @@ foreach ($expired_medicaments as $med) {
         .table-hover tbody tr:hover { background-color: rgba(220, 53, 69, 0.1); }
         .toggle-icon { transition: transform 0.3s ease; }
         .expanded .toggle-icon { transform: rotate(180deg); }
+
+        /* Mode sombre */
+        .dark-mode { background-color: #343a40 !important; color: white; }
+        .dark-mode .container { background: #454d55; color: white; }
+        .dark-mode .toggle-btn { background: #5a6268; color: white; }
+        .dark-mode .toggle-btn:hover { background: #6c757d; }
+        .dark-mode .table th { background: #dc3545; color: white; }
+
+        /* Notifications */
+        .notifications { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+        .notification { background: #dc3545; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 10px; display: none; }
     </style>
     <script>
         function toggleTable(id) {
             let table = document.getElementById(id);
+            let icon = document.getElementById('icon-' + id);
             if (table.style.display === "none" || table.style.display === "") {
                 table.style.display = "block";
-                document.getElementById('icon-' + id).classList.add("expanded");
+                icon.classList.add("expanded");
             } else {
                 table.style.display = "none";
-                document.getElementById('icon-' + id).classList.remove("expanded");
+                icon.classList.remove("expanded");
             }
         }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+        }
+
+        function showNotification(message) {
+            let notif = document.createElement("div");
+            notif.classList.add("notification");
+            notif.innerText = message;
+            document.querySelector(".notifications").appendChild(notif);
+            notif.style.display = "block";
+            setTimeout(() => notif.remove(), 5000);
+        }
+
+        window.onload = function () {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        };
     </script>
 </head>
 <body>
+<div class="notifications"></div>
 <?php include 'menus/menu_dashboard.php'; ?>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
