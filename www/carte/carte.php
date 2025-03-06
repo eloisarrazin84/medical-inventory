@@ -1,13 +1,3 @@
-<?php
-include '../includes/db.php';
-
-header('Content-Type: application/json');
-
-$stmt = $pdo->query("SELECT id, nom, latitude, longitude, statut FROM evenements WHERE statut = 'En cours'");
-$evenements = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-echo json_encode($evenements);
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -33,8 +23,8 @@ echo json_encode($evenements);
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Charger les événements depuis le fichier PHP
-        fetch('carte.php')
+        // Charger les événements depuis l'API
+        fetch('api_evenements.php')  // Correction ici
             .then(response => response.json())
             .then(data => {
                 data.forEach(event => {
