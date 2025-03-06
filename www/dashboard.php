@@ -54,44 +54,21 @@ foreach ($expired_medicaments as $med) {
         .table-hover tbody tr:hover { background-color: rgba(220, 53, 69, 0.1); }
         .toggle-icon { transition: transform 0.3s ease; }
         .expanded .toggle-icon { transform: rotate(180deg); }
-        .dark-mode { background-color: #343a40 !important; color: white; }
-        .dark-mode .container { background: #454d55; color: white; }
-        .dark-mode .toggle-btn { background: #5a6268; color: white; }
-        .dark-mode .toggle-btn:hover { background: #6c757d; }
-        .notifications { position: fixed; top: 20px; right: 20px; z-index: 1000; }
-        .notification { background: #dc3545; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 10px; display: none; }
     </style>
     <script>
         function toggleTable(id) {
             let table = document.getElementById(id);
-            let toggleButton = document.getElementById('toggle-' + id);
             if (table.style.display === "none" || table.style.display === "") {
                 table.style.display = "block";
-                toggleButton.classList.add("expanded");
+                document.getElementById('icon-' + id).classList.add("expanded");
             } else {
                 table.style.display = "none";
-                toggleButton.classList.remove("expanded");
+                document.getElementById('icon-' + id).classList.remove("expanded");
             }
-        }
-        function toggleAll(expand) {
-            document.querySelectorAll('.table-container').forEach(table => table.style.display = expand ? "block" : "none");
-            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.toggle("expanded", expand));
-        }
-        function toggleDarkMode() {
-            document.body.classList.toggle("dark-mode");
-        }
-        function showNotification(message) {
-            let notif = document.createElement("div");
-            notif.classList.add("notification");
-            notif.innerText = message;
-            document.querySelector(".notifications").appendChild(notif);
-            notif.style.display = "block";
-            setTimeout(() => notif.remove(), 5000);
         }
     </script>
 </head>
 <body>
-<div class="notifications"></div>
 <?php include 'menus/menu_dashboard.php'; ?>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
@@ -105,7 +82,27 @@ foreach ($expired_medicaments as $med) {
         <?php foreach ($grouped_medicaments as $sac_nom => $medicaments): ?>
             <div class="toggle-btn" onclick="toggleTable('table-<?= md5($sac_nom) ?>')">
                 <span><i class="fas fa-box-medical me-2"></i> Sac: <?= htmlspecialchars($sac_nom) ?> <span class="badge bg-danger ms-2"> <?= count($medicaments) ?> </span></span>
-                <i class="fas fa-chevron-down toggle-icon"></i>
+                <i id="icon-table-<?= md5($sac_nom) ?>" class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div id="table-<?= md5($sac_nom) ?>" class="table-container">
+                <table class="table table-hover mt-2">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Date d'Expiration</th>
+                            <th>Gravité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($medicaments as $med): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($med['med_nom']) ?></td>
+                                <td><?= htmlspecialchars($med['date_expiration']) ?></td>
+                                <td><?= $med['severity'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         <?php endforeach; ?>
     </div>
