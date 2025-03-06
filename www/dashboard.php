@@ -126,7 +126,6 @@ function toggleDarkMode() {
     localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
 }
 
-<script>
 function loadNotifications() {
     fetch('notifications/notifications.php')  // Charge les notifications non lues
         .then(response => response.json())
