@@ -126,17 +126,20 @@ function toggleDarkMode() {
     localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
 }
 
+<script>
 function loadNotifications() {
-    fetch('notifications/notifications.php')  // Charge les notifications
+    fetch('notifications/notifications.php')  // Charge les notifications non lues
         .then(response => response.json())
         .then(data => {
-            const notifContainer = document.getElementById("notif-list"); // ID du menu
-            notifContainer.innerHTML = "";
+            const notifContainer = document.getElementById("notif-container");
+            const notifBadge = document.getElementById("notif-badge");
+
+            notifContainer.innerHTML = ""; // Vide les notifications existantes
 
             if (data.length > 0) {
                 data.forEach(notif => {
                     const notifItem = document.createElement("a");
-                    notifItem.href = "#";  // Ou une page de détails
+                    notifItem.href = "#"; // Modifier si nécessaire
                     notifItem.className = "dropdown-item";
                     notifItem.innerHTML = `
                         <span class="badge bg-${notif.type === 'danger' ? 'danger' : (notif.type === 'warning' ? 'warning' : 'info')}">●</span>
@@ -145,16 +148,27 @@ function loadNotifications() {
                     notifContainer.appendChild(notifItem);
                 });
 
-                document.getElementById("notif-badge").innerText = data.length; // Affiche le nombre de notifications
+                notifBadge.style.display = "inline"; // Affiche le badge si notifications
+                notifBadge.innerText = data.length; // Met à jour le nombre
             } else {
-                notifContainer.innerHTML = "<a class='dropdown-item'>Aucune nouvelle notification</a>";
-                document.getElementById("notif-badge").innerText = ""; // Cache le badge si 0 notifications
+                notifContainer.innerHTML = "<p class='text-center text-muted'>Aucune nouvelle notification</p>";
+                notifBadge.style.display = "none"; // Cache le badge si pas de notification
             }
         })
         .catch(error => console.error("Erreur de chargement des notifications :", error));
 }
 
-// Charge les notifications toutes les 5 secondes
+// Fonction pour marquer toutes les notifications comme lues
+function markAllAsRead() {
+    fetch('notifications/update_notifications.php')
+        .then(() => {
+            document.getElementById("notif-container").innerHTML = "<p class='text-center text-muted'>Aucune nouvelle notification</p>";
+            document.getElementById("notif-badge").style.display = "none";
+        })
+        .catch(error => console.error("Erreur de mise à jour des notifications :", error));
+}
+
+// Charger les notifications toutes les 5 secondes
 setInterval(loadNotifications, 5000);
 window.onload = loadNotifications;
 </script>
