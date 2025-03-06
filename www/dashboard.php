@@ -64,7 +64,7 @@ foreach ($expired_medicaments as $med) {
         .notifications-container { position: fixed; top: 20px; right: 20px; z-index: 1050; width: 300px; }
         .notification { background: #dc3545; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 10px; display: none; }
       
-       /* Alignement parfait du badge de notification */
+/* Ajustement du badge de notification */
 .nav-item .position-relative {
     display: inline-flex;
     align-items: center;
@@ -73,11 +73,11 @@ foreach ($expired_medicaments as $med) {
 
 #notif-badge {
     position: absolute;
-    top: -5px;  /* Légèrement plus haut */
-    right: -8px; /* Éloigne le badge vers la droite */
+    top: -5px;  /* Remonte légèrement */
+    right: -10px; /* Décale plus vers la droite */
     transform: translate(50%, -50%);
-    font-size: 11px;
-    padding: 4px 6px;
+    font-size: 10px;
+    padding: 3px 5px;
     line-height: 1;
     min-width: 18px;
     min-height: 18px;
@@ -85,8 +85,13 @@ foreach ($expired_medicaments as $med) {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-weight: bold;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    z-index: 10; /* S'assure que le badge est bien devant */
 }
+
 
     </style>
 </head>
