@@ -170,18 +170,17 @@ function toggleDarkMode() {
 }
 
 function loadNotifications() {
-    fetch('notifications/notifications.php')  // Charge les notifications non lues
+    fetch('notifications/notifications.php')  // Charge les notifications
         .then(response => response.json())
         .then(data => {
             const notifContainer = document.getElementById("notif-container");
             const notifBadge = document.getElementById("notif-badge");
-
-            notifContainer.innerHTML = ""; // Vide les notifications existantes
+            notifContainer.innerHTML = "";
 
             if (data.length > 0) {
                 data.forEach(notif => {
                     const notifItem = document.createElement("a");
-                    notifItem.href = "#"; // Modifier si nécessaire
+                    notifItem.href = notif.link ? notif.link : "#";  // Redirection vers le bon sac
                     notifItem.className = "dropdown-item";
                     notifItem.innerHTML = `
                         <span class="badge bg-${notif.type === 'danger' ? 'danger' : (notif.type === 'warning' ? 'warning' : 'info')}">●</span>
@@ -190,24 +189,14 @@ function loadNotifications() {
                     notifContainer.appendChild(notifItem);
                 });
 
-                notifBadge.style.display = "inline"; // Affiche le badge si notifications
-                notifBadge.innerText = data.length; // Met à jour le nombre
+                notifBadge.innerText = data.length; // Affiche le nombre de notifications
+                notifBadge.style.display = "inline-block";
             } else {
                 notifContainer.innerHTML = "<p class='text-center text-muted'>Aucune nouvelle notification</p>";
-                notifBadge.style.display = "none"; // Cache le badge si pas de notification
+                notifBadge.style.display = "none";
             }
         })
         .catch(error => console.error("Erreur de chargement des notifications :", error));
-}
-
-// Fonction pour marquer toutes les notifications comme lues
-function markAllAsRead() {
-    fetch('notifications/update_notifications.php')
-        .then(() => {
-            document.getElementById("notif-container").innerHTML = "<p class='text-center text-muted'>Aucune nouvelle notification</p>";
-            document.getElementById("notif-badge").style.display = "none";
-        })
-        .catch(error => console.error("Erreur de mise à jour des notifications :", error));
 }
 
 // Charger les notifications toutes les 5 secondes
