@@ -45,7 +45,12 @@
                         <li><a class="dropdown-item" href="users/manage_users.php"><i class="fas fa-users"></i> Utilisateurs</a></li>
                     </ul>
                 </li>
-
+                <!-- Carte -->
+                 <li class="nav-item">
+                <a href="carte.php" class="btn btn-primary">
+    <i class="fas fa-map-marked-alt"></i> Voir la Carte
+</a>
+</li>               
                 <!-- Déconnexion -->
                 <li class="nav-item">
                     <a class="btn btn-outline-danger fw-bold" href="logout.php">
