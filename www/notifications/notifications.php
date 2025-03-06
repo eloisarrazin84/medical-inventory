@@ -1,5 +1,5 @@
 <?php
-include '../includes/db.php'; // Vérifie que ce chemin est correct
+include '../includes/db.php';
 
 header('Content-Type: application/json');
 
@@ -8,6 +8,9 @@ $stmt = $pdo->prepare("SELECT id, message, type FROM notifications WHERE status 
 $stmt->execute();
 $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// DEBUG : Afficher les notifications en JSON
+var_dump($notifications);
+die();
+
 echo json_encode($notifications);
 ?>
-
