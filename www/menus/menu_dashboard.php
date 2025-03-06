@@ -28,11 +28,7 @@
         <li><button class="dropdown-item text-center text-primary" onclick="markAllAsRead()">Tout marquer comme lu</button></li>
     </ul>
 </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-primary mx-2 fw-bold" href="dashboard.php">
-                        <i class="fas fa-home"></i> Tableau de Bord
-                    </a>
-                </li>
+                
                 <li class="nav-item dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle mx-2 fw-bold" type="button" id="dropdownGestion" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-cogs"></i> Gestion
