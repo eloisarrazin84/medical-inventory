@@ -150,6 +150,41 @@ foreach ($expired_medicaments as $med) {
     AOS.init({
         duration: 1000,
     });
-</script>    
+</script>
+<div class="notifications-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+    <div id="notifications"></div>
+</div>
+
+<div class="notifications-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+    <div id="notifications"></div>
+</div>
+
+<script>
+function loadNotifications() {
+    fetch('notifications/notifications.php')  // Chemin mis à jour
+        .then(response => response.json())
+        .then(data => {
+            const notifContainer = document.getElementById("notifications");
+            notifContainer.innerHTML = "";
+
+            if (data.length > 0) {
+                data.forEach(notif => {
+                    const alertDiv = document.createElement("div");
+                    alertDiv.className = `alert alert-${notif.type} alert-dismissible fade show`;
+                    alertDiv.innerHTML = `
+                        ${notif.message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+                    notifContainer.appendChild(alertDiv);
+                });
+
+                fetch('notifications/update_notifications.php'); // Met à jour les notifications comme lues
+            }
+        });
+}
+
+setInterval(loadNotifications, 5000); // Actualiser toutes les 5 secondes
+window.onload = loadNotifications;
+</script>
 </body>
 </html>
