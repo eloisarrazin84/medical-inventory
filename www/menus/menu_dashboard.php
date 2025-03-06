@@ -15,23 +15,21 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
                 
-                <!-- Notifications -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link position-relative" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-bell fa-lg"></i>
-                        <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">
-                            0
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationsDropdown" id="notificationsList" style="width: 300px;">
-                        <li class="dropdown-header fw-bold">🔔 Notifications</li>
-                        <li id="notif-container">
-                            <p class="text-center text-muted">Aucune nouvelle notification</p>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><button class="dropdown-item text-center text-primary" onclick="markAllAsRead()">Tout marquer comme lu</button></li>
-                    </ul>
-                </li>
+               <!-- Notifications -->
+<li class="nav-item dropdown">
+    <a class="nav-link position-relative d-flex align-items-center" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-bell fa-lg"></i>
+        <span id="notif-badge" class="badge rounded-pill bg-danger" style="display: none;">0</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notificationsDropdown" id="notificationsList" style="width: 300px;">
+        <li class="dropdown-header fw-bold">🔔 Notifications</li>
+        <li id="notif-container">
+            <p class="text-center text-muted">Aucune nouvelle notification</p>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li><button class="dropdown-item text-center text-primary" onclick="markAllAsRead()">Tout marquer comme lu</button></li>
+    </ul>
+</li>
 
                 <!-- Gestion -->
                 <li class="nav-item dropdown">
