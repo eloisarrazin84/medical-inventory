@@ -13,12 +13,6 @@ $total_sacs = $stmt->fetch()['total_sacs'];
 $stmt = $pdo->query("SELECT COUNT(*) AS total_medicaments FROM medicaments");
 $total_medicaments = $stmt->fetch()['total_medicaments'];
 
-$stmt = $pdo->query("SELECT COUNT(*) AS total_lots FROM lots");
-$total_lots = $stmt->fetch()['total_lots'];
-
-$stmt = $pdo->query("SELECT COUNT(*) AS total_consommables FROM consommables");
-$total_consommables = $stmt->fetch()['total_consommables'];
-
 $stmt = $pdo->query("SELECT COUNT(*) AS total_medicaments_expires FROM medicaments WHERE date_expiration < CURDATE()");
 $total_medicaments_expires = $stmt->fetch()['total_medicaments_expires'];
 
@@ -67,46 +61,19 @@ foreach ($expired_medicaments as $med) {
         .dark-mode .table th { background: #dc3545; color: white; }
 
         /* Notifications */
-        .notifications { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+        .notifications-container { position: fixed; top: 20px; right: 20px; z-index: 1050; width: 300px; }
         .notification { background: #dc3545; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 10px; display: none; }
     </style>
-    <script>
-        function toggleTable(id) {
-            let table = document.getElementById(id);
-            let icon = document.getElementById('icon-' + id);
-            if (table.style.display === "none" || table.style.display === "") {
-                table.style.display = "block";
-                icon.classList.add("expanded");
-            } else {
-                table.style.display = "none";
-                icon.classList.remove("expanded");
-            }
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle("dark-mode");
-            localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
-        }
-
-        function showNotification(message) {
-            let notif = document.createElement("div");
-            notif.classList.add("notification");
-            notif.innerText = message;
-            document.querySelector(".notifications").appendChild(notif);
-            notif.style.display = "block";
-            setTimeout(() => notif.remove(), 5000);
-        }
-
-        window.onload = function () {
-            if (localStorage.getItem("darkMode") === "enabled") {
-                document.body.classList.add("dark-mode");
-            }
-        };
-    </script>
 </head>
 <body>
-<div class="notifications"></div>
+
+<!-- Notifications -->
+<div class="notifications-container">
+    <div id="notifications"></div>
+</div>
+
 <?php include 'menus/menu_dashboard.php'; ?>
+
 <div class="container mt-5">
     <h1 class="text-center mb-4">Tableau de Bord</h1>
     <div class="text-end mb-3">
@@ -114,6 +81,7 @@ foreach ($expired_medicaments as $med) {
         <a href="export_pdf.php" class="btn btn-danger"><i class="fas fa-file-pdf"></i> Exporter en PDF</a>
         <a href="export_excel.php" class="btn btn-success"><i class="fas fa-file-excel"></i> Exporter en Excel</a>
     </div>
+    
     <h3 class="mt-5 text-danger">Médicaments Expirés par Sac</h3>
     <div class="table-responsive">
         <?php foreach ($grouped_medicaments as $sac_nom => $medicaments): ?>
@@ -144,47 +112,48 @@ foreach ($expired_medicaments as $med) {
         <?php endforeach; ?>
     </div>
 </div>
+
+<script>
+function toggleTable(id) {
+    let table = document.getElementById(id);
+    let icon = document.getElementById('icon-' + id);
+    table.style.display = (table.style.display === "none" || table.style.display === "") ? "block" : "none";
+    icon.classList.toggle("expanded");
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+}
+
+function loadNotifications() {
+    fetch('notifications/notifications.php')
+        .then(response => response.json())
+        .then(data => {
+            const notifContainer = document.getElementById("notifications");
+            notifContainer.innerHTML = "";
+            data.forEach(notif => {
+                const alertDiv = document.createElement("div");
+                alertDiv.className = `alert alert-${notif.type} alert-dismissible fade show`;
+                alertDiv.innerHTML = `${notif.message} <button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+                notifContainer.appendChild(alertDiv);
+            });
+            fetch('notifications/update_notifications.php');
+        });
+}
+
+setInterval(loadNotifications, 5000);
+window.onload = function () {
+    if (localStorage.getItem("darkMode") === "enabled") document.body.classList.add("dark-mode");
+    loadNotifications();
+};
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init({
         duration: 1000,
     });
-</script>
-<div class="notifications-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
-    <div id="notifications"></div>
-</div>
-
-<div class="notifications-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
-    <div id="notifications"></div>
-</div>
-
-<script>
-function loadNotifications() {
-    fetch('notifications/notifications.php')  // Chemin mis à jour
-        .then(response => response.json())
-        .then(data => {
-            const notifContainer = document.getElementById("notifications");
-            notifContainer.innerHTML = "";
-
-            if (data.length > 0) {
-                data.forEach(notif => {
-                    const alertDiv = document.createElement("div");
-                    alertDiv.className = `alert alert-${notif.type} alert-dismissible fade show`;
-                    alertDiv.innerHTML = `
-                        ${notif.message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    `;
-                    notifContainer.appendChild(alertDiv);
-                });
-
-                fetch('notifications/update_notifications.php'); // Met à jour les notifications comme lues
-            }
-        });
-}
-
-setInterval(loadNotifications, 5000); // Actualiser toutes les 5 secondes
-window.onload = loadNotifications;
 </script>
 </body>
 </html>
