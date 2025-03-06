@@ -64,24 +64,30 @@ foreach ($expired_medicaments as $med) {
         .notifications-container { position: fixed; top: 20px; right: 20px; z-index: 1050; width: 300px; }
         .notification { background: #dc3545; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 10px; display: none; }
       
-        /* Correction du badge de notification */
-        .nav-item .position-relative {
-         display: flex;
-        align-items: center;
-        justify-content: center;
+       /* Alignement parfait du badge de notification */
+.nav-item .position-relative {
+    display: inline-flex;
+    align-items: center;
     position: relative;
 }
 
 #notif-badge {
     position: absolute;
-    top: 2px; /* Ajustement vertical */
-    right: -6px; /* Éloigne le badge vers la droite */
+    top: -5px;  /* Légèrement plus haut */
+    right: -8px; /* Éloigne le badge vers la droite */
     transform: translate(50%, -50%);
-    font-size: 12px;
+    font-size: 11px;
     padding: 4px 6px;
     line-height: 1;
-    min-width: 20px;
-}    
+    min-width: 18px;
+    min-height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
     </style>
 </head>
 <body>
