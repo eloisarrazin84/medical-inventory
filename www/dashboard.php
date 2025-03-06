@@ -127,26 +127,36 @@ function toggleDarkMode() {
 }
 
 function loadNotifications() {
-    fetch('notifications/notifications.php')
+    fetch('notifications/notifications.php')  // Charge les notifications
         .then(response => response.json())
         .then(data => {
-            const notifContainer = document.getElementById("notifications");
+            const notifContainer = document.getElementById("notif-list"); // ID du menu
             notifContainer.innerHTML = "";
-            data.forEach(notif => {
-                const alertDiv = document.createElement("div");
-                alertDiv.className = `alert alert-${notif.type} alert-dismissible fade show`;
-                alertDiv.innerHTML = `${notif.message} <button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
-                notifContainer.appendChild(alertDiv);
-            });
-            fetch('notifications/update_notifications.php');
-        });
+
+            if (data.length > 0) {
+                data.forEach(notif => {
+                    const notifItem = document.createElement("a");
+                    notifItem.href = "#";  // Ou une page de détails
+                    notifItem.className = "dropdown-item";
+                    notifItem.innerHTML = `
+                        <span class="badge bg-${notif.type === 'danger' ? 'danger' : (notif.type === 'warning' ? 'warning' : 'info')}">●</span>
+                        ${notif.message}
+                    `;
+                    notifContainer.appendChild(notifItem);
+                });
+
+                document.getElementById("notif-badge").innerText = data.length; // Affiche le nombre de notifications
+            } else {
+                notifContainer.innerHTML = "<a class='dropdown-item'>Aucune nouvelle notification</a>";
+                document.getElementById("notif-badge").innerText = ""; // Cache le badge si 0 notifications
+            }
+        })
+        .catch(error => console.error("Erreur de chargement des notifications :", error));
 }
 
+// Charge les notifications toutes les 5 secondes
 setInterval(loadNotifications, 5000);
-window.onload = function () {
-    if (localStorage.getItem("darkMode") === "enabled") document.body.classList.add("dark-mode");
-    loadNotifications();
-};
+window.onload = loadNotifications;
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
