@@ -47,7 +47,7 @@
                 </li>
                 <!-- Carte -->
                  <li class="nav-item">
-                <a href="carte.php" class="btn btn-primary">
+                <a href="/carte/carte.php" class="btn btn-primary">
     <i class="fas fa-map-marked-alt"></i> Voir la Carte
 </a>
 </li>               
