@@ -1,15 +1,13 @@
 <?php
-include '../includes/db.php'; // Vérifie que la connexion PDO est bien incluse
+include '../includes/db.php'; // Vérifie que ce chemin est correct
 
-try {
-    // Récupérer les notifications non lues (status = 0) SANS les mettre à jour
-    $stmt = $pdo->prepare("SELECT id, message, type FROM notifications WHERE status = 0 ORDER BY created_at DESC");
-    $stmt->execute();
-    $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+header('Content-Type: application/json');
 
-    // Retourner les notifications en JSON
-    echo json_encode($notifications);
-} catch (PDOException $e) {
-    echo json_encode(["error" => "Erreur SQL : " . $e->getMessage()]);
-}
+// Requête pour récupérer les notifications non lues
+$stmt = $pdo->prepare("SELECT id, message, type FROM notifications WHERE status = 0 ORDER BY created_at DESC");
+$stmt->execute();
+$notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+echo json_encode($notifications);
 ?>
+
